@@ -12,6 +12,7 @@ BUZZ_RADIANS_DISTANCE = math.radians(1.0)
 BUZZ_RADIANS_VELOCITY = BUZZ_RADIANS_DISTANCE / 0.250
 STALL_TIME = 0.100
 
+
 # Calculate a move's accel_t, cruise_t, and cruise_v
 def calc_move_time(dist, speed, accel):
     axis_r = 1.0
@@ -29,6 +30,187 @@ def calc_move_time(dist, speed, accel):
     return axis_r, accel_t, cruise_t, speed
 
 
+def calc_move_time_polar(dist, speed, accel):
+    # dist in degs, speed in deg/s and accel in deg/s/s
+    # except i think the math is the same no matter what, so extra func is not needed
+    axis_r = 1.0
+    if dist < 0.0:
+        axis_r = -1.0
+        dist = -dist
+    if not accel or not dist:
+        return axis_r, 0.0, dist / speed, speed
+    max_cruise_v2 = dist * accel
+    if max_cruise_v2 < speed**2:
+        speed = math.sqrt(max_cruise_v2)
+    accel_t = speed / accel
+    accel_decel_d = accel_t * speed
+    cruise_t = (dist - accel_decel_d) / speed
+    return axis_r, accel_t, cruise_t, speed
+
+
+def distance(p1, p2):
+    return math.sqrt(((p2[0] - p1[0]) ** 2) + ((p2[1] - p1[1]) ** 2))
+
+
+def cartesian_to_polar(x, y):
+    return (math.sqrt(x**2 + y**2), math.atan2(y, x))
+
+
+def polar_to_cartesian(r, theta):
+    return (r * math.cos(theta), r * math.sin(theta))
+
+
+def calc_move_time_polar(angle, speed, accel):
+    # angle in degs, speed in deg/s and accel in deg/s/s
+    # same as calc_move_time_polar, but axis_r (normalized move vector) needs to match such that
+    #   only the bed moves the given distance
+    RADIUS = 10
+    if not angle:
+        angle = 0
+    if accel == 0:
+        accel = 10
+    segmentation_angle_degs = 90
+    num_segments = int(angle / float(segmentation_angle_degs))
+    if angle % segmentation_angle_degs != 0:
+        num_segments += 1
+    cartesian_start = (RADIUS, 0)
+    max_cruise_v2 = angle * accel
+    moves = []
+    if max_cruise_v2 < speed**2:
+        speed = math.sqrt(max_cruise_v2)
+    cur_speed = 0
+    prev_speed = 0
+    state = "accelerating"
+    prev_cartesian_velocity = 0
+    for i in range(num_segments):
+        is_last = i == num_segments - 1
+        start_angle_degs = i * segmentation_angle_degs
+        end_angle_degs = (i + 1) * segmentation_angle_degs
+        if end_angle_degs > angle:
+            end_angle_degs = angle
+        start_angle = math.radians(start_angle_degs)
+        ending_angle = math.radians(end_angle_degs)
+        angle_delta = ending_angle - start_angle
+        cartesian_end = polar_to_cartesian(RADIUS, ending_angle)
+        cartesian_end = (
+            round(cartesian_end[0], 10),
+            round(cartesian_end[1], 10),
+        )
+        x_move = cartesian_end[0] - cartesian_start[0]
+        y_move = cartesian_end[1] - cartesian_start[1]
+        total_move_dist = math.sqrt(x_move**2 + y_move**2)
+        inv_dist = 1.0 / total_move_dist
+        x_ratio = x_move * inv_dist
+        y_ratio = y_move * inv_dist
+        # x_ratio = round(abs(x_move) / (abs(x_move) + abs(y_move)), 10)
+        # y_ratio = round(abs(y_move) / (abs(x_move) + abs(y_move)), 10)
+        # if x_move < 0:
+        #     x_ratio = -x_ratio
+        # if y_move < 0:
+        #     y_ratio = -y_ratio
+        print("moving from %s to %s" % (cartesian_start, cartesian_end))
+        # how long it takes to get up to cruising speed
+        angle_delta_degs = math.degrees(angle_delta)
+        decel_t = 0
+        accel_t = 0
+        accel_d = 0
+        decel_d = 0
+        prev_speed = cur_speed
+        if state == "cruising":
+            decel_t = cur_speed / accel
+            speed_left = 0 - cur_speed
+            decel_d = (
+                decel_t * speed_left
+            )  # how far we have to spin to get up to speed
+            if is_last:
+                state = "decelerating"
+        else:
+            speed_left = speed - cur_speed
+            accel_t = speed_left / accel
+            accel_d = (
+                accel_t * speed_left
+            )  # how far we have to spin to get up to speed
+        if accel_d > angle_delta_degs:
+            # if we won't get up to speed before we hit the end of the move
+            if state == "cruising":
+                state = "decelerating"
+            cruise_t = 0  # we won't be cruising at all
+            accel_t = math.sqrt(angle_delta_degs / accel)
+            cur_speed = cur_speed + (accel * accel_t)  # add acceled speed
+
+        elif (
+            abs(decel_d) > angle_delta_degs
+        ):  # if we can't stop entirely this move
+            if state == "cruising":
+                state = "decelerating"
+            cruise_t = 0  # we won't be cruising at all
+            decel_t = math.sqrt(angle_delta_degs / accel)
+            cur_speed = cur_speed - (accel * accel_t)  # substract acceled speed
+        else:
+            if state == "accelerating":
+                state = "cruising"
+                cruise_t = (total_move_dist - abs(accel_d)) / speed
+            elif state == "cruising":
+                cruise_t = (total_move_dist) / speed
+            elif state == "decelerating":
+                cruise_t = (total_move_dist - abs(decel_d)) / speed
+            cur_speed = speed
+        if num_segments == 1:
+            decel_t = accel_t
+            cruise_t -= decel_t
+        elif state != "decelerating":
+            decel_t = 0
+
+        l = 0.5 * total_move_dist
+        sagitta = RADIUS - math.sqrt(RADIUS**2 - l**2)
+        radius_arm_traveled_dist = sagitta * 2
+        total_move_time = accel_t + cruise_t + decel_t
+        radius_arm_velocity = radius_arm_traveled_dist / total_move_time
+        radius_arm_accel = radius_arm_velocity / accel_t
+        # x_velocity = r_velocity * cos(theta) - r_theta_velocity * sin(theta)
+        # y_velocity = r_velocity * sin(theta) + r_theta_velocity * cos(theta)
+
+        # x_accel = r_accel * cos(theta) - r_theta_accel * sin(theta)
+
+        # x_accel = radius_arm_accel * math.cos(angle_delta) - r_theta_accel * math.sin(angle_delta) - r_theta_velocity**2 * math.cos(angle_delta)
+        # x_accel = -r_theta_accel * sin(theta) - r_theta_velocity^2 * cos(theta)
+        # y_accel = +r_theta_accel * cos(theta) - r_theta_velocity^2 * sin(theta)
+
+        # x_acceleration = (dr_velocity/dt) * cos(angle_delta) - r_velocity * sin(angle_delta) * (dθ/dt) - (dr_theta_velocity/dt) * sin(angle_delta) - r_theta_velocity^2 * cos(theta)
+        # y_acceleration = (dr_velocity/dt) * sin(angle_delta) + r_velocity * cos(angle_delta) * (dθ/dt) + (dr_theta_velocity/dt) * cos(angle_delta) - r_theta_velocity^2 * sin(theta)
+
+        x_velocity = -speed * math.sin(angle_delta)
+        y_velocity = speed * math.cos(angle_delta)
+        total_velocity = math.sqrt(x_velocity**2 + y_velocity**2)
+
+        x_accel = -accel * math.sin(angle_delta) - speed**2 * math.cos(
+            angle_delta
+        )
+        y_accel = accel * math.cos(angle_delta) - speed**2 * math.sin(
+            angle_delta
+        )
+        total_accel = math.sqrt(x_accel**2 + y_accel**2)
+
+        move = (
+            cartesian_end[0],
+            cartesian_end[1],
+            x_ratio,
+            y_ratio,
+            round(accel_t, 10),
+            round(cruise_t, 10),
+            round(decel_t, 10),
+            total_velocity,
+            prev_cartesian_velocity,
+            total_accel,
+        )
+        prev_cartesian_velocity = total_velocity
+        moves.append(move)
+        print(num_segments)
+        cartesian_start = cartesian_end
+
+    return moves
+
+
 class ForceMove:
     def __init__(self, config):
         self.printer = config.get_printer()
@@ -40,6 +222,9 @@ class ForceMove:
         self.trapq_finalize_moves = ffi_lib.trapq_finalize_moves
         self.stepper_kinematics = ffi_main.gc(
             ffi_lib.cartesian_stepper_alloc(b"x"), ffi_lib.free
+        )
+        self.polar_bed_stepper_kinematics = ffi_main.gc(
+            ffi_lib.polarbed_stepper_alloc(b"a"), ffi_lib.free
         )
         # Register commands
         gcode = self.printer.lookup_object("gcode")
@@ -89,6 +274,12 @@ class ForceMove:
 
     def manual_move(self, stepper, dist, speed, accel=0.0):
         toolhead = self.printer.lookup_object("toolhead")
+        if stepper.units_in_radians:
+            # convert convert radians to degrees
+            dist = math.radians(dist)
+            speed = math.radians(speed)
+            accel = math.radians(accel)
+
         toolhead.flush_step_generation()
         prev_sk = stepper.set_stepper_kinematics(self.stepper_kinematics)
         prev_trapq = stepper.set_trapq(self.trapq)
@@ -114,10 +305,10 @@ class ForceMove:
         print_time = print_time + accel_t + cruise_t + accel_t
         stepper.generate_steps(print_time)
         self.trapq_finalize_moves(self.trapq, print_time + 99999.9)
-        stepper.set_trapq(prev_trapq)
-        stepper.set_stepper_kinematics(prev_sk)
         toolhead.note_kinematic_activity(print_time)
         toolhead.dwell(accel_t + cruise_t + accel_t)
+        stepper.set_trapq(prev_trapq)
+        stepper.set_stepper_kinematics(prev_sk)
 
     def _lookup_stepper(self, gcmd):
         name = gcmd.get("STEPPER")
