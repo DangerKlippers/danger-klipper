@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.1">
     
     
       
@@ -17,26 +17,28 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.edf004c2.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.69437709.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.cbb835fc.min.css">
         
       
+      
     
     
     
       
+        
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
       <link rel="stylesheet" href="_klipper3d/css/extra.css">
     
-    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -46,9 +48,11 @@
   
 
 
-  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-138371409-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
-  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <script id="__analytics">function __md_analytics(){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-138371409-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){if(document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),document.forms.feedback){var e,a=document.forms.feedback;for(e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");ga("send","event","feedback","click",t,e),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})});var e=document.createElement("script");e.async=!0,e.src="https://www.google-analytics.com/analytics.js",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
 
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
 
     
     
@@ -66,7 +70,7 @@
   
     
     
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -94,7 +98,7 @@
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -120,7 +124,7 @@
           <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
             </label>
           
         
@@ -129,7 +133,7 @@
           <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
           
             <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
             </label>
           
         
@@ -140,7 +144,7 @@
         <div class="md-select">
           
           <button class="md-header__button md-icon" aria-label="Select language">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2 0-.68.06-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.923 7.923 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8.008 8.008 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.65 15.65 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2 0-.68.06-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.923 7.923 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8.008 8.008 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.65 15.65 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2Z"/></svg>
           </button>
           <div class="md-select__inner">
             <ul class="md-select__list">
@@ -158,7 +162,7 @@
     
     
       <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
@@ -166,17 +170,17 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
           <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
           </a>
         
         <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
       
@@ -198,10 +202,10 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/DangerKlippers/danger-klipper/" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/DangerKlippers/danger-klipper" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     DangerKlippers/danger-klipper
@@ -242,10 +246,10 @@
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/DangerKlippers/danger-klipper/" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/DangerKlippers/danger-klipper" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     DangerKlippers/danger-klipper
@@ -1590,9 +1594,10 @@
             <article class="md-content__inner md-typeset">
               
                 
-<a href="https://github.com/DangerKlippers/danger-klipper/blob/master/docs/API_Server.md" title="Edit this page" class="md-content__button md-icon">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-</a>
+  <a href="https://github.com/DangerKlippers/danger-klipper/blob/master/docs/API_Server.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
 
 
 <h1 id="api-server">API server<a class="headerlink" href="#api-server" title="Permanent link">&para;</a></h1>
@@ -1601,10 +1606,12 @@
 control the Klipper host software.</p>
 <h2 id="enabling-the-api-socket">Enabling the API socket<a class="headerlink" href="#enabling-the-api-socket" title="Permanent link">&para;</a></h2>
 <p>In order to use the API server, the klippy.py host software must be
-started with the <code>-a</code> parameter. For example:</p>
+started with the <code>-a</code> parameter.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><code>~/klippy-env/bin/python ~/klipper/klippy/klippy.py ~/printer.cfg -a /tmp/klippy_uds -l /tmp/klippy.log
 </code></pre></div>
-
+</div>
 <p>This causes the host software to create a Unix Domain Socket. A client
 can then open a connection on that socket and send commands to
 Klipper.</p>
@@ -1613,15 +1620,16 @@ a popular tool that can forward HTTP requests to Klipper's API Server
 Unix Domain Socket.</p>
 <h2 id="request-format">Request format<a class="headerlink" href="#request-format" title="Permanent link">&para;</a></h2>
 <p>Messages sent and received on the socket are JSON encoded strings
-terminated by an ASCII 0x03 character:</p>
+terminated by an ASCII 0x03 character:
 <div class="highlight"><pre><span></span><code>&lt;json_object_1&gt;&lt;0x03&gt;&lt;json_object_2&gt;&lt;0x03&gt;...
-</code></pre></div>
-
+</code></pre></div></p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
 <p>Klipper contains a <code>scripts/whconsole.py</code> tool that can perform the
-above message framing. For example:</p>
+above message framing. For example:
 <div class="highlight"><pre><span></span><code>~/klipper/scripts/whconsole.py /tmp/klippy_uds
-</code></pre></div>
-
+</code></pre></div></p>
+</div>
 <p>This tool can read a series of JSON commands from stdin, send them to
 Klipper, and report the results. The tool expects each JSON command to
 be on a single line, and it will automatically append the 0x03
@@ -1630,6 +1638,8 @@ not have a newline requirement.)</p>
 <h2 id="api-protocol">API Protocol<a class="headerlink" href="#api-protocol" title="Permanent link">&para;</a></h2>
 <p>The command protocol used on the communication socket is inspired by
 <a href="https://www.jsonrpc.org/">json-rpc</a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
 <p>A request might look like:</p>
 <p><code>{"id": 123, "method": "info", "params": {}}</code></p>
 <p>and a response might look like:</p>
@@ -1639,6 +1649,7 @@ not have a newline requirement.)</p>
 "hostname": "octopi", "cpu_info": "4 core ARMv7 Processor rev 4
 (v7l)", "state": "ready", "python_path":
 "/home/pi/klippy-env/bin/python", "log_file": "/tmp/klippy.log"}}</code></p>
+</div>
 <p>Each request must be a JSON dictionary. (This document uses the Python
 term "dictionary" to describe a "JSON object" - a mapping of key/value
 pairs contained within <code>{}</code>.)</p>
@@ -1656,13 +1667,16 @@ any response to the request. A response message is a JSON dictionary
 containing "id" and "result". The "result" is always a dictionary -
 its contents are specific to the "endpoint" handling the request.</p>
 <p>If the processing of a request results in an error, then the response
-message will contain an "error" field instead of a "result" field. For
-example, the request:
-<code>{"id": 123, "method": "gcode/script", "params": {"script": "G1
-X200"}}</code>
-might result in an error response such as:
-<code>{"id": 123, "error": {"message": "Must home axis
+message will contain an "error" field instead of a "result" field.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>The request:</p>
+<p><code>{"id": 123, "method": "gcode/script", "params": {"script": "G1
+X200"}}</code></p>
+<p>might result in an error response such as:</p>
+<p><code>{"id": 123, "error": {"message": "Must home axis
 first: 200.000 0.000 0.000 [0.000]", "error": "WebRequestError"}}</code></p>
+</div>
 <p>Klipper will always start processing requests in the order that they
 are received. However, some request may not complete immediately,
 which could cause the associated response to be sent out of order with
@@ -1671,13 +1685,15 @@ pause the processing of future JSON requests.</p>
 <h2 id="subscriptions">Subscriptions<a class="headerlink" href="#subscriptions" title="Permanent link">&para;</a></h2>
 <p>Some Klipper "endpoint" requests allow one to "subscribe" to future
 asynchronous update messages.</p>
-<p>For example:</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
 <p><code>{"id": 123, "method": "gcode/subscribe_output", "params":
 {"response_template":{"key": 345}}}</code></p>
 <p>may initially respond with:</p>
 <p><code>{"id": 123, "result": {}}</code></p>
 <p>and cause Klipper to send future messages similar to:</p>
 <p><code>{"params": {"response": "ok B:22.8 /0.0 T0:22.4 /0.0"}, "key": 345}</code></p>
+</div>
 <p>A subscription request accepts a "response_template" dictionary in the
 "params" field of the request. That "response_template" dictionary is
 used as a template for future asynchronous messages - it may contain
@@ -1694,9 +1710,12 @@ dictionary (eg, <code>{"method"="gcode/restart"}</code>).</p>
 <h3 id="info">info<a class="headerlink" href="#info" title="Permanent link">&para;</a></h3>
 <p>The "info" endpoint is used to obtain system and version information
 from Klipper. It is also used to provide the client's version
-information to Klipper. For example:
-<code>{"id": 123, "method": "info", "params": { "client_info": { "version":
+information to Klipper.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "info", "params": { "client_info": { "version":
 "v1"}}}</code></p>
+</div>
 <p>If present, the "client_info" parameter must be a dictionary, but that
 dictionary may have arbitrary contents. Clients are encouraged to
 provide the name of the client and its software version when first
@@ -1704,46 +1723,58 @@ connecting to the Klipper API server.</p>
 <h3 id="emergency_stop">emergency_stop<a class="headerlink" href="#emergency_stop" title="Permanent link">&para;</a></h3>
 <p>The "emergency_stop" endpoint is used to instruct Klipper to
 transition to a "shutdown" state. It behaves similarly to the G-Code
-<code>M112</code> command. For example:
-<code>{"id": 123, "method": "emergency_stop"}</code></p>
+<code>M112</code> command.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "emergency_stop"}</code></p>
+</div>
 <h3 id="register_remote_method">register_remote_method<a class="headerlink" href="#register_remote_method" title="Permanent link">&para;</a></h3>
 <p>This endpoint allows clients to register methods that can be called
 from klipper.  It will return an empty object upon success.</p>
-<p>For example:
-<code>{"id": 123, "method": "register_remote_method",
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "register_remote_method",
 "params": {"response_template": {"action": "run_paneldue_beep"},
-"remote_method": "paneldue_beep"}}</code>
-will return:
-<code>{"id": 123, "result": {}}</code></p>
+"remote_method": "paneldue_beep"}}</code></p>
+<p>will return:</p>
+<p><code>{"id": 123, "result": {}}</code></p>
+</div>
 <p>The remote method <code>paneldue_beep</code> may now be called from Klipper. Note
 that if the method takes parameters they should be provided as keyword
 arguments. Below is an example of how it may called from a gcode_macro:</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><code>[gcode_macro PANELDUE_BEEP]
 gcode:
   {action_call_remote_method(&quot;paneldue_beep&quot;, frequency=300, duration=1.0)}
 </code></pre></div>
-
+</div>
 <p>When the PANELDUE_BEEP gcode macro is executed, Klipper would send something
 like the following over the socket:
 <code>{"action": "run_paneldue_beep",
 "params": {"frequency": 300, "duration": 1.0}}</code></p>
 <h3 id="objectslist">objects/list<a class="headerlink" href="#objectslist" title="Permanent link">&para;</a></h3>
 <p>This endpoint queries the list of available printer "objects" that one
-may query (via the "objects/query" endpoint). For example:
-<code>{"id": 123, "method": "objects/list"}</code>
-might return:
-<code>{"id": 123, "result": {"objects":
+may query (via the "objects/query" endpoint).</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "objects/list"}</code></p>
+<p>might return:</p>
+<p><code>{"id": 123, "result": {"objects":
 ["webhooks", "configfile", "heaters", "gcode_move", "query_endstops",
 "idle_timeout", "toolhead", "extruder"]}}</code></p>
+</div>
 <h3 id="objectsquery">objects/query<a class="headerlink" href="#objectsquery" title="Permanent link">&para;</a></h3>
-<p>This endpoint allows one to query information from printer objects.
-For example:
-<code>{"id": 123, "method": "objects/query", "params": {"objects":
-{"toolhead": ["position"], "webhooks": null}}}</code>
-might return:
-<code>{"id": 123, "result": {"status": {"webhooks": {"state": "ready",
+<p>This endpoint allows one to query information from printer objects.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "objects/query", "params": {"objects":
+{"toolhead": ["position"], "webhooks": null}}}</code></p>
+<p>might return:</p>
+<p><code>{"id": 123, "result": {"status": {"webhooks": {"state": "ready",
 "state_message": "Printer is ready"}, "toolhead": {"position":
 [0.0, 0.0, 0.0, 0.0]}}, "eventtime": 3051555.377933684}}</code></p>
+</div>
 <p>The "objects" parameter in the request must be a dictionary containing
 the printer objects that are to be queried - the key contains the
 printer object name and the value is either "null" (to query all
@@ -1758,28 +1789,37 @@ timestamp from when the query was taken.</p>
 <h3 id="objectssubscribe">objects/subscribe<a class="headerlink" href="#objectssubscribe" title="Permanent link">&para;</a></h3>
 <p>This endpoint allows one to query and then subscribe to information
 from printer objects. The endpoint request and response is identical
-to the "objects/query" endpoint. For example:
-<code>{"id": 123, "method": "objects/subscribe", "params":
+to the "objects/query" endpoint.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "objects/subscribe", "params":
 {"objects":{"toolhead": ["position"], "webhooks": ["state"]},
-"response_template":{}}}</code>
-might return:
-<code>{"id": 123, "result": {"status": {"webhooks": {"state": "ready"},
+"response_template":{}}}</code></p>
+<p>might return:</p>
+<p><code>{"id": 123, "result": {"status": {"webhooks": {"state": "ready"},
 "toolhead": {"position": [0.0, 0.0, 0.0, 0.0]}},
-"eventtime": 3052153.382083195}}</code>
-and result in subsequent asynchronous messages such as:
-<code>{"params": {"status": {"webhooks": {"state": "shutdown"}},
+"eventtime": 3052153.382083195}}</code></p>
+<p>and result in subsequent asynchronous messages such as:</p>
+<p><code>{"params": {"status": {"webhooks": {"state": "shutdown"}},
 "eventtime": 3052165.418815847}}</code></p>
+</div>
 <h3 id="gcodehelp">gcode/help<a class="headerlink" href="#gcodehelp" title="Permanent link">&para;</a></h3>
 <p>This endpoint allows one to query available G-Code commands that have
-a help string defined. For example:
-<code>{"id": 123, "method": "gcode/help"}</code>
-might return:
-<code>{"id": 123, "result": {"RESTORE_GCODE_STATE": "Restore a previously
+a help string defined.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "gcode/help"}</code></p>
+<p>might return:</p>
+<p><code>{"id": 123, "result": {"RESTORE_GCODE_STATE": "Restore a previously
 saved G-Code state", "PID_CALIBRATE": "Run PID calibration test",
 "QUERY_ADC": "Report the last value of an analog pin", ...}}</code></p>
+</div>
 <h3 id="gcodescript">gcode/script<a class="headerlink" href="#gcodescript" title="Permanent link">&para;</a></h3>
-<p>This endpoint allows one to run a series of G-Code commands. For example:
-<code>{"id": 123, "method": "gcode/script", "params": {"script": "G90"}}</code></p>
+<p>This endpoint allows one to run a series of G-Code commands.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "gcode/script", "params": {"script": "G90"}}</code></p>
+</div>
 <p>If the provided G-Code script raises an error, then an error response
 is generated. However, if the G-Code command produces terminal output,
 that terminal output is not provided in the response. (Use the
@@ -1791,23 +1831,32 @@ The JSON response message is sent when the processing of the script
 fully completes.</p>
 <h3 id="gcoderestart">gcode/restart<a class="headerlink" href="#gcoderestart" title="Permanent link">&para;</a></h3>
 <p>This endpoint allows one to request a restart - it is similar to
-running the G-Code "RESTART" command. For example:
-<code>{"id": 123, "method": "gcode/restart"}</code></p>
+running the G-Code "RESTART" command.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "gcode/restart"}</code></p>
+</div>
 <p>As with the "gcode/script" endpoint, this endpoint only completes
 after any pending G-Code commands complete.</p>
 <h3 id="gcodefirmware_restart">gcode/firmware_restart<a class="headerlink" href="#gcodefirmware_restart" title="Permanent link">&para;</a></h3>
 <p>This is similar to the "gcode/restart" endpoint - it implements the
-G-Code "FIRMWARE_RESTART" command. For example:
-<code>{"id": 123, "method": "gcode/firmware_restart"}</code></p>
+G-Code "FIRMWARE_RESTART" command.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "gcode/firmware_restart"}</code></p>
+</div>
 <p>As with the "gcode/script" endpoint, this endpoint only completes
 after any pending G-Code commands complete.</p>
 <h3 id="gcodesubscribe_output">gcode/subscribe_output<a class="headerlink" href="#gcodesubscribe_output" title="Permanent link">&para;</a></h3>
 <p>This endpoint is used to subscribe to G-Code terminal messages that
-are generated by Klipper. For example:
-<code>{"id": 123, "method": "gcode/subscribe_output", "params":
-{"response_template":{}}}</code>
-might later produce asynchronous messages such as:
-<code>{"params": {"response": "// Klipper state: Shutdown"}}</code></p>
+are generated by Klipper.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "gcode/subscribe_output", "params":
+{"response_template":{}}}</code></p>
+<p>might later produce asynchronous messages such as:</p>
+<p><code>{"params": {"response": "// Klipper state: Shutdown"}}</code></p>
+</div>
 <p>This endpoint is intended to support human interaction via a "terminal
 window" interface. Parsing content from the G-Code terminal output is
 discouraged. Use the "objects/subscribe" endpoint to obtain updates on
@@ -1817,17 +1866,20 @@ Klipper's state.</p>
 queue_step command stream for a stepper. Obtaining these low-level
 motion updates may be useful for diagnostic and debugging
 purposes. Using this endpoint may increase Klipper's system load.</p>
-<p>A request may look like:
-<code>{"id": 123, "method":"motion_report/dump_stepper",
-"params": {"name": "stepper_x", "response_template": {}}}</code>
-and might return:
-<code>{"id": 123, "result": {"header": ["interval", "count", "add"]}}</code>
-and might later produce asynchronous messages such as:
-<code>{"params": {"first_clock": 179601081, "first_time": 8.98,
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>A request may look like:</p>
+<p><code>{"id": 123, "method":"motion_report/dump_stepper",
+"params": {"name": "stepper_x", "response_template": {}}}</code></p>
+<p>and might return:</p>
+<p><code>{"id": 123, "result": {"header": ["interval", "count", "add"]}}</code></p>
+<p>and might later produce asynchronous messages such as:</p>
+<p><code>{"params": {"first_clock": 179601081, "first_time": 8.98,
 "first_position": 0, "last_clock": 219686097, "last_time": 10.984,
 "data": [[179601081, 1, 0], [29573, 2, -8685], [16230, 4, -1525],
 [10559, 6, -160], [10000, 976, 0], [10000, 1000, 0], [10000, 1000, 0],
 [10000, 1000, 0], [9855, 5, 187], [11632, 4, 1534], [20756, 2, 9442]]}}</code></p>
+</div>
 <p>The "header" field in the initial query response is used to describe
 the fields found in later "data" responses.</p>
 <h3 id="motion_reportdump_trapq">motion_report/dump_trapq<a class="headerlink" href="#motion_reportdump_trapq" title="Permanent link">&para;</a></h3>
@@ -1835,16 +1887,19 @@ the fields found in later "data" responses.</p>
 motion queue". Obtaining these low-level motion updates may be useful
 for diagnostic and debugging purposes. Using this endpoint may
 increase Klipper's system load.</p>
-<p>A request may look like:
-<code>{"id": 123, "method": "motion_report/dump_trapq", "params":
-{"name": "toolhead", "response_template":{}}}</code>
-and might return:
-<code>{"id": 1, "result": {"header": ["time", "duration",
-"start_velocity", "acceleration", "start_position", "direction"]}}</code>
-and might later produce asynchronous messages such as:
-<code>{"params": {"data": [[4.05, 1.0, 0.0, 0.0, [300.0, 0.0, 0.0],
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>A request may look like:</p>
+<p><code>{"id": 123, "method": "motion_report/dump_trapq", "params":
+{"name": "toolhead", "response_template":{}}}</code></p>
+<p>and might return:</p>
+<p><code>{"id": 1, "result": {"header": ["time", "duration",
+"start_velocity", "acceleration", "start_position", "direction"]}}</code></p>
+<p>and might later produce asynchronous messages such as:</p>
+<p><code>{"params": {"data": [[4.05, 1.0, 0.0, 0.0, [300.0, 0.0, 0.0],
 [0.0, 0.0, 0.0]], [5.054, 0.001, 0.0, 3000.0, [300.0, 0.0, 0.0],
 [-1.0, 0.0, 0.0]]]}}</code></p>
+</div>
 <p>The "header" field in the initial query response is used to describe
 the fields found in later "data" responses.</p>
 <h3 id="adxl345dump_adxl345">adxl345/dump_adxl345<a class="headerlink" href="#adxl345dump_adxl345" title="Permanent link">&para;</a></h3>
@@ -1852,15 +1907,17 @@ the fields found in later "data" responses.</p>
 Obtaining these low-level motion updates may be useful for diagnostic
 and debugging purposes. Using this endpoint may increase Klipper's
 system load.</p>
-<p>A request may look like:
-<code>{"id": 123, "method":"adxl345/dump_adxl345",
-"params": {"sensor": "adxl345", "response_template": {}}}</code>
-and might return:
-<code>{"id": 123,"result":{"header":["time","x_acceleration","y_acceleration",
-"z_acceleration"]}}</code>
-and might later produce asynchronous messages such as:
-<code>{"params":{"overflows":0,"data":[[3292.432935,-535.44309,-1529.8374,9561.4],
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method":"adxl345/dump_adxl345",
+"params": {"sensor": "adxl345", "response_template": {}}}</code></p>
+<p>and might return:</p>
+<p><code>{"id": 123,"result":{"header":["time","x_acceleration","y_acceleration",
+"z_acceleration"]}}</code></p>
+<p>and might later produce asynchronous messages such as:</p>
+<p><code>{"params":{"overflows":0,"data":[[3292.432935,-535.44309,-1529.8374,9561.4],
 [3292.433256,-382.45935,-1606.32927,9561.48375]]}}</code></p>
+</div>
 <p>The "header" field in the initial query response is used to describe
 the fields found in later "data" responses.</p>
 <h3 id="angledump_angle">angle/dump_angle<a class="headerlink" href="#angledump_angle" title="Permanent link">&para;</a></h3>
@@ -1868,50 +1925,66 @@ the fields found in later "data" responses.</p>
 <a href="Config_Reference.html#angle">angle sensor data</a>. Obtaining these
 low-level motion updates may be useful for diagnostic and debugging
 purposes. Using this endpoint may increase Klipper's system load.</p>
-<p>A request may look like:
-<code>{"id": 123, "method":"angle/dump_angle",
-"params": {"sensor": "my_angle_sensor", "response_template": {}}}</code>
-and might return:
-<code>{"id": 123,"result":{"header":["time","angle"]}}</code>
-and might later produce asynchronous messages such as:
-<code>{"params":{"position_offset":3.151562,"errors":0,
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method":"angle/dump_angle",
+"params": {"sensor": "my_angle_sensor", "response_template": {}}}</code></p>
+<p>and might return:</p>
+<p><code>{"id": 123,"result":{"header":["time","angle"]}}</code></p>
+<p>and might later produce asynchronous messages such as:</p>
+<p><code>{"params":{"position_offset":3.151562,"errors":0,
 "data":[[1290.951905,-5063],[1290.952321,-5065]]}}</code></p>
+</div>
 <p>The "header" field in the initial query response is used to describe
 the fields found in later "data" responses.</p>
 <h3 id="pause_resumecancel">pause_resume/cancel<a class="headerlink" href="#pause_resumecancel" title="Permanent link">&para;</a></h3>
-<p>This endpoint is similar to running the "PRINT_CANCEL" G-Code command.
-For example:
-<code>{"id": 123, "method": "pause_resume/cancel"}</code></p>
+<p>This endpoint is similar to running the "PRINT_CANCEL" G-Code command.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "pause_resume/cancel"}</code></p>
+</div>
 <p>As with the "gcode/script" endpoint, this endpoint only completes
 after any pending G-Code commands complete.</p>
 <h3 id="pause_resumepause">pause_resume/pause<a class="headerlink" href="#pause_resumepause" title="Permanent link">&para;</a></h3>
-<p>This endpoint is similar to running the "PAUSE" G-Code command. For
-example:
-<code>{"id": 123, "method": "pause_resume/pause"}</code></p>
+<p>This endpoint is similar to running the "PAUSE" G-Code command.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "pause_resume/pause"}</code></p>
+</div>
 <p>As with the "gcode/script" endpoint, this endpoint only completes
 after any pending G-Code commands complete.</p>
 <h3 id="pause_resumeresume">pause_resume/resume<a class="headerlink" href="#pause_resumeresume" title="Permanent link">&para;</a></h3>
-<p>This endpoint is similar to running the "RESUME" G-Code command. For
-example:
-<code>{"id": 123, "method": "pause_resume/resume"}</code></p>
+<p>This endpoint is similar to running the "RESUME" G-Code command.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "pause_resume/resume"}</code></p>
+</div>
 <p>As with the "gcode/script" endpoint, this endpoint only completes
 after any pending G-Code commands complete.</p>
 <h3 id="query_endstopsstatus">query_endstops/status<a class="headerlink" href="#query_endstopsstatus" title="Permanent link">&para;</a></h3>
-<p>This endpoint will query the active endpoints and return their status.
-For example:
-<code>{"id": 123, "method": "query_endstops/status"}</code>
-might return:
-<code>{"id": 123, "result": {"y": "open", "x": "open", "z": "TRIGGERED"}}</code></p>
+<p>This endpoint will query the active endpoints and return their status.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p><code>{"id": 123, "method": "query_endstops/status"}</code></p>
+<p>might return:</p>
+<p><code>{"id": 123, "result": {"y": "open", "x": "open", "z": "TRIGGERED"}}</code></p>
+</div>
 <p>As with the "gcode/script" endpoint, this endpoint only completes
 after any pending G-Code commands complete.</p>
 
+
+  
+
+
+
               
             </article>
+            
           </div>
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
           </a>
         
@@ -1919,12 +1992,13 @@ after any pending G-Code commands complete.</p>
       
         <footer class="md-footer">
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
         <a href="Protocol.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Protocol" rel="prev">
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
           <div class="md-footer__title">
             <div class="md-ellipsis">
@@ -1948,7 +2022,7 @@ after any pending G-Code commands complete.</p>
             </div>
           </div>
           <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
           </div>
         </a>
       
@@ -1974,10 +2048,11 @@ after any pending G-Code commands complete.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.top", "search.suggest", "search.highlight", "search.share"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.e1a181d9.min.js"></script>
+      <script src="assets/javascripts/bundle.9c69f0bc.min.js"></script>
       
     
   </body>
