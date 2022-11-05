@@ -1688,6 +1688,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#set_heater_pid" class="md-nav__link">
+    SET_HEATER_PID
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3711,6 +3718,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#set_heater_pid" class="md-nav__link">
+    SET_HEATER_PID
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4971,6 +4985,10 @@ then the heater will be turned off and on for several cycles. If the
 WRITE_FILE parameter is enabled, then the file /tmp/heattest.txt will
 be created with a log of all temperature samples taken during the
 test.</p>
+<h4 id="set_heater_pid">SET_HEATER_PID<a class="headerlink" href="#set_heater_pid" title="Permanent link">&para;</a></h4>
+<p><code>SET_HEATER_PID HEATER=&lt;config_name&gt; KP=&lt;kp&gt; KI=&lt;ki&gt; KD=&lt;kd&gt;</code>: Will
+allow one to manually change PID parameters of heaters without a 
+reload of the firmware.</p>
 <h3 id="pause_resume">[pause_resume]<a class="headerlink" href="#pause_resume" title="Permanent link">&para;</a></h3>
 <p>The following commands are available when the
 <a href="Config_Reference.html#pause_resume">pause_resume config section</a> is
