@@ -154,10 +154,12 @@ class TMCErrorCheck:
             count += 1
             if count >= 3:
                 fmt = self.fields.pretty_format(reg_name, val)
-                logging.info("TMC '%s' reports error: %s", self.stepper_name, fmt)
-                try_clear = True
-                # raise self.printer.command_error("TMC '%s' reports error: %s"
-                #                                  % (self.stepper_name, fmt))
+                if 'GSTAT' in fmt:
+                    logging.info("TMC '%s' reports error: %s", self.stepper_name, fmt)
+                    # try_clear = True
+                else:
+                    raise self.printer.command_error("TMC '%s' reports error: %s"
+                                                     % (self.stepper_name, fmt))
             if try_clear and val & err_mask:
                 try_clear = False
                 cleared_flags |= val & err_mask
