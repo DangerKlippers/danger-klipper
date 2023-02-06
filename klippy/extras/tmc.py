@@ -126,6 +126,7 @@ class TMCErrorCheck:
         last_value, reg_name, mask, err_mask, cs_actual_mask = reg_info
         cleared_flags = 0
         count = 0
+        reset_count = 0
         while 1:
             try:
                 val = self.mcu_tmc.get_register(reg_name)
@@ -152,19 +153,36 @@ class TMCErrorCheck:
                     break
                 # CS_ACTUAL field of zero - indicates a driver reset
             count += 1
+            try_reset = False
             if count >= 3:
                 fmt = self.fields.pretty_format(reg_name, val)
                 if 'GSTAT' in fmt:
-                    logging.info("TMC '%s' reports error: %s", self.stepper_name, fmt)
-                    # try_clear = True
+                    logging.info("TMC '%s' reports gstat error: %s -- attempting re-init...", self.stepper_name, fmt)
+                    try_reset = True
                 else:
                     raise self.printer.command_error("TMC '%s' reports error: %s"
                                                      % (self.stepper_name, fmt))
+            if try_reset:
+                if reset_count >= 5:
+                    raise self.printer.command_error("TMC '%s' reports error: %s, tried to recover and failed!"
+                                                     % (self.stepper_name, fmt))
+                #if we should re-init the driver and try again
+                logging.info("TMC '%s' re-initializing driver, attempt: %s" % (self.stepper_name, reset_count + 1))
+                count = 0
+                reset_count += 1
+                self._init_registers()
+                
             if try_clear and val & err_mask:
                 try_clear = False
                 cleared_flags |= val & err_mask
                 self.mcu_tmc.set_register(reg_name, val & err_mask)
+            
         return cleared_flags
+
+    def _init_registers(self, print_time=None):
+        for reg_name, val in self.fields.registers.items():
+            self.mcu_tmc.set_register(reg_name, val, print_time)
+            
     def _do_periodic_check(self, eventtime):
         try:
             self._query_register(self.drv_status_reg_info)
