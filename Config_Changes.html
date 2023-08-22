@@ -1293,6 +1293,18 @@ are not backwards compatible. It is a good idea to review this
 document when upgrading the Klipper software.</p>
 <p>All dates in this document are approximate.</p>
 <h2 id="changes">Changes<a class="headerlink" href="#changes" title="Permanent link">&para;</a></h2>
+<p>20230801: The setting <code>fan.off_bellow</code> has been changed to <code>fan.min_power</code>.
+However, this change will not affect users who do not utilize this setting.
+With this update, a PWM scaling has been introduced between <code>min_power</code> and
+<code>max_power</code>. Fans that require a higher <code>min_power</code> will now have access to
+their full "safe" power curve. By properly setting <code>min_power</code>, any fan
+(such as CPAP) should engage even at <code>M106 S1</code>. It's recommended to review
+your slicer/macros to adjust your fan speeds. Your previously designated 20%
+fan speed may no longer represent your lowest fan setting but will now
+correspond to an actual 20% fan speed.
+If you had previously set <code>max_power</code> to anything below 1.0 (default),
+it is advisable to recalibrate <code>min_power</code> and <code>kick_start_time</code> again, with
+the settings <code>min_power: 0</code> and <code>max_power: 1</code>.</p>
 <p>20230729: The exported status for <code>dual_carriage</code> is changed. Instead of
 exporting <code>mode</code> and <code>active_carriage</code>, the individual modes for each
 carriage are exported as <code>printer.dual_carriage.carriage_0</code> and
