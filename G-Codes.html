@@ -5245,7 +5245,7 @@ be created with a log of all temperature samples taken during the
 test.</p>
 <h4 id="set_heater_pid">SET_HEATER_PID<a class="headerlink" href="#set_heater_pid" title="Permanent link">&para;</a></h4>
 <p><code>SET_HEATER_PID HEATER=&lt;config_name&gt; KP=&lt;kp&gt; KI=&lt;ki&gt; KD=&lt;kd&gt;</code>: Will
-allow one to manually change PID parameters of heaters without a 
+allow one to manually change PID parameters of heaters without a
 reload of the firmware.</p>
 <h3 id="pause_resume">[pause_resume]<a class="headerlink" href="#pause_resume" title="Permanent link">&para;</a></h3>
 <p>The following commands are available when the
@@ -5650,7 +5650,27 @@ automatically upon homing.</p>
 command will probe the points specified in the config and then make independent
 adjustments to each Z stepper to compensate for tilt. See the PROBE command for
 details on the optional probe parameters. The optional <code>HORIZONTAL_MOVE_Z</code>
-value overrides the <code>horizontal_move_z</code> option specified in the config file.</p>
+value overrides the <code>horizontal_move_z</code> option specified in the config file.
+The follwing commands are availabe when the parameter "extra_points" is
+configured in the z_tilt_section:</p>
+<ul>
+<li><code>Z_TILT_CALIBRATE [AVGLEN=&lt;value&gt;]</code>: This command does multiple probe
+  runs similar to Z_TILT_ADJUST, but with the additional points given in
+  "extra_points". This leads to a more balanced bed adjustment in case the
+  bed is not perfectly flat. The command averages the error over multiple
+  runs and continues until the error does not decrease any further. It
+  calculates values for the z_offsets config parameter, which will in turn
+  be used by T_TILT_ADJUST to achieve the same accuracy without the extra
+  points.</li>
+<li><code>Z_TILT_AUTODETECT [AVGLEN=&lt;value&gt;] [DELTA=&lt;value&gt;]</code>: This command
+  determines the positions of the pivot points for each stepper motor.
+  It works silimar to Z_TILT_CALIBRATE, but it probes the bed with intential
+  small misalgnments of the steppers. The amount of misalignment can be
+  configured with the DELTA paramter. It iterates until the calculated
+  positions cannot be improved any further. This is can be lengthy procedure.
+IMPORTANT: For the Z_TILT_CALIBRATE and Z_TILT_AUTODETECT commands to work
+the numpy package has to be installed via ~/klippy-env/bin/pip install -v numpy.</li>
+</ul>
 
               
             </article>
