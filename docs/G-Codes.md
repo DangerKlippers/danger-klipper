@@ -1212,7 +1212,7 @@ profile matching the supplied name from persistent memory. Note that
 after SAVE or REMOVE operations have been run the SAVE_CONFIG gcode
 must be run to make the changes to persistent memory permanent.
 
-### [smart_effector]
+### ⚠️ [smart_effector]
 
 Several commands are available when a
 [smart_effector config section](Config_Reference.md#smart_effector) is enabled.
@@ -1396,6 +1396,22 @@ potentially cause upward tool movement as the adjustment is updated and applied.
 the config. `REF_TEMP` manually overrides the reference temperature typically
 set during homing (for use in e.g. non-standard homing routines) - will be reset
 automatically upon homing.
+
+### ⚠️ [z_calibration]
+
+The following commands are available when a
+[z_calibration config section](Config_Reference.md#z_calibration) is enabled
+(also see the [Z-Calibration guide](Z_Calibration.md)):
+- `CALIBRATE_Z`: This calibrates the current offset between the nozzle and
+  the print surface.
+- `PROBE_Z_ACCURACY [PROBE_SPEED=<mm/s>] [LIFT_SPEED=<mm/s>] [SAMPLES=<count>]
+  [SAMPLE_RETRACT_DIST=<mm>]`: Calculate the maximum, minimum,
+  average, median, and standard deviation of multiple probe
+  samples. By default, 10 SAMPLES are taken. Otherwise the optional
+  parameters default to their equivalent setting in the z_calibration or probe
+  config section.
+*Note* that appropriate macros and/or configurations are needed to attach
+and detach a mag-probe for these commands!
 
 ### [z_tilt]
 
