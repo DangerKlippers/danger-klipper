@@ -952,6 +952,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#z_calibration" class="md-nav__link">
+    ⚠️ [z_calibration]
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2932,6 +2939,13 @@
           <li class="md-nav__item">
   <a href="#axis_twist_compensation" class="md-nav__link">
     [axis_twist_compensation]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#z_calibration" class="md-nav__link">
+    ⚠️ [z_calibration]
   </a>
   
 </li>
@@ -5542,6 +5556,86 @@ calibrate_y: 112.5
 #   This should be the Y coordinate that positions the nozzle during the
 #   calibration process. This parameter must be provided and is recommended to
 #   be near the center of the bed
+</code></pre></div>
+
+<h3 id="z_calibration">⚠️ [z_calibration]<a class="headerlink" href="#z_calibration" title="Permanent link">&para;</a></h3>
+<p>Automatic Z offset calibration. One may define this section if the printer
+is able to calibrate the nozzle's offset automatically. See
+<a href="Z_Calibration.html">Z-Calibration guide</a> and
+<a href="G-Codes.html#automatic-z-offset-calibration">command reference</a> for further
+information.</p>
+<div class="highlight"><pre><span></span><code>[z_calibration]
+nozzle_xy_position:
+#   A X, Y coordinate (e.g. 100,100) of the nozzle, clicking on the Z endstop.
+switch_xy_position:
+#   A X, Y coordinate (e.g. 100,100) of the probe&#39;s switch body, clicking on
+#   the Z endstop.
+bed_xy_position: default from relative_reference_index of bed_mesh
+#   a X, Y coordinate (e.g. 100,100) where the print surface (e.g. the center
+#   point) is probed. These coordinates will be adapted by the
+#   probe&#39;s X and Y offsets. The default is the relative_reference_index
+#   of the configured bed_mesh, if configured. It&#39;s possible to change the relative
+#   reference index at runtime or use the GCode argument BED_POSITION of CALIBRATE_Z.
+switch_offset:
+#   The trigger point offset of the used mag-probe switch.
+#   Larger values will position the nozzle closer to the bed.
+#   This needs to be find out manually. More on this later
+#   in this section..
+max_deviation: 1.0
+#   The maximum allowed deviation of the calculated offset.
+#   If the offset exceeds this value, it will stop!
+#   The default is 1.0 mm.
+samples: default from &quot;probe:samples&quot; section
+#   The number of times to probe each point. The probed z-values
+#   will be averaged. The default is from the probe&#39;s configuration.
+samples_tolerance: default from &quot;probe:samples_tolerance&quot; section
+#   The maximum Z distance (in mm) that a sample may differ from other
+#   samples. The default is from the probe&#39;s configuration.
+samples_tolerance_retries: default from &quot;probe:samples_tolerance_retries&quot; section
+#   The number of times to retry if a sample is found that exceeds
+#   samples_tolerance. The default is from the probe&#39;s configuration.
+samples_result: default from &quot;probe:samples_result&quot; section
+#   The calculation method when sampling more than once - either
+#   &quot;median&quot; or &quot;average&quot;. The default is from the probe&#39;s configuration.
+clearance: 2 * z_offset from the &quot;probe:z_offset&quot; section
+#   The distance in mm to move up before moving to the next
+#   position. The default is two times the z_offset from the probe&#39;s
+#   configuration.
+position_min: default from &quot;stepper_z:position_min&quot; section.
+#   Minimum valid distance (in mm) used for probing move. The
+#   default is from the Z rail configuration.
+speed: 50
+#   The moving speed in X and Y. The default is 50 mm/s.
+lift_speed: default from &quot;probe:lift_speed&quot; section
+#   Speed (in mm/s) of the Z axis when lifting the probe between
+#   samples and clearance moves. The default is from the probe&#39;s
+#   configuration.
+probing_speed: default from &quot;stepper_z:homing_speed&quot; section.
+#   The fast probing speed (in mm/s) used, when probing_first_fast
+#   is activated. The default is from the Z rail configuration.
+probing_second_speed: default from &quot;stepper_z:second_homing_speed&quot; section.
+#   The slower speed (in mm/s) for probing the recorded samples.
+#   The default is second_homing_speed of the Z rail configuration.
+probing_retract_dist: default from &quot;stepper_z:homing_retract_dist&quot; section.
+#   Distance to retract (in mm) before probing the next sample.
+#   The default is homing_retract_dist from the Z rail configuration.
+probing_first_fast: false
+#   If true, the first probing is done faster by the probing speed.
+#   This is to get faster down and the result is not recorded as a
+#   probing sample. The default is false.
+start_gcode:
+#   A list of G-Code commands to execute prior to each calibration command.
+#   See docs/Command_Templates.md for G-Code format. This can be used to
+#   attach the probe.
+before_switch_gcode:
+#   A list of G-Code commands to execute prior to each probing on the
+#   mag-probe. See docs/Command_Templates.md for G-Code format. This can be
+#   used to attach the probe after probing on the nozzle and before probing
+#   on the mag-probe.
+end_gcode:
+#   A list of G-Code commands to execute after each calibration command.
+#   See docs/Command_Templates.md for G-Code format. This can be used to
+#   detach the probe afterwards.
 </code></pre></div>
 
 <h2 id="additional-stepper-motors-and-extruders">Additional stepper motors and extruders<a class="headerlink" href="#additional-stepper-motors-and-extruders" title="Permanent link">&para;</a></h2>
