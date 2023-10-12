@@ -491,6 +491,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#danger-options" class="md-nav__link">
+    ⚠️ Danger Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#common-kinematic-settings" class="md-nav__link">
     Common kinematic settings
   </a>
@@ -2482,6 +2489,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#danger-options" class="md-nav__link">
+    ⚠️ Danger Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#common-kinematic-settings" class="md-nav__link">
     Common kinematic settings
   </a>
@@ -3710,6 +3724,31 @@ pins such as "extra_mcu:ar9" may then be used elsewhere in the config
 (where "ar9" is a hardware pin name or alias name on the given mcu).</p>
 <div class="highlight"><pre><span></span><code>[mcu my_extra_mcu]
 # See the &quot;mcu&quot; section for configuration parameters.
+</code></pre></div>
+
+<h2 id="danger-options">⚠️ Danger Options<a class="headerlink" href="#danger-options" title="Permanent link">&para;</a></h2>
+<p>A collection of DangerKlipper-specific system options</p>
+<div class="highlight"><pre><span></span><code>[danger_options]
+
+# If an unused config option or section should cause an error
+# if False, will warn but allow klipper to still run
+error_on_unused_config_options: True
+
+# If statistics should be logged 
+# (helpful for keeping the log clean during development)
+log_statistics: True 
+
+# If the config file should be logged at startup
+log_config_file_at_startup: True 
+
+# If the bed mesh should be logged on startup 
+# (helpful for keeping the log clean during development)
+log_bed_mesh_at_startup: True
+
+# If we should log detailed crash info when an exception occurs
+# Most of it is overly-verbose and fluff and we still get a stack trace
+# for normal exceptions, so setting to False can help save time while developing
+log_shutdown_info: True
 </code></pre></div>
 
 <h2 id="common-kinematic-settings">Common kinematic settings<a class="headerlink" href="#common-kinematic-settings" title="Permanent link">&para;</a></h2>
