@@ -8,6 +8,19 @@ All dates in this document are approximate.
 
 ## Changes
 
+20230826: If `safe_distance` is set or calculated to be 0 in `[dual_carriage]`,
+the carriages proximity checks will be disabled as per documentation. A user
+may wish to configure `safe_distance` explicitly to prevent accidental crashes
+of the carriages with each other. Additionally, the homing order of the primary
+and the dual carriage is changed in some configurations (certain configurations
+when both carriages home in the same direction, see
+[[dual_carriage] configuration reference](./Config_Reference.md#dual_carriage)
+for more details).
+
+20230810: The flash-sdcard.sh script now supports both variants of the
+Bigtreetech SKR-3, STM32H743 and STM32H723. For this, the original tag
+of btt-skr-3 now has changed to be either btt-skr-3-h743 or btt-skr-3-h723.
+
 20230801: The setting `fan.off_bellow` has been changed to `fan.min_power`.
 However, this change will not affect users who do not utilize this setting.
 With this update, a PWM scaling has been introduced between `min_power` and
@@ -20,7 +33,6 @@ correspond to an actual 20% fan speed.
 If you had previously set `max_power` to anything below 1.0 (default),
 it is advisable to recalibrate `min_power` and `kick_start_time` again, with
 the settings `min_power: 0` and `max_power: 1`.
-
 
 20230729: The exported status for `dual_carriage` is changed. Instead of
 exporting `mode` and `active_carriage`, the individual modes for each
