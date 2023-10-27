@@ -864,6 +864,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#lis2dw" class="md-nav__link">
+    [lis2dw]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#mpu9250" class="md-nav__link">
     [mpu9250]
   </a>
@@ -2357,6 +2364,20 @@
   
   
     <li class="md-nav__item">
+      <a href="Bootloader_Entry.html" class="md-nav__link">
+        Bootloader Entry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="CANBUS.html" class="md-nav__link">
         CANBUS
       </a>
@@ -2857,6 +2878,13 @@
           <li class="md-nav__item">
   <a href="#adxl345" class="md-nav__link">
     [adxl345]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lis2dw" class="md-nav__link">
+    [lis2dw]
   </a>
   
 </li>
@@ -5212,6 +5240,24 @@ cs_pin:
 #   measurements.
 </code></pre></div>
 
+<h3 id="lis2dw">[lis2dw]<a class="headerlink" href="#lis2dw" title="Permanent link">&para;</a></h3>
+<p>Support for LIS2DW accelerometers.</p>
+<div class="highlight"><pre><span></span><code>[lis2dw]
+cs_pin:
+#   The SPI enable pin for the sensor. This parameter must be provided.
+#spi_speed: 5000000
+#   The SPI speed (in hz) to use when communicating with the chip.
+#   The default is 5000000.
+#spi_bus:
+#spi_software_sclk_pin:
+#spi_software_mosi_pin:
+#spi_software_miso_pin:
+#   See the &quot;common SPI settings&quot; section for a description of the
+#   above parameters.
+#axes_map: x, y, z
+#   See the &quot;adxl345&quot; section for information on this parameter.
+</code></pre></div>
+
 <h3 id="mpu9250">[mpu9250]<a class="headerlink" href="#mpu9250" title="Permanent link">&para;</a></h3>
 <p>Support for MPU-9250, MPU-9255, MPU-6515, MPU-6050, and MPU-6500
 accelerometers (one may define any number of sections with an
@@ -5731,7 +5777,14 @@ in this section (CARRIAGE=0 will return activation to the primary carriage).
 Dual carriage support is typically combined with extra extruders - the
 SET_DUAL_CARRIAGE command is often called at the same time as the
 ACTIVATE_EXTRUDER command. Be sure to park the carriages during deactivation.
-Additionally, one could use "SET_DUAL_CARRIAGE CARRIAGE=1 MODE=COPY" or
+Note that during G28 homing, typically the primary carriage is homed first
+followed by the carriage defined in the <code>[dual_carriage]</code> config section.
+However, the <code>[dual_carriage]</code> carriage will be homed first if both carriages
+home in a positive direction and the [dual_carriage] carriage has a
+<code>position_endstop</code> greater than the primary carriage, or if both carriages home
+in a negative direction and the <code>[dual_carriage]</code> carriage has a
+<code>position_endstop</code> less than the primary carriage.</p>
+<p>Additionally, one could use "SET_DUAL_CARRIAGE CARRIAGE=1 MODE=COPY" or
 "SET_DUAL_CARRIAGE CARRIAGE=1 MODE=MIRROR" commands to activate either copying
 or mirroring mode of the dual carriage, in which case it will follow the
 motion of the carriage 0 accordingly. These commands can be used to print
@@ -6986,7 +7039,7 @@ run_current:
 </code></pre></div>
 
 <h3 id="tmc2240">[tmc2240]<a class="headerlink" href="#tmc2240" title="Permanent link">&para;</a></h3>
-<p>Configure a TMC2240 stepper motor driver via SPI bus. To use this
+<p>Configure a TMC2240 stepper motor driver via SPI bus or UART. To use this
 feature, define a config section with a "tmc2240" prefix followed by
 the name of the corresponding stepper config section (for example,
 "[tmc2240 stepper_x]").</p>
@@ -7002,6 +7055,9 @@ cs_pin:
 #spi_software_miso_pin:
 #   See the &quot;common SPI settings&quot; section for a description of the
 #   above parameters.
+#uart_pin:
+#   The pin connected to the TMC2240 DIAG1/SW line. If this parameter
+#   is provided UART communication is used rather then SPI.
 #chain_position:
 #chain_length:
 #   These parameters configure an SPI daisy chain. The two parameters
