@@ -2095,10 +2095,20 @@ objects:</p>
 <p>The following information is available in the
 <a href="Config_Reference.html#firmware_retraction">firmware_retraction</a> object:</p>
 <ul>
-<li><code>retract_length</code>, <code>retract_speed</code>, <code>unretract_extra_length</code>,
-  <code>unretract_speed</code>: The current settings for the firmware_retraction
-  module. These settings may differ from the config file if a
-  <code>SET_RETRACTION</code> command alters them.</li>
+<li><code>retract_length</code>: Current setting for length of filament retract moves.</li>
+<li><code>retract_speed</code>: Current setting for speed of filament retract moves.</li>
+<li><code>unretract_extra_length</code>: Current setting for additional length of filament
+  unretract moves (positive values will result in filament extrusion, while
+  negative values up to 1 mm (2.41 mm3 for 1.75 mm filament) will result in
+  lagging extrusion of filament).</li>
+<li><code>unretract_speed</code>: Current setting for speed of unretract moves of filament.</li>
+<li><code>unretract_length</code>: Unretract move length (sum of retract and extra unretract
+   length).</li>
+<li><code>z_hop_height</code>: Current setting for the height of nozzle lifting move (Z-Hop).</li>
+<li>Above settings for the firmware_retraction module may differ from the
+  config file if a <code>SET_RETRACTION</code> command altered them. Additional information
+  available is as follows.</li>
+<li><code>retract_state</code>: Returns 'True' if filament is retracted.</li>
 </ul>
 <h2 id="gcode_button">gcode_button<a class="headerlink" href="#gcode_button" title="Permanent link">&para;</a></h2>
 <p>The following information is available in
