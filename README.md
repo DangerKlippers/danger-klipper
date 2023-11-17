@@ -50,6 +50,8 @@ Features merged into the master branch:
 
 - [danger_options: expose the multi mcu homing timeout as a parameter](https://github.com/DangerKlippers/danger-klipper/pull/93)
 
+- [temperature_mcu: add reference_voltage](https://github.com/DangerKlippers/danger-klipper/pull/99) ([klipper#5713](https://github.com/Klipper3d/klipper/pull/5713))
+
 If you're feeling adventurous, take a peek at the extra features in the bleeding-edge branch:
 
   - [dmbutyugin's advanced-features branch](https://github.com/DangerKlippers/danger-klipper/pull/69) [dmbutyugin/advanced-features](https://github.com/dmbutyugin/klipper/commits/advanced-features)
