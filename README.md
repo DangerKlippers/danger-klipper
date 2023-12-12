@@ -2,7 +2,7 @@
 
 [![Action Status](https://github.com/DangerKlippers/danger-klipper/actions/workflows/ci-build_test.yaml/badge.svg?branch=master)](https://github.com/DangerKlippers/danger-klipper/actions/workflows/ci-build_test.yaml)
 
-Welcome to the Danger Klipper project!
+# Welcome to the Danger Klipper project!
 
 This is a community-maintained fork of the [Klipper](https://github.com/Klipper3d/klipper) firmware.
 
@@ -10,7 +10,7 @@ Our goal is to support features and behavior that could be "risky" if used incor
 
 If I want my printer to light itself on fire, I should be able to make my printer light itself on fire.
 
-Features merged into the master branch:
+## Features merged into the master branch:
 
 - [core: No Python2 tests; No PRU boards](https://github.com/DangerKlippers/danger-klipper/pull/39)
 
@@ -65,7 +65,41 @@ If you're feeling adventurous, take a peek at the extra features in the bleeding
   - [input_shaper: smooth input shapers](https://github.com/DangerKlippers/danger-klipper/pull/69)
 
   - [input_shaper: new print_ringing_tower utility](https://github.com/DangerKlippers/danger-klipper/pull/69)
+ 
+## Switch to Danger Klipper
+> [!NOTE]
+> Any add-on modules you are using will need to be reinstalled after switching to Danger Klipper. This includes things like Beacon support, led-effect, etc.
+>
+> Any data in ~/printer_data such as printer configs and macros will be unaffected.
 
+### Manually clone the repository
+If desired, make a backup copy of your existing Klipper installation by running:
+```
+mv ~/klipper ~/klipper_old
+```
+Then clone the Danger Klipper repo and restart the klipper service:
+```
+git clone https://github.com/DangerKlippers/danger-klipper.git ~/klipper
+sudo systemctl restart klipper
+```
+### Using KIAUH
+For users that are not comfortable using Git directly, [KIAUH](https://github.com/dw-0/kiauh) is able to use custom repositories.
+
+To do this, add the Danger Klipper repo to KIAUH's repo list and run the script with the following commands:
+
+```
+echo "DangerKlippers/danger-klipper" >> ~/kiauh/klipper_repos.txt
+~/kiauh/kiauh.sh
+```
+From the KIAUH menu select:
+- 6 ) Settings
+- 1 ) Set custom Klipper repository
+- Select the number corresponding to DangerKlipper from the list shown
+- Select 'Y' to confirm replacing your existing Klipper install
+- Enter 'B' for back twice
+- 'Q' to quit
+
+---
 "Dangerous Klipper for dangerous users"
 
 Klipper is a 3d-Printer firmware. It combines the power of a general
