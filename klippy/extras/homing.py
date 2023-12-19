@@ -280,17 +280,15 @@ class Homing:
             for i, dist in enumerate(hmove.distance_elapsed)
             if i in homing_axes
         ]
-
+        needs_rehome = False
+        retract_dist = hi.retract_dist
+        if any(
+            [abs(dist) < hi.min_home_dist for dist in homing_axis_distances]
+        ):
+            needs_rehome = True
+            retract_dist = hi.min_home_dist
         # Perform second home
-        if hi.retract_dist:
-            needs_rehome = False
-            retract_dist = hi.retract_dist
-            if any(
-                [abs(dist) < hi.min_home_dist for dist in homing_axis_distances]
-            ):
-                needs_rehome = True
-                retract_dist = hi.min_home_dist
-
+        if retract_dist:
             logging.info("needs rehome: %s", needs_rehome)
             # Retract
             startpos = self._fill_coord(forcepos)
@@ -321,17 +319,17 @@ class Homing:
                         "Endstop %s still triggered after retract"
                         % (hmove.check_no_movement(),)
                     )
-
-                # Retract (again)
-                startpos = self._fill_coord(forcepos)
-                homepos = self._fill_coord(movepos)
-                axes_d = [hp - sp for hp, sp in zip(homepos, startpos)]
-                move_d = math.sqrt(sum([d * d for d in axes_d[:3]]))
-                retract_r = min(1.0, hi.retract_dist / move_d)
-                retractpos = [
-                    hp - ad * retract_r for hp, ad in zip(homepos, axes_d)
-                ]
-                self.toolhead.move(retractpos, hi.retract_speed)
+                if hi.retract_dist:
+                    # Retract (again)
+                    startpos = self._fill_coord(forcepos)
+                    homepos = self._fill_coord(movepos)
+                    axes_d = [hp - sp for hp, sp in zip(homepos, startpos)]
+                    move_d = math.sqrt(sum([d * d for d in axes_d[:3]]))
+                    retract_r = min(1.0, hi.retract_dist / move_d)
+                    retractpos = [
+                        hp - ad * retract_r for hp, ad in zip(homepos, axes_d)
+                    ]
+                    self.toolhead.move(retractpos, hi.retract_speed)
         self._set_current_post_homing(homing_axes)
         # Signal home operation complete
         self.toolhead.flush_step_generation()
