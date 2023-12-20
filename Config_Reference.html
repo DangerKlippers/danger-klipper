@@ -3757,32 +3757,36 @@ pins such as "extra_mcu:ar9" may then be used elsewhere in the config
 <h2 id="danger-options">⚠️ Danger Options<a class="headerlink" href="#danger-options" title="Permanent link">&para;</a></h2>
 <p>A collection of DangerKlipper-specific system options</p>
 <div class="highlight"><pre><span></span><code>[danger_options]
-
-# If an unused config option or section should cause an error
-# if False, will warn but allow klipper to still run
-error_on_unused_config_options: True
-
-# If statistics should be logged
-# (helpful for keeping the log clean during development)
-log_statistics: True
-
-# If the config file should be logged at startup
-log_config_file_at_startup: True
-
-# If the bed mesh should be logged on startup
-# (helpful for keeping the log clean during development)
-log_bed_mesh_at_startup: True
-
-# If we should log detailed crash info when an exception occurs
-# Most of it is overly-verbose and fluff and we still get a stack trace
-# for normal exceptions, so setting to False can help save time while developing
-log_shutdown_info: True
-
-# Allows modules in `plugins` to override modules of the same name in `extras`
-allow_plugin_override: False
-
-# The timeout (in seconds) for MCU synchronization during the homing process when multiple MCUs are in use.
-multi_mcu_trsync_timeout: 0.025
+#error_on_unused_config_options: True
+#   If an unused config option or section should cause an error
+#   if False, will warn but allow klipper to still run.
+#   The default is True.
+#log_statistics: True
+#   If statistics should be logged
+#   (helpful for keeping the log clean during development)
+#   The default is True.
+#log_config_file_at_startup: True
+#   If the config file should be logged at startup
+#   The default is True.
+#log_bed_mesh_at_startup: True
+#   If the bed mesh should be logged on startup
+#   (helpful for keeping the log clean during development)
+#   The default is True.
+#log_shutdown_info: True
+#   If we should log detailed crash info when an exception occurs
+#   Most of it is overly-verbose and fluff and we still get a stack trace
+#   for normal exceptions, so setting to False can help save time while developing
+#   The default is True.
+#allow_plugin_override: False
+#   Allows modules in `plugins` to override modules of the same name in `extras`
+#   The default is False.
+#multi_mcu_trsync_timeout: 0.025
+#   The timeout (in seconds) for MCU synchronization during the homing process when
+#   multiple MCUs are in use. The default is 0.025
+#homing_elapsed_distance_tolerance: 0.5
+#   Tolerance (in mm) for distance moved in the second homing. Ensures the
+#   second homing distance closely matches the `min_home_dist` when using
+#   sensorless homing. The default is 0.5mm.
 </code></pre></div>
 
 <h2 id="common-kinematic-settings">Common kinematic settings<a class="headerlink" href="#common-kinematic-settings" title="Permanent link">&para;</a></h2>
@@ -4027,7 +4031,7 @@ radius:
 example deltesian kinematics config file.</p>
 <p>Only parameters specific to deltesian printers are described here - see
 <a href="#common-kinematic-settings">common kinematic settings</a> for available
- parameters.</p>
+parameters.</p>
 <div class="highlight"><pre><span></span><code>[printer]
 kinematics: deltesian
 max_z_velocity:
@@ -8161,7 +8165,7 @@ serial:
 
 <h3 id="angle">[angle]<a class="headerlink" href="#angle" title="Permanent link">&para;</a></h3>
 <p>Magnetic hall angle sensor support for reading stepper motor angle
-shaft measurements using a1333, as5047d, or tle5012b SPI chips.  The
+shaft measurements using a1333, as5047d, or tle5012b SPI chips. The
 measurements are available via the <a href="API_Server.html">API Server</a> and
 <a href="Debugging.html#motion-analysis-and-data-logging">motion analysis tool</a>.
 See the <a href="G-Codes.html#angle">G-Code reference</a> for available commands.</p>
