@@ -56,6 +56,7 @@ DICTIONARY stm32f070.dict
 
 # Printers using the stm32f103
 DICTIONARY stm32f103.dict
+CONFIG ../../config/printer-sovol-sv06-plus-2023.cfg
 
 # Printers using the stm32f103 via serial
 DICTIONARY stm32f103-serial.dict
@@ -69,11 +70,17 @@ DICTIONARY stm32f405.dict
 # Printers using the stm32f407
 DICTIONARY stm32f407.dict
 
+# Printers using the stm32f429
+DICTIONARY stm32f429.dict
+CONFIG ../../config/generic-bigtreetech-octopus-v1.1.cfg
+
 # Printers using the stm32f446
 DICTIONARY stm32f446.dict
+CONFIG ../../config/generic-ldo-leviathan-v1.2.cfg
 
 # Printers using the stm32h723
 DICTIONARY stm32h723.dict
+CONFIG ../../config/generic-bigtreetech-octopus-pro-v1.1.cfg
 
 # Printers using the stm32h743
 DICTIONARY stm32h743.dict
