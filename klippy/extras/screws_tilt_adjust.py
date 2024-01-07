@@ -18,10 +18,11 @@ class ScrewsTiltAdjust:
         self.max_diff_error = False
         # Read config
         generate_screw_positions = config.getboolean(
-            'generate_polar_positions', False)
+            "generate_polar_positions", False
+        )
         if generate_screw_positions:
-            screw_radius = config.getfloat('screw_radius', above=0.)
-            num_screws = config.getint('screw_count', minval=3)
+            screw_radius = config.getfloat("screw_radius", above=0.0)
+            num_screws = config.getint("screw_count", minval=3)
             initial_angle = 0
             for i in range(num_screws):
                 angle = initial_angle + (i * 2 * math.pi / num_screws)

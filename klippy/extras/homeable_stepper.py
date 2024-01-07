@@ -9,7 +9,13 @@ import logging
 from . import force_move
 from stepper import MCU_stepper
 from stepper import parse_step_distance
-from toolhead import DripModeEndSignal, DRIP_SEGMENT_TIME, DRIP_TIME, MOVE_BATCH_TIME, SDS_CHECK_TIME
+from toolhead import (
+    DripModeEndSignal,
+    DRIP_SEGMENT_TIME,
+    DRIP_TIME,
+    SDS_CHECK_TIME,
+)
+
 
 class HomeableStepper(MCU_stepper):
     def __init__(self, config, *args, **kwargs):
@@ -20,12 +26,15 @@ class HomeableStepper(MCU_stepper):
         self.next_cmd_time = 0.0
         # Setup iterative solver
         ffi_main, ffi_lib = chelper.get_ffi()
-        self.homing_trapq = ffi_main.gc(ffi_lib.trapq_alloc(), ffi_lib.trapq_free)
+        self.homing_trapq = ffi_main.gc(
+            ffi_lib.trapq_alloc(), ffi_lib.trapq_free
+        )
         self.trapq_append = ffi_lib.trapq_append
         self.trapq_finalize_moves = ffi_lib.trapq_finalize_moves
         self.reactor = self.printer.get_reactor()
         self.all_mcus = [
-            m for n, m in self.printer.lookup_objects(module='mcu')]
+            m for n, m in self.printer.lookup_objects(module="mcu")
+        ]
         self.mcu = self.all_mcus[0]
         # Register commands
         gcode = self.printer.lookup_object("gcode")
@@ -40,7 +49,7 @@ class HomeableStepper(MCU_stepper):
     def sync_print_time(self, force_update=False):
         toolhead = self.printer.lookup_object("toolhead")
         print_time = toolhead.get_last_move_time()
-        logging.info('syncing print time...')
+        logging.info("syncing print time...")
         logging.info("print_time: %s", print_time)
         logging.info("next_cmd_time: %s", self.next_cmd_time)
         if self.next_cmd_time > print_time and not force_update:
@@ -67,7 +76,9 @@ class HomeableStepper(MCU_stepper):
     def do_set_position(self, setpos):
         self.set_position([setpos, 0.0, 0.0])
 
-    def do_manual_move(self, movepos, speed, accel, sync=True, drip_completion=None):
+    def do_manual_move(
+        self, movepos, speed, accel, sync=True, drip_completion=None
+    ):
         logging.info("start of do_manual_move")
         self.sync_print_time()
         cp = self.get_commanded_position()
@@ -97,9 +108,13 @@ class HomeableStepper(MCU_stepper):
         if drip_completion is not None:
             logging.info("drip start...")
             next_cmd_time = self.next_cmd_time
-            toolhead = self.printer.lookup_object("toolhead")            
+            toolhead = self.printer.lookup_object("toolhead")
             print_time = toolhead.get_last_move_time()
-            logging.info("dripping, next cmd time: %s, print time: %s", next_cmd_time, print_time)
+            logging.info(
+                "dripping, next cmd time: %s, print time: %s",
+                next_cmd_time,
+                print_time,
+            )
             move_flush_time = toolhead.move_flush_time
             kin_flush_delay = SDS_CHECK_TIME
             flush_delay = DRIP_TIME + move_flush_time + kin_flush_delay
@@ -111,13 +126,15 @@ class HomeableStepper(MCU_stepper):
                 curtime = self.reactor.monotonic()
                 est_print_time = self.mcu.estimated_print_time(curtime)
                 wait_time = print_time - est_print_time - flush_delay
-                if wait_time > 0. and toolhead.can_pause:
+                if wait_time > 0.0 and toolhead.can_pause:
                     # Pause before sending more steps
                     drip_completion.wait(curtime + wait_time)
                     continue
                 npt = min(print_time + DRIP_SEGMENT_TIME, next_cmd_time)
                 sg_flush_time = npt - kin_flush_delay
-                logging.info("drip generating steps, sg_flush_time: %s", sg_flush_time)
+                logging.info(
+                    "drip generating steps, sg_flush_time: %s", sg_flush_time
+                )
                 self.generate_steps(sg_flush_time)
                 free_time = sg_flush_time - kin_flush_delay
                 self.trapq_finalize_moves(self._trapq, free_time)
@@ -125,14 +142,13 @@ class HomeableStepper(MCU_stepper):
                 for m in self.all_mcus:
                     m.flush_moves(mcu_flush_time)
                 print_time = npt
-            
+
             # toolhead.note_kinematic_activity(print_time)
             self.sync_print_time(force_update=True)
             logging.info("dripping done.")
             if raise_drip_signal:
                 raise DripModeEndSignal()
 
-            
         else:
             self.generate_steps(self.next_cmd_time)
             self.trapq_finalize_moves(self._trapq, self.next_cmd_time + 99999.9)
@@ -143,21 +159,21 @@ class HomeableStepper(MCU_stepper):
                 self.sync_print_time()
 
     def home(self, accel):
-        #homing dist is one full rotation
+        # homing dist is one full rotation
         self.homing_accel = accel
         logging.info("accel: %s", accel)
-        homing_dist = 3*math.pi
+        homing_dist = 3 * math.pi
         if self.homing_positive_dir:
             homing_dir = 1
         else:
-           homing_dir = -1
-        #homing is homing_dir
+            homing_dir = -1
+        # homing is homing_dir
         homing_dist = homing_dist * homing_dir
-        #retract dir is opposite of homing dir
+        # retract dir is opposite of homing dir
         homing_retract_dist = self.homing_retract_dist * homing_dir * -1
-        #set position to 0
+        # set position to 0
         self.do_set_position(0.0)
-        #primary homing move
+        # primary homing move
         self.do_homing_move(
             homing_dist,
             self.homing_speed,
@@ -165,11 +181,13 @@ class HomeableStepper(MCU_stepper):
             True,
             True,
         )
-        #retract move
+        # retract move
         logging.info("homing_retract_dist: %s", homing_retract_dist)
         pos = self.get_position()
         movepos = pos[0] + homing_retract_dist
-        self.do_manual_move(movepos, self.homing_retract_speed, self.homing_accel)
+        self.do_manual_move(
+            movepos, self.homing_retract_speed, self.homing_accel
+        )
         self.do_set_position(0.0)
         self.do_homing_move(
             homing_dist,
@@ -178,12 +196,10 @@ class HomeableStepper(MCU_stepper):
             True,
             True,
         )
-        
-        #need to move to actual 0, and we are at position_endstop
+
+        # need to move to actual 0, and we are at position_endstop
         self.do_set_position(self.position_endstop)
         self.do_manual_move(0, self.homing_retract_speed, self.homing_accel)
-
-        
 
     def do_homing_move(self, movepos, speed, accel, triggered, check_trigger):
         logging.info("do_homing_move")
@@ -191,9 +207,7 @@ class HomeableStepper(MCU_stepper):
         logging.info("speed: %s", speed)
         logging.info("accel: %s", accel)
         if not self.can_home:
-            raise self.printer.command_error(
-                "No endstop for this stepper"
-            )
+            raise self.printer.command_error("No endstop for this stepper")
         pos = [movepos, 0.0, 0.0, 0.0]
         endstops = self.endstops
         phoming = self.printer.lookup_object("homing")
@@ -259,9 +273,8 @@ class HomeableStepper(MCU_stepper):
         # pos = [0.0, 0.0, 0.0, 0.0]
         # [pos[axis_index]] = self.get_commanded_position()
         # return pos
-        
 
-        pos =  [self.get_commanded_position(), 0.0, 0.0]
+        pos = [self.get_commanded_position(), 0.0, 0.0]
         logging.info("homeable_stepper pos: %s", pos)
         return pos
 
@@ -278,10 +291,17 @@ class HomeableStepper(MCU_stepper):
 
     def drip_move(self, newpos, speed, drip_completion):
         try:
-            self.do_manual_move(newpos[0], speed, self.homing_accel, sync=True, drip_completion=drip_completion)
+            self.do_manual_move(
+                newpos[0],
+                speed,
+                self.homing_accel,
+                sync=True,
+                drip_completion=drip_completion,
+            )
         except DripModeEndSignal as e:
             logging.info("drip signal! finalizing moves.")
             self.trapq_finalize_moves(self._trapq, self.reactor.NEVER)
+
     def get_kinematics(self):
         return self
 

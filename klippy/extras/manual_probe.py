@@ -4,6 +4,7 @@
 #
 # This file may be distributed under the terms of the GNU GPLv3 license.
 import bisect
+import logging
 
 
 class ManualProbe:
@@ -152,6 +153,7 @@ def verify_no_manual_probe(printer):
 
 Z_BOB_MINIMUM = 0.500
 BISECT_MAX = 0.200
+
 
 # Helper script to determine a Z height
 class ManualProbeHelper:

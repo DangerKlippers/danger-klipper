@@ -425,7 +425,7 @@ class BedMeshCalibrate:
         pos_y = min_y
         points = []
 
-        if self.polar == True:
+        if self.polar is True:
             radius_points = x_cnt // 2
             radius = self.radius
             spacing = radius // radius_points
