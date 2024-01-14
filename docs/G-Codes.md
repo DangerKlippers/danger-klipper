@@ -88,12 +88,19 @@ accelerometer does not have a name in its config section (simply
 `[adxl345]`) then `<chip>` part of the name is not generated.
 
 #### ACCELEROMETER_QUERY
-`ACCELEROMETER_QUERY [CHIP=<config_name>] [RATE=<value>]`: queries
+`ACCELEROMETER_QUERY [CHIP=<config_name>] [RATE=<value>]
+[SAMPLES=<value>] [RETURN=<value>]`: queries
 accelerometer for the current value. If CHIP is not specified it
 defaults to "adxl345". If RATE is not specified, the default value is
 used. This command is useful to test the connection to the ADXL345
 accelerometer: one of the returned values should be a free-fall
-acceleration (+/- some noise of the chip).
+acceleration (+/- some noise of the chip). The `SAMPLES` parameter
+can be set to sample multiple readings from the sensor. The readings
+will be averaged together. The default is to collect a single sample.
+The `RETURN` parameter can take on the values `vector`(the default) or
+`tilt`. In `vector` mode, the raw free-fall acceleration vector is
+returned. In `tilt` mode, X and Y angles of a plane perpendicular to
+the free-fall vector are calculated and displayed.
 
 #### ACCELEROMETER_DEBUG_READ
 `ACCELEROMETER_DEBUG_READ [CHIP=<config_name>] REG=<register>`:
