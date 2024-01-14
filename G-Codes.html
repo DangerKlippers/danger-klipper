@@ -4594,12 +4594,19 @@ defaults to the current time in "YYYYMMDD_HHMMSS" format. If the
 accelerometer does not have a name in its config section (simply
 <code>[adxl345]</code>) then <code>&lt;chip&gt;</code> part of the name is not generated.</p>
 <h4 id="accelerometer_query">ACCELEROMETER_QUERY<a class="headerlink" href="#accelerometer_query" title="Permanent link">&para;</a></h4>
-<p><code>ACCELEROMETER_QUERY [CHIP=&lt;config_name&gt;] [RATE=&lt;value&gt;]</code>: queries
+<p><code>ACCELEROMETER_QUERY [CHIP=&lt;config_name&gt;] [RATE=&lt;value&gt;]
+[SAMPLES=&lt;value&gt;] [RETURN=&lt;value&gt;]</code>: queries
 accelerometer for the current value. If CHIP is not specified it
 defaults to "adxl345". If RATE is not specified, the default value is
 used. This command is useful to test the connection to the ADXL345
 accelerometer: one of the returned values should be a free-fall
-acceleration (+/- some noise of the chip).</p>
+acceleration (+/- some noise of the chip). The <code>SAMPLES</code> parameter
+can be set to sample multiple readings from the sensor. The readings
+will be averaged together. The default is to collect a single sample.
+The <code>RETURN</code> parameter can take on the values <code>vector</code>(the default) or
+<code>tilt</code>. In <code>vector</code> mode, the raw free-fall acceleration vector is
+returned. In <code>tilt</code> mode, X and Y angles of a plane perpendicular to
+the free-fall vector are calculated and displayed.</p>
 <h4 id="accelerometer_debug_read">ACCELEROMETER_DEBUG_READ<a class="headerlink" href="#accelerometer_debug_read" title="Permanent link">&para;</a></h4>
 <p><code>ACCELEROMETER_DEBUG_READ [CHIP=&lt;config_name&gt;] REG=&lt;register&gt;</code>:
 queries ADXL345 register "register" (e.g. 44 or 0x2C). Can be useful
