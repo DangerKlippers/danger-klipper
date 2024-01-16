@@ -3801,6 +3801,11 @@ pins such as "extra_mcu:ar9" may then be used elsewhere in the config
 #   Tolerance (in mm) for distance moved in the second homing. Ensures the
 #   second homing distance closely matches the `min_home_dist` when using
 #   sensorless homing. The default is 0.5mm.
+#adc_ignore_limits: False
+#   When set to true, this parameter ignores the min_value and max_value
+#   limits for ADC temperature sensors. It prevents shutdowns due to
+#   &#39;ADC out of range&#39; errors by allowing readings outside the specified
+#   range without triggering a shutdown. Default is False.
 </code></pre></div>
 
 <h2 id="common-kinematic-settings">Common kinematic settings<a class="headerlink" href="#common-kinematic-settings" title="Permanent link">&para;</a></h2>
