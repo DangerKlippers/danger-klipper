@@ -63,12 +63,16 @@ DICTIONARY stm32f103-serial.dict
 
 # Printers using the stm32f401
 DICTIONARY stm32f401.dict
+CONFIG ../../config/printer-creality-ender5-s1-2023.cfg
 
 # Printers using the stm32f405
 DICTIONARY stm32f405.dict
 
 # Printers using the stm32f407
 DICTIONARY stm32f407.dict
+CONFIG ../../config/generic-I3DBEEZ9.cfg
+
+
 
 # Printers using the stm32f429
 DICTIONARY stm32f429.dict
