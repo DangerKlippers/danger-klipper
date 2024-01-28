@@ -1307,6 +1307,11 @@ are not backwards compatible. It is a good idea to review this
 document when upgrading the Klipper software.</p>
 <p>All dates in this document are approximate.</p>
 <h2 id="changes">Changes<a class="headerlink" href="#changes" title="Permanent link">&para;</a></h2>
+<p>20240128: <code>printer.kinematics</code> now accepts <code>limited_cartesian</code> and
+<code>limited_cartesian</code> and <code>limited_corexy</code> that enables <code>max_{x,y}_accel</code> and
+<code>max_{x,y}_velocity</code> (only for <code>limited_cartesian</code>). In the future, this
+functionality may be moved into the original kinematics module (as optional
+settings).</p>
 <p>20240123: The output_pin SET_PIN CYCLE_TIME parameter has been
 removed. Use the new
 <a href="Config_Reference.html#pwm_cycle_time">pwm_cycle_time</a> module if it is

@@ -527,8 +527,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#linear-delta-kinematics" class="md-nav__link">
-    Linear Delta Kinematics
+  <a href="#cartesian-kinematics-with-limits-for-x-and-y-axes" class="md-nav__link">
+    ⚠️ Cartesian Kinematics with limits for X and Y axes
   </a>
   
 </li>
@@ -543,6 +543,13 @@
           <li class="md-nav__item">
   <a href="#corexy-kinematics" class="md-nav__link">
     CoreXY Kinematics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#corexy-kinematics-with-limits-for-x-and-y-axes" class="md-nav__link">
+    ⚠️ CoreXY Kinematics with limits for X and Y axes
   </a>
   
 </li>
@@ -2560,8 +2567,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#linear-delta-kinematics" class="md-nav__link">
-    Linear Delta Kinematics
+  <a href="#cartesian-kinematics-with-limits-for-x-and-y-axes" class="md-nav__link">
+    ⚠️ Cartesian Kinematics with limits for X and Y axes
   </a>
   
 </li>
@@ -2576,6 +2583,13 @@
           <li class="md-nav__item">
   <a href="#corexy-kinematics" class="md-nav__link">
     CoreXY Kinematics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#corexy-kinematics-with-limits-for-x-and-y-axes" class="md-nav__link">
+    ⚠️ CoreXY Kinematics with limits for X and Y axes
   </a>
   
 </li>
@@ -3985,14 +3999,62 @@ max_z_accel:
 [stepper_z]
 </code></pre></div>
 
-<h3 id="linear-delta-kinematics">Linear Delta Kinematics<a class="headerlink" href="#linear-delta-kinematics" title="Permanent link">&para;</a></h3>
-<p>See <a href="https://github.com/DangerKlippers/danger-klipper/blob/master/config/example-delta.cfg">example-delta.cfg</a> for an example
-linear delta kinematics config file. See the
-<a href="Delta_Calibrate.html">delta calibrate guide</a> for information on
-calibration.</p>
-<p>Only parameters specific to linear delta printers are described here -
-see <a href="#common-kinematic-settings">common kinematic settings</a> for
-available parameters.</p>
+<h3 id="cartesian-kinematics-with-limits-for-x-and-y-axes">⚠️ Cartesian Kinematics with limits for X and Y axes<a class="headerlink" href="#cartesian-kinematics-with-limits-for-x-and-y-axes" title="Permanent link">&para;</a></h3>
+<p>Behaves exactly the as cartesian kinematics, but allows to set a velocity and
+acceleration limit for X and Y axis. This also makes command <a href="G-Codes.html#⚠️-set_kinematics_limit"><code>SET_KINEMATICS_LIMIT</code></a> available to sets these limits at runtime.</p>
+<div class="highlight"><pre><span></span><code>[printer]
+kinematics: limited_cartesian
+max_x_velocity:
+#   This sets the maximum velocity (in mm/s) of movement along the x
+#   axis. This setting can be used to restrict the maximum speed of
+#   the x stepper motor. The default is to use max_velocity for
+#   max_x_velocity.
+max_y_velocity:
+#   This sets the maximum velocity (in mm/s) of movement along the y
+#   axis. This setting can be used to restrict the maximum speed of
+#   the y stepper motor. The default is to use max_velocity for
+#   max_x_velocity.
+max_z_velocity:
+#   See cartesian above.
+max_velocity:
+#   In order to get maximum velocity gains on diagonals, this should be equal or
+#   greater than the hypotenuse (sqrt(x*x + y*y)) of max_x_velocity and
+#   max_y_velocity.
+max_x_accel:
+#   This sets the maximum acceleration (in mm/s^2) of movement along
+#   the x axis. It limits the acceleration of the x stepper motor. The
+#   default is to use max_accel for max_x_accel.
+max_y_accel:
+#   This sets the maximum acceleration (in mm/s^2) of movement along
+#   the y axis. It limits the acceleration of the y stepper motor. The
+#   default is to use max_accel for max_y_accel.
+max_z_accel:
+# See cartesian above.
+max_accel:
+# See cartesian above.
+scale_xy_accel: False
+#   When true, scales the XY limits by the current tool head acceleration.
+#   The factor is: slicer accel / hypot(max_x_accel, max_y_accel).
+#   See below.
+</code></pre></div>
+
+<p>If scale_xy_accel is <code>False</code>, the acceleration set by <code>max_accel</code>, M204 or
+SET_VELOCITY_LIMIT, acts as a third limit. In that case, this module doesn't
+apply limitations on moves having an acceleration lower than <code>max_x_accel`` and</code>max_y_accel<code>. When scale_xy_accel is</code>True<code>,</code>max_x_accel<code>and</code>max_y_accel<code>are scaled by the ratio of the dynamically set acceleration and the hypotenuse
+of max_x_accel and</code>max_y_accel<code>, as reported from</code>SET_KINEMATICS_LIMIT`. This
+implies that the actual acceleration will always depend on the direction. For
+example, these settings:</p>
+<div class="highlight"><pre><span></span><code>[printer]
+max_x_accel: 12000
+max_y_accel: 9000
+scale_xy_accel: true
+</code></pre></div>
+
+<p><code>SET_KINEMATICS_LIMIT</code> will report a maximum acceleration of 15000 mm/s^2 on 37°
+diagonals. If the slicer emit <code>M204 S3000</code> (3000 mm/s^2 accel). On these 37° and
+143° diagonals, the toolhead will accelerate at 3000 mm/s^2. On the X axis, the
+acceleration will be  12000 * 3000 / 15000 = 2400 mm/s^2, and 18000 mm/s^2 for
+pure Y moves.</p>
 <div class="highlight"><pre><span></span><code>[printer]
 kinematics: delta
 max_z_velocity:
@@ -4167,6 +4229,32 @@ max_z_accel:
 # The stepper_z section is used to describe the stepper controlling
 # the Z axis.
 [stepper_z]
+</code></pre></div>
+
+<h3 id="corexy-kinematics-with-limits-for-x-and-y-axes">⚠️ CoreXY Kinematics with limits for X and Y axes<a class="headerlink" href="#corexy-kinematics-with-limits-for-x-and-y-axes" title="Permanent link">&para;</a></h3>
+<p>Behaves exactly the as CoreXY kinematics, but allows to set a acceleration limit
+for X and Y axis.</p>
+<p>There is no velocity limits for X and Y, since on a CoreXY the pull-out velocity
+are identical on both axes.</p>
+<div class="highlight"><pre><span></span><code>[printer]
+kinematics: limited_corexy
+max_z_velocity:
+#   See CoreXY above.
+max_x_accel:
+#   This sets the maximum acceleration (in mm/s^2) of movement along
+#   the x axis. It limits the acceleration of the x stepper motor. The
+#   default is to use max_accel for max_x_accel.
+max_y_accel:
+#   This sets the maximum acceleration (in mm/s^2) of movement along
+#   the y axis. It limits the acceleration of the y stepper motor. The
+#   default is to use max_accel for max_y_accel.
+max_z_accel:
+# See CoreXY above.
+max_accel:
+# See CoreXY above..
+scale_xy_accel:
+#   When True, scales the XY limits by the current tool head acceleration.
+#   The factor is: slicer accel / max(max_x_accel, max_y_accel).
 </code></pre></div>
 
 <h3 id="corexz-kinematics">CoreXZ Kinematics<a class="headerlink" href="#corexz-kinematics" title="Permanent link">&para;</a></h3>

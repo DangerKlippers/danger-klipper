@@ -2229,6 +2229,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#set_kinematics_limit" class="md-nav__link">
+    ⚠️ SET_KINEMATICS_LIMIT
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4408,6 +4415,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#set_kinematics_limit" class="md-nav__link">
+    ⚠️ SET_KINEMATICS_LIMIT
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5704,6 +5718,16 @@ command can alter the velocity limits that were specified in the
 printer config file. See the
 <a href="Config_Reference.html#printer">printer config section</a> for a
 description of each parameter.</p>
+<h4 id="set_kinematics_limit">⚠️ SET_KINEMATICS_LIMIT<a class="headerlink" href="#set_kinematics_limit" title="Permanent link">&para;</a></h4>
+<p><code>SET_KINEMATICS_LIMIT [&lt;X,Y,Z&gt;_ACCEL=&lt;value&gt;] [&lt;X,Y,Z&gt;_VELOCITY=&lt;value&gt;]
+[SCALE=&lt;0:1&gt;]</code>: change the per-axis limits.</p>
+<p>This command is only available when <code>kinematics</code> is set to either
+<a href="Config_Reference.html#⚠️-cartesian-kinematics-with-limits-for-x-and-y-axes"><code>limited_cartesian</code></a>
+or
+<a href="Config_Reference.html#⚠️-corexy-kinematics-with-limits-for-x-and-y-axes"><code>limited_corexy</code></a>.
+The velocity argument is not available on CoreXY. With no arguments, this
+command responds with the movement direction with the most acceleration or
+velocity.</p>
 <h3 id="tuning_tower">[tuning_tower]<a class="headerlink" href="#tuning_tower" title="Permanent link">&para;</a></h3>
 <p>The tuning_tower module is automatically loaded.</p>
 <h4 id="tuning_tower_1">TUNING_TOWER<a class="headerlink" href="#tuning_tower_1" title="Permanent link">&para;</a></h4>
