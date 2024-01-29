@@ -263,6 +263,11 @@ class PrinterExtruder:
         self.trapq = ffi_main.gc(ffi_lib.trapq_alloc(), ffi_lib.trapq_free)
         self.trapq_append = ffi_lib.trapq_append
         self.trapq_finalize_moves = ffi_lib.trapq_finalize_moves
+
+        self.per_move_pressure_advance = config.getboolean(
+            "per_move_pressure_advance", False
+        )
+
         # Setup extruder stepper
         self.extruder_stepper = None
         if (
@@ -357,9 +362,10 @@ class PrinterExtruder:
         accel = move.accel * axis_r
         start_v = move.start_v * axis_r
         cruise_v = move.cruise_v * axis_r
-        can_pressure_advance = False
+        pressure_advance = 0.0
         if axis_r > 0.0 and (move.axes_d[0] or move.axes_d[1]):
-            can_pressure_advance = True
+            pressure_advance = self.extruder_stepper.pressure_advance
+        use_pa_from_trapq = 1.0 if self.per_move_pressure_advance else 0.0
         # Queue movement (x is extruder movement, y is pressure advance flag)
         self.trapq_append(
             self.trapq,
@@ -371,8 +377,8 @@ class PrinterExtruder:
             0.0,
             0.0,
             1.0,
-            can_pressure_advance,
-            0.0,
+            pressure_advance,
+            use_pa_from_trapq,
             start_v,
             cruise_v,
             accel,
