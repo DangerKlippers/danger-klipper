@@ -803,7 +803,7 @@
         
           <li class="md-nav__item">
   <a href="#force_move" class="md-nav__link">
-    [force_move]
+    ⚠ [force_move]
   </a>
   
 </li>
@@ -2843,7 +2843,7 @@
         
           <li class="md-nav__item">
   <a href="#force_move" class="md-nav__link">
-    [force_move]
+    ⚠ [force_move]
   </a>
   
 </li>
@@ -5260,14 +5260,15 @@ file for a Marlin compatible M808 G-Code macro.</p>
 <div class="highlight"><pre><span></span><code>[sdcard_loop]
 </code></pre></div>
 
-<h3 id="force_move">[force_move]<a class="headerlink" href="#force_move" title="Permanent link">&para;</a></h3>
+<h3 id="force_move">⚠ [force_move]<a class="headerlink" href="#force_move" title="Permanent link">&para;</a></h3>
+<p>This module is enabled by default in DangerKlipper!</p>
 <p>Support manually moving stepper motors for diagnostic purposes. Note,
 using this feature may place the printer in an invalid state - see the
 <a href="G-Codes.html#force_move">command reference</a> for important details.</p>
 <div class="highlight"><pre><span></span><code>[force_move]
-#enable_force_move: False
+#enable_force_move: True
 #   Set to true to enable FORCE_MOVE and SET_KINEMATIC_POSITION
-#   extended G-Code commands. The default is false.
+#   extended G-Code commands. The default is true.
 </code></pre></div>
 
 <h3 id="pause_resume">[pause_resume]<a class="headerlink" href="#pause_resume" title="Permanent link">&para;</a></h3>
