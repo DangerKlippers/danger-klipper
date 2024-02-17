@@ -3834,6 +3834,10 @@ pins such as "extra_mcu:ar9" may then be used elsewhere in the config
 #   limits for ADC temperature sensors. It prevents shutdowns due to
 #   &#39;ADC out of range&#39; errors by allowing readings outside the specified
 #   range without triggering a shutdown. Default is False.
+#autosave_includes: False
+#   When set to true, SAVE_CONFIG will recursively read [include ...] blocks
+#   for conflicts to autosave data. Any configurations updated will be backed
+#   up to configs/config_backups.
 </code></pre></div>
 
 <h2 id="common-kinematic-settings">Common kinematic settings<a class="headerlink" href="#common-kinematic-settings" title="Permanent link">&para;</a></h2>
