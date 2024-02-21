@@ -1507,13 +1507,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#set_smooth_time" class="md-nav__link">
-    SET_SMOOTH_TIME
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1746,26 +1739,6 @@
           <li class="md-nav__item">
   <a href="#set_heater_pid" class="md-nav__link">
     SET_HEATER_PID
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pid_profile" class="md-nav__link">
-    [pid_profile]
-  </a>
-  
-    <nav class="md-nav" aria-label="[pid_profile]">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pid_profile_1" class="md-nav__link">
-    PID_PROFILE
   </a>
   
 </li>
@@ -3720,13 +3693,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#set_smooth_time" class="md-nav__link">
-    SET_SMOOTH_TIME
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -3959,26 +3925,6 @@
           <li class="md-nav__item">
   <a href="#set_heater_pid" class="md-nav__link">
     SET_HEATER_PID
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pid_profile" class="md-nav__link">
-    [pid_profile]
-  </a>
-  
-    <nav class="md-nav" aria-label="[pid_profile]">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pid_profile_1" class="md-nav__link">
-    PID_PROFILE
   </a>
   
 </li>
@@ -5260,13 +5206,6 @@ above the supplied MINIMUM and/or at or below the supplied MAXIMUM.</p>
 <p><code>SET_HEATER_TEMPERATURE HEATER=&lt;heater_name&gt;
 [TARGET=&lt;target_temperature&gt;]</code>: Sets the target temperature for a
 heater. If a target temperature is not supplied, the target is 0.</p>
-<h4 id="set_smooth_time">SET_SMOOTH_TIME<a class="headerlink" href="#set_smooth_time" title="Permanent link">&para;</a></h4>
-<p><code>SET_SMOOTH_TIME HEATER=&lt;heater_name&gt; [SMOOTH_TIME=&lt;smooth_time&gt;]
-[SAVE_TO_PROFILE=0|1]</code>: Sets the smooth_time of the specified heater.
-If SMOOTH_TIME is omitted, the smooth_time will be reset to the value
-from the config.
-If SAVE_TO_PROFILE is set to 1, the new value will be written to the
-current PID_PROFILE.</p>
 <h3 id="idle_timeout">[idle_timeout]<a class="headerlink" href="#idle_timeout" title="Permanent link">&para;</a></h3>
 <p>The idle_timeout module is automatically loaded.</p>
 <h4 id="set_idle_timeout">SET_IDLE_TIMEOUT<a class="headerlink" href="#set_idle_timeout" title="Permanent link">&para;</a></h4>
@@ -5444,45 +5383,6 @@ require a value of 0.03 or higher.</p>
 <p><code>SET_HEATER_PID HEATER=&lt;config_name&gt; KP=&lt;kp&gt; KI=&lt;ki&gt; KD=&lt;kd&gt;</code>: Will
 allow one to manually change PID parameters of heaters without a
 reload of the firmware.</p>
-<h3 id="pid_profile">[pid_profile]<a class="headerlink" href="#pid_profile" title="Permanent link">&para;</a></h3>
-<p>The PID_PROFILE module is automatically loaded if a heater is defined
-in the config file.</p>
-<h4 id="pid_profile_1">PID_PROFILE<a class="headerlink" href="#pid_profile_1" title="Permanent link">&para;</a></h4>
-<p><code>PID_PROFILE LOAD=&lt;profile_name&gt; HEATER=&lt;heater_name&gt; [DEFAULT=&lt;profile_name&gt;]
-[VERBOSE=&lt;verbosity&gt;] [RESET_TARGET=0|1] [LOAD_CLEAN=0|1]</code>:
-Loads the given PID_PROFILE for the specified heater. If DEFAULT is specified,
-the Profile specified in DEFAULT will be loaded when then given Profile for LOAD
-can't be found (like a getOrDefault method). If VERBOSE is set to LOW, minimal
-info will be written in console.
-If set to NONE, no console outputs will be given.
-If KEEP_TARGET is set to 1, the heater will keep it's target temperature,
-if set to 0, the target temperature will be set to 0.
-By default the target temperature of the heater will be set to 0 so the
-algorithm has time to settle in.
-If LOAD_CLEAN is set to 1, the profile would be loaded as if the printer just
-started up, if set to 0, the profile will retain previous heating information.
-By default the information will be kept to reduce overshoot, change this value
-if you encounter weird behaviour while switching profiles.</p>
-<p><code>PID_PROFILE SAVE=&lt;profile_name&gt; HEATER=&lt;config_name&gt;</code>:
-Saves the currently loaded profile of the specified heater to the config under
-the given name.</p>
-<p><code>PID_PROFILE REMOVE=&lt;profile_name&gt; HEATER=&lt;config_name&gt;</code>:
-Removes the given profile from the profiles List for the current session and config if SAVE_CONFIG is issued afterwards.</p>
-<p><code>PID_PROFILE SET_VALUES=&lt;profile_name&gt; HEATER=&lt;heater_name&gt; TARGET=&lt;target_temp&gt; TOLERANCE=&lt;tolerance&gt;
-CONTROL=&lt;control_type&gt; KP=&lt;kp&gt; KI=&lt;ki&gt; KD=&lt;kd&gt; [RESET_TARGET=0|1] [LOAD_CLEAN=0|1]</code>:
-Creates a new profile with the given PID values, CONTROL must either be <code>pid</code> or
-<code>pid_v</code>, TOLERANCE and TARGET must be specified to create a valid profile,
-though the values themselves don't matter.
-If KEEP_TARGET is set to 1, the heater will keep it's target temperature,
-if set to 0, the target temperature will be set to 0.
-By default the target temperature of the heater will be set to 0 so the
-algorithm has time to settle in.
-If LOAD_CLEAN is set to 1, the profile would be loaded as if the printer just
-started up, if set to 0, the profile will retain previous heating information.
-By default the information will be kept to reduce overshoot, change this value
-if you encounter weird behaviour while switching profiles.</p>
-<p><code>PID_PROFILE GET_VALUES HEATER=&lt;heater_name&gt;</code>:
-Outputs the values of the current loaded pid_profile of the given heater to the console.</p>
 <h3 id="pause_resume">[pause_resume]<a class="headerlink" href="#pause_resume" title="Permanent link">&para;</a></h3>
 <p>The following commands are available when the
 <a href="Config_Reference.html#pause_resume">pause_resume config section</a> is
