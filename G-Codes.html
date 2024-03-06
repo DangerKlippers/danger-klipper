@@ -1173,20 +1173,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#set_extruder_step_distance" class="md-nav__link">
-    SET_EXTRUDER_STEP_DISTANCE
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sync_stepper_to_extruder" class="md-nav__link">
-    SYNC_STEPPER_TO_EXTRUDER
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -3386,20 +3372,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#set_extruder_step_distance" class="md-nav__link">
-    SET_EXTRUDER_STEP_DISTANCE
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sync_stepper_to_extruder" class="md-nav__link">
-    SYNC_STEPPER_TO_EXTRUDER
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -4757,15 +4729,21 @@ available for tle5012b chips.</p>
 <a href="Config_Reference.html#bed_mesh">bed_mesh config section</a> is enabled
 (also see the <a href="Bed_Mesh.html">bed mesh guide</a>).</p>
 <h4 id="bed_mesh_calibrate">BED_MESH_CALIBRATE<a class="headerlink" href="#bed_mesh_calibrate" title="Permanent link">&para;</a></h4>
-<p><code>BED_MESH_CALIBRATE [METHOD=manual] [HORIZONTAL_MOVE_Z=&lt;value&gt;]
-[&lt;probe_parameter&gt;=&lt;value&gt;] [&lt;mesh_parameter&gt;=&lt;value&gt;]</code>: This command probes
-the bed using generated points specified by the parameters in the config. After
-probing, a mesh is generated and z-movement is adjusted according to the mesh.
+<p><code>BED_MESH_CALIBRATE [PROFILE=&lt;name&gt;] [METHOD=manual] [HORIZONTAL_MOVE_Z=&lt;value&gt;]
+[&lt;probe_parameter&gt;=&lt;value&gt;] [&lt;mesh_parameter&gt;=&lt;value&gt;] [ADAPTIVE=1]
+[ADAPTIVE_MARGIN=&lt;value&gt;]</code>: This command probes the bed using generated points
+specified by the parameters in the config. After probing, a mesh is generated
+and z-movement is adjusted according to the mesh.
+The mesh will be saved into a profile specified by the <code>PROFILE</code> parameter,
+or <code>default</code> if unspecified.
 See the PROBE command for details on the optional probe parameters. If
 METHOD=manual is specified then the manual probing tool is activated - see the
 MANUAL_PROBE command above for details on the additional commands available
 while this tool is active. The optional <code>HORIZONTAL_MOVE_Z</code> value overrides the
-<code>horizontal_move_z</code> option specified in the config file.</p>
+<code>horizontal_move_z</code> option specified in the config file. If ADAPTIVE=1 is
+specified then the objects defined by the Gcode file being printed will be used
+to define the probed area. The optional <code>ADAPTIVE_MARGIN</code> value overrides the
+<code>adaptive_margin</code> option specified in the config file.</p>
 <h4 id="bed_mesh_output">BED_MESH_OUTPUT<a class="headerlink" href="#bed_mesh_output" title="Permanent link">&para;</a></h4>
 <p><code>BED_MESH_OUTPUT PGP=[&lt;0:1&gt;]</code>: This command outputs the current probed
 z values and current mesh values to the terminal.  If PGP=1 is
@@ -4790,10 +4768,12 @@ memory. Note that after SAVE or REMOVE operations have been run the
 SAVE_CONFIG gcode must be run to make the changes to persistent memory
 permanent.</p>
 <h4 id="bed_mesh_offset">BED_MESH_OFFSET<a class="headerlink" href="#bed_mesh_offset" title="Permanent link">&para;</a></h4>
-<p><code>BED_MESH_OFFSET [X=&lt;value&gt;] [Y=&lt;value&gt;]</code>: Applies X and/or Y offsets
-to the mesh lookup. This is useful for printers with independent
-extruders, as an offset is necessary to produce correct Z adjustment
-after a tool change.</p>
+<p><code>BED_MESH_OFFSET [X=&lt;value&gt;] [Y=&lt;value&gt;] [ZFADE=&lt;value]</code>: Applies X, Y,
+and/or ZFADE offsets to the mesh lookup. This is useful for printers with
+independent extruders, as an offset is necessary to produce correct Z
+adjustment after a tool change.  Note that a ZFADE offset does not apply
+additional z-adjustment directly, it is used to correct the <code>fade</code>
+calculation when a <code>gcode offset</code> has been applied to the Z axis.</p>
 <h3 id="bed_screws">[bed_screws]<a class="headerlink" href="#bed_screws" title="Permanent link">&para;</a></h3>
 <p>The following commands are available when the
 <a href="Config_Reference.html#bed_screws">bed_screws config section</a> is enabled
@@ -5028,10 +5008,6 @@ to become synchronized to the movement of an extruder specified by
 MOTION_QUEUE (as defined in an <a href="Config_Reference.html#extruder">extruder</a>
 config section). If MOTION_QUEUE is an empty string then the stepper
 will be desynchronized from all extruder movement.</p>
-<h4 id="set_extruder_step_distance">SET_EXTRUDER_STEP_DISTANCE<a class="headerlink" href="#set_extruder_step_distance" title="Permanent link">&para;</a></h4>
-<p>This command is deprecated and will be removed in the near future.</p>
-<h4 id="sync_stepper_to_extruder">SYNC_STEPPER_TO_EXTRUDER<a class="headerlink" href="#sync_stepper_to_extruder" title="Permanent link">&para;</a></h4>
-<p>This command is deprecated and will be removed in the near future.</p>
 <h3 id="fan_generic">[fan_generic]<a class="headerlink" href="#fan_generic" title="Permanent link">&para;</a></h3>
 <p>The following command is available when a
 <a href="Config_Reference.html#fan_generic">fan_generic config section</a> is
