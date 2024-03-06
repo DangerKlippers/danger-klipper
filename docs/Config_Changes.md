@@ -8,6 +8,14 @@ All dates in this document are approximate.
 
 ## Changes
 
+20240215: Several deprecated features have been removed. Using "NTC
+100K beta 3950" as a thermistor name has been removed (deprecated on
+20211110). The `SYNC_STEPPER_TO_EXTRUDER` and
+`SET_EXTRUDER_STEP_DISTANCE` commands have been removed, and the
+extruder `shared_heater` config option has been removed (deprecated on
+20220210). The bed_mesh `relative_reference_index` option has been
+removed (deprecated on 20230619).
+
 20240128: `printer.kinematics` now accepts `limited_cartesian` and
 `limited_cartesian` and `limited_corexy` that enables `max_{x,y}_accel` and
 `max_{x,y}_velocity` (only for `limited_cartesian`). In the future, this
