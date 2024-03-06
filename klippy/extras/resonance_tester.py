@@ -134,6 +134,10 @@ class VibrationPulseTest:
             "hz_per_sec", 1.0, minval=0.1, maxval=2.0
         )
 
+        self.probe_points = config.getlists(
+            "probe_points", seps=(",", "\n"), parser=float, count=3
+        )
+
     def get_start_test_points(self):
         return self.probe_points
 
