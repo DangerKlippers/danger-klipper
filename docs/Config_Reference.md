@@ -119,6 +119,10 @@ A collection of DangerKlipper-specific system options
 #   When set to true, SAVE_CONFIG will recursively read [include ...] blocks
 #   for conflicts to autosave data. Any configurations updated will be backed
 #   up to configs/config_backups.
+#bgflush_extra_time: 0.250
+#   This allows to set extra flush time (in seconds). Under certain conditions, 
+#   a low value will result in an error if message is not get flushed, a high value
+#   (0.250) will result in homing/probing latency. The default is 0.250
 ```
 
 ## Common kinematic settings
