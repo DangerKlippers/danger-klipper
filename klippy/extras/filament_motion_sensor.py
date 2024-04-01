@@ -12,6 +12,7 @@ class EncoderSensor:
     def __init__(self, config):
         # Read config
         self.printer = config.get_printer()
+        self.gcode = self.printer.lookup_object("gcode")
         switch_pin = config.get("switch_pin")
         self.extruder_name = config.get("extruder")
         self.detection_length = config.getfloat(
@@ -22,7 +23,7 @@ class EncoderSensor:
         buttons.register_buttons([switch_pin], self.encoder_event)
         # Get printer objects
         self.reactor = self.printer.get_reactor()
-        self.runout_helper = filament_switch_sensor.RunoutHelper(config)
+        self.runout_helper = filament_switch_sensor.RunoutHelper(config, self)
         self.get_status = self.runout_helper.get_status
         self.extruder = None
         self.estimated_print_time = None
@@ -87,6 +88,53 @@ class EncoderSensor:
             # Check for filament insertion
             # Filament is always assumed to be present on an encoder event
             self.runout_helper.note_filament_present(True)
+
+    def get_sensor_status(self):
+        return (
+            "Filament Sensor %s: %s\n"
+            "Filament Detected: %s\n"
+            "Detection Length: %.2f\n"
+            "Smart: %s"
+            % (
+                self.runout_helper.name,
+                (
+                    "enabled"
+                    if self.runout_helper.sensor_enabled > 0
+                    else "disabled"
+                ),
+                "true" if self.runout_helper.filament_present else "false",
+                self.detection_length,
+                "true" if self.runout_helper.smart else "false",
+            )
+        )
+
+    def sensor_get_status(self, eventtime):
+        return {"detection_length": float(self.detection_length)}
+
+    def get_info(self, gcmd):
+        detection_length = gcmd.get_float("DETECTION_LENGTH", None, minval=0.0)
+        if detection_length is None:
+            gcmd.respond_info(self.get_sensor_status())
+            return True
+        return False
+
+    def reset_needed(self, enable):
+        if enable and not self.runout_helper.sensor_enabled:
+            return True
+        return False
+
+    def set_filament_sensor(self, gcmd):
+        reset_needed = False
+        detection_length = gcmd.get_float("DETECTION_LENGTH", None, minval=0.0)
+        if detection_length is not None:
+            if detection_length != self.detection_length:
+                reset_needed = True
+            self.detection_length = detection_length
+        return reset_needed
+
+    def reset(self):
+        self._update_filament_runout_pos()
+        self.runout_helper.note_filament_present(True)
 
 
 def load_config_prefix(config):

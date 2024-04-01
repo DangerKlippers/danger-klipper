@@ -4764,11 +4764,22 @@ more information.
 #   detected. See docs/Command_Templates.md for G-Code format. If
 #   pause_on_runout is set to True this G-Code will run after the
 #   PAUSE is complete. The default is not to run any G-Code commands.
+#immediate_runout_gcode:
+#   A list of G-Code commands to execute immediately after a filament
+#   runout is detected and runout_distance is greater than 0.
+#   See docs/Command_Templates.md for G-Code format.
 #insert_gcode:
 #   A list of G-Code commands to execute after a filament insert is
 #   detected. See docs/Command_Templates.md for G-Code format. The
 #   default is not to run any G-Code commands, which disables insert
 #   detection.
+#runout_distance: 0.0
+#   Defines how much filament can still be pulled after the
+#   switch sensor triggered (e.g. you have a 60cm reverse bowden between your
+#   extruder and your sensor, you would then set runout_distance to something
+#   like 590 to leave a small safety margin and now the print will not
+#   immediately pause when the sensor triggers but rather keep printing until
+#   the filament is at the extruder). The default is 0 millimeters.
 #event_delay: 3.0
 #   The minimum amount of time in seconds to delay between events.
 #   Events triggered during this time period will be silently
@@ -4781,6 +4792,10 @@ more information.
 #switch_pin:
 #   The pin on which the switch is connected. This parameter must be
 #   provided.
+#smart:
+#   If set to true the sensor will use the virtual_sd_card module to determine
+#   whether the printer is printing which is more reliable but will not work
+#   when streaming a print over usb or similar.
 ```
 
 ### [filament_motion_sensor]
@@ -4807,6 +4822,7 @@ switch_pin:
 #insert_gcode:
 #event_delay:
 #pause_delay:
+#smart:
 #   See the "filament_switch_sensor" section for a description of the
 #   above parameters.
 ```
