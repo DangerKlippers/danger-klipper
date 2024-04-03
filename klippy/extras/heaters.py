@@ -32,7 +32,8 @@ PID_PROFILE_OPTIONS = {
 class Heater:
     def __init__(self, config, sensor):
         self.printer = config.get_printer()
-        self.name = config.get_name().split()[-1]
+        self.name = config.get_name()
+        self.short_name = short_name = self.name.split()[-1]
         self.config = config
         self.configfile = self.printer.lookup_object("configfile")
         # Setup sensor
@@ -59,6 +60,7 @@ class Heater:
         self.config_smooth_time = config.getfloat("smooth_time", 1.0, above=0.0)
         self.smooth_time = self.config_smooth_time
         self.inv_smooth_time = 1.0 / self.smooth_time
+        self.is_shutdown = False
         self.lock = threading.Lock()
         self.last_temp = self.smoothed_temp = self.target_temp = 0.0
         self.last_temp_time = 0.0
@@ -81,7 +83,7 @@ class Heater:
         self.mcu_pwm.setup_cycle_time(pwm_cycle_time)
         self.mcu_pwm.setup_max_duration(MAX_HEAT_TIME)
         # Load additional modules
-        self.printer.load_object(config, "verify_heater %s" % (self.name,))
+        self.printer.load_object(config, "verify_heater %s" % (short_name,))
         self.printer.load_object(config, "pid_calibrate")
         self.gcode = self.printer.lookup_object("gcode")
         self.pmgr = self.ProfileManager(self)
@@ -91,30 +93,34 @@ class Heater:
         self.gcode.register_mux_command(
             "SET_HEATER_TEMPERATURE",
             "HEATER",
-            self.name,
+            short_name,
             self.cmd_SET_HEATER_TEMPERATURE,
             desc=self.cmd_SET_HEATER_TEMPERATURE_help,
         )
         self.gcode.register_mux_command(
             "SET_SMOOTH_TIME",
             "HEATER",
-            self.name,
+            short_name,
             self.cmd_SET_SMOOTH_TIME,
             desc=self.cmd_SET_SMOOTH_TIME_help,
         )
         self.gcode.register_mux_command(
             "PID_PROFILE",
             "HEATER",
-            self.name,
+            short_name,
             self.pmgr.cmd_PID_PROFILE,
             desc=self.pmgr.cmd_PID_PROFILE_help,
         )
         self.gcode.register_mux_command(
             "SET_HEATER_PID",
             "HEATER",
-            self.name,
+            short_name,
             self.cmd_SET_HEATER_PID,
             desc=self.cmd_SET_HEATER_PID_help,
+        )
+
+        self.printer.register_event_handler(
+            "klippy:shutdown", self._handle_shutdown
         )
 
     def lookup_control(self, profile, load_clean=False):
@@ -128,7 +134,7 @@ class Heater:
         return algos[profile["control"]](profile, self, load_clean)
 
     def set_pwm(self, read_time, value):
-        if self.target_temp <= 0.0:
+        if self.target_temp <= 0.0 or self.is_shutdown:
             value = 0.0
         if (read_time < self.next_pwm_time or not self.last_pwm_value) and abs(
             value - self.last_pwm_value
@@ -155,7 +161,13 @@ class Heater:
             self.can_extrude = self.smoothed_temp >= self.min_extrude_temp
         # logging.debug("temp: %.3f %f = %f", read_time, temp)
 
+    def _handle_shutdown(self):
+        self.is_shutdown = True
+
     # External commands
+    def get_name(self):
+        return self.name
+
     def get_pwm_delay(self):
         return self.pwm_delay
 
@@ -215,7 +227,7 @@ class Heater:
             last_pwm_value = self.last_pwm_value
         is_active = target_temp or last_temp > 50.0
         return is_active, "%s: target=%.0f temp=%.1f pwm=%.3f" % (
-            self.name,
+            self.short_name,
             target_temp,
             last_temp,
             last_pwm_value,
