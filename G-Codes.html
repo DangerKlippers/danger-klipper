@@ -909,6 +909,40 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#belay" class="md-nav__link">
+    [belay]
+  </a>
+  
+    <nav class="md-nav" aria-label="[belay]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query_belay" class="md-nav__link">
+    QUERY_BELAY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#belay_set_multiplier" class="md-nav__link">
+    BELAY_SET_MULTIPLIER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#belay_set_stepper" class="md-nav__link">
+    BELAY_SET_STEPPER
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bltouch" class="md-nav__link">
     [bltouch]
   </a>
@@ -3128,6 +3162,40 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#belay" class="md-nav__link">
+    [belay]
+  </a>
+  
+    <nav class="md-nav" aria-label="[belay]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#query_belay" class="md-nav__link">
+    QUERY_BELAY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#belay_set_multiplier" class="md-nav__link">
+    BELAY_SET_MULTIPLIER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#belay_set_stepper" class="md-nav__link">
+    BELAY_SET_STEPPER
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bltouch" class="md-nav__link">
     [bltouch]
   </a>
@@ -4836,6 +4904,27 @@ specified then the manual probing tool is activated - see the MANUAL_PROBE
 command above for details on the additional commands available while this tool
 is active. The optional <code>HORIZONTAL_MOVE_Z</code> value overrides the
 <code>horizontal_move_z</code> option specified in the config file.</p>
+<h3 id="belay">[belay]<a class="headerlink" href="#belay" title="Permanent link">&para;</a></h3>
+<p>The following commands are available when a
+<a href="Config_Reference.html#belay">belay config section</a> is enabled.</p>
+<h4 id="query_belay">QUERY_BELAY<a class="headerlink" href="#query_belay" title="Permanent link">&para;</a></h4>
+<p><code>QUERY_BELAY BELAY=&lt;config_name&gt;</code>: Queries the state of the belay
+specified by <code>BELAY</code>.</p>
+<h4 id="belay_set_multiplier">BELAY_SET_MULTIPLIER<a class="headerlink" href="#belay_set_multiplier" title="Permanent link">&para;</a></h4>
+<p><code>BELAY_SET_MULTIPLIER BELAY=&lt;config_name&gt; [HIGH=&lt;multiplier_high&gt;]
+[LOW=&lt;multiplier_low&gt;]</code>: Sets the values of multiplier_high and/or
+multiplier_low for the belay specified by <code>BELAY</code>, overriding their
+values from the corresponding
+<a href="Config_Reference.html#belay">belay config section</a>. Values set by this
+command will not persist across restarts.</p>
+<h4 id="belay_set_stepper">BELAY_SET_STEPPER<a class="headerlink" href="#belay_set_stepper" title="Permanent link">&para;</a></h4>
+<p><code>BELAY_SET_STEPPER BELAY=&lt;config_name&gt; STEPPER=&lt;extruder_stepper_name&gt;</code>: Selects
+the extruder_stepper whose multiplier will be controlled by the belay specified
+by <code>BELAY</code>. The multiplier for the previous stepper will be reset back
+to 1 before switching to the new stepper. Stepper selections made by this
+command will not persist across restarts. This command is only available if
+extruder_type is set to 'extruder_stepper' in the corresponding
+<a href="Config_Reference.html#belay">belay config section</a>.</p>
 <h3 id="bltouch">[bltouch]<a class="headerlink" href="#bltouch" title="Permanent link">&para;</a></h3>
 <p>The following command is available when a
 <a href="Config_Reference.html#bltouch">bltouch config section</a> is enabled (also

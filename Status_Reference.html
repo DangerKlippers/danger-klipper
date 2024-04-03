@@ -801,6 +801,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#belay" class="md-nav__link">
+    belay
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configfile" class="md-nav__link">
     configfile
   </a>
@@ -1625,6 +1632,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#belay" class="md-nav__link">
+    belay
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configfile" class="md-nav__link">
     configfile
   </a>
@@ -1986,6 +2000,15 @@ active.</li>
 the following strings: "adjust", "fine".</li>
 <li><code>current_screw</code>: The index for the current screw being adjusted.</li>
 <li><code>accepted_screws</code>: The number of accepted screws.</li>
+</ul>
+<h2 id="belay">belay<a class="headerlink" href="#belay" title="Permanent link">&para;</a></h2>
+<p>The following information is available in
+<a href="Config_Reference.html#belay">belay some_name</a> objects:</p>
+<ul>
+<li><code>printer["belay &lt;config_name&gt;"].last_state</code>: Returns True if the belay's
+  sensor is in a triggered state (indicating its slider is compressed).</li>
+<li><code>printer["belay &lt;config_name&gt;"].enabled</code>: Returns True if the belay is
+  currently enabled.</li>
 </ul>
 <h2 id="configfile">configfile<a class="headerlink" href="#configfile" title="Permanent link">&para;</a></h2>
 <p>The following information is available in the <code>configfile</code> object
