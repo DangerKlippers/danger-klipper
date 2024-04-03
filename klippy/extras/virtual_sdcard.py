@@ -7,6 +7,7 @@ import os, sys, logging, io
 
 VALID_GCODE_EXTS = ["gcode", "g", "gco"]
 
+
 class VirtualSD:
     def __init__(self, config):
         self.printer = config.get_printer()
