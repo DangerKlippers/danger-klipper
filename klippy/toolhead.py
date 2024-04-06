@@ -277,6 +277,7 @@ class ToolHead:
             "square_corner_velocity", 5.0, minval=0.0
         )
         self.equilateral_corner_v2 = 0.0
+        self.max_accel_to_decel = 0.0
         self._calc_junction_deviation()
         # Input stall detection
         self.check_stall_time = 0.0
@@ -749,7 +750,7 @@ class ToolHead:
     def _calc_junction_deviation(self):
         scv2 = self.square_corner_velocity**2
         self.equilateral_corner_v2 = scv2 * (math.sqrt(2.0) - 1.0)
-        self.max_accel_to_decel = min(self.min_cruise_ratio, self.max_accel)
+        self.max_accel_to_decel = self.max_accel * (1.0 - self.min_cruise_ratio)
 
     def cmd_G4(self, gcmd):
         # Dwell
