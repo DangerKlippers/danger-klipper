@@ -34,6 +34,7 @@ class Heater:
         self.printer = config.get_printer()
         self.name = config.get_name()
         self.short_name = short_name = self.name.split()[-1]
+        self.reactor = self.printer.get_reactor()
         self.config = config
         self.configfile = self.printer.lookup_object("configfile")
         # Setup sensor
