@@ -314,7 +314,7 @@ class GCodeDispatch:
         self._process_commands(script.split("\n"), need_ack=False)
 
     def run_script(self, script):
-        if "INTERRUPT" in script or "CANCEL_PRINT" in script:
+        if "INTERRUPT" in script:
             self._process_commands(script.split("\n"), need_ack=False)
         else:
             with self.mutex:
