@@ -813,8 +813,8 @@ class MCU:
         append_msgs = []
         if (
             msg.startswith("ADC out of range")
-            and not get_danger_options.adc_ignore_limits
-        ):
+            or msg.startswith("Thermocouple reader fault")
+        ) and not get_danger_options.adc_ignore_limits:
             pheaters = self._printer.lookup_object("heaters")
             heaters = [
                 pheaters.lookup_heater(n) for n in pheaters.available_heaters
@@ -827,6 +827,25 @@ class MCU:
                             "last_temp": "{:.2f}".format(heater.last_temp),
                             "min_temp": heater.min_temp,
                             "max_temp": heater.max_temp,
+                        }
+                    )
+            sensor_names = [
+                sensor
+                for sensor in self._printer.objects
+                if (
+                    sensor.startswith("temperature_sensor")
+                    or sensor.startswith("temperature_fan")
+                )
+            ]
+            for sensor_name in sensor_names:
+                sensor = self._printer.lookup_object(sensor_name)
+                if sensor.is_adc_faulty():
+                    append_msgs.append(
+                        {
+                            sensor_name.split(" ")[0]: sensor.name,
+                            "last_temp": "{:.2f}".format(sensor.last_temp),
+                            "min_temp": sensor.min_temp,
+                            "max_temp": sensor.max_temp,
                         }
                     )
 
@@ -1328,6 +1347,7 @@ This is generally indicative of an intermittent
 communication failure between micro-controller and host.""",
     (
         "ADC out of range",
+        "Thermocouple reader fault",
     ): """
 This generally occurs when a heater temperature exceeds
 its configured min_temp or max_temp.""",

@@ -91,6 +91,11 @@ class TemperatureFan:
         status["target"] = self.target_temp
         return status
 
+    def is_adc_faulty(self):
+        if self.last_temp > self.max_temp or self.last_temp < self.min_temp:
+            return True
+        return False
+
     cmd_SET_TEMPERATURE_FAN_TARGET_help = (
         "Sets a temperature fan target and fan speed limits"
     )
