@@ -45,7 +45,7 @@ class EncoderSensor:
         if eventtime is None:
             eventtime = self.reactor.monotonic()
         self.filament_runout_pos = (
-            self._get_extruder_pos(eventtime) + self.detection_length
+            self.get_extruder_pos(eventtime) + self.detection_length
         )
 
     def _handle_ready(self):
@@ -68,14 +68,14 @@ class EncoderSensor:
             self._extruder_pos_update_timer, self.reactor.NEVER
         )
 
-    def _get_extruder_pos(self, eventtime=None):
+    def get_extruder_pos(self, eventtime=None):
         if eventtime is None:
             eventtime = self.reactor.monotonic()
         print_time = self.estimated_print_time(eventtime)
         return self.extruder.find_past_position(print_time)
 
     def _extruder_pos_update_event(self, eventtime):
-        extruder_pos = self._get_extruder_pos(eventtime)
+        extruder_pos = self.get_extruder_pos(eventtime)
         # Check for filament runout
         self.runout_helper.note_filament_present(
             extruder_pos < self.filament_runout_pos
@@ -94,7 +94,8 @@ class EncoderSensor:
             "Filament Sensor %s: %s\n"
             "Filament Detected: %s\n"
             "Detection Length: %.2f\n"
-            "Smart: %s"
+            "Smart: %s\n"
+            "Always Fire Events: %s"
             % (
                 self.runout_helper.name,
                 (
@@ -105,6 +106,7 @@ class EncoderSensor:
                 "true" if self.runout_helper.filament_present else "false",
                 self.detection_length,
                 "true" if self.runout_helper.smart else "false",
+                "true" if self.runout_helper.always_fire_events else "false",
             )
         )
 
@@ -118,7 +120,7 @@ class EncoderSensor:
             return True
         return False
 
-    def reset_needed(self, enable):
+    def reset_needed(self, enable=None, always_fire_events=None):
         if enable and not self.runout_helper.sensor_enabled:
             return True
         return False

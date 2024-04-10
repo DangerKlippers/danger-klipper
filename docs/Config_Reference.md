@@ -4807,6 +4807,13 @@ more information.
 #   If set to true the sensor will use the virtual_sd_card module to determine
 #   whether the printer is printing which is more reliable but will not work
 #   when streaming a print over usb or similar.
+#always_fire_events:
+#   If set to true, runout events will always fire no matter whether the sensor
+#   is enabled or disabled. Usefull for MMUs
+#check_on_print_start:
+#   If set to true, the sensor will be reevaluated when a print starts and if
+#   no filament is detected the runout_gcode will be run no matter the defined
+#   runout_distance(immediate_runout_gcode will not be run in this case)
 ```
 
 ### [filament_motion_sensor]
@@ -4834,6 +4841,7 @@ switch_pin:
 #event_delay:
 #pause_delay:
 #smart:
+#always_fire_events:
 #   See the "filament_switch_sensor" section for a description of the
 #   above parameters.
 ```
