@@ -291,10 +291,11 @@ EEPROM of a BLTouch V3.1 Available output_modes are: `5V`, `OD`
 The configfile module is automatically loaded.
 
 #### SAVE_CONFIG
-`SAVE_CONFIG`: This command will overwrite the main printer config
+`SAVE_CONFIG [RESTART=0|1]`: This command will overwrite the main printer config
 file and restart the host software. This command is used in
 conjunction with other calibration commands to store the results of
 calibration tests.
+If RESTART is set to 0, no restart will be performed !!USE WITH CAUTION!!.
 
 ### [delayed_gcode]
 
