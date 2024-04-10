@@ -2335,6 +2335,19 @@ calibrate_y: 112.5
 #   This should be the Y coordinate that positions the nozzle during the
 #   calibration process. This parameter must be provided and is recommended to
 #   be near the center of the bed
+#wait_for_continue: false
+#   if set to true, after each probing sequence the toolhead will move away from
+#   the build-plate and wait until 'CONTINUE' is typed into the console.
+#   Important for users with dockable probes so there is enough time to
+#   re-attach the probe before moving to the next probing point.
+#start_gcode:
+#   A sequence of gcode commands to be executed before starting the calibration.
+#   Can be used to attach a dockable probe or reset a pin for example.
+#abort_gcode:
+#   A sequence of gcode commands to be executed if the calibration gets aborted.
+#end_gcode:
+#   A sequence of gcode commands to be executed if the calibration is finished
+#   successfully.
 ```
 
 ### ⚠️ [z_calibration]

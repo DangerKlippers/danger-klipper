@@ -90,6 +90,8 @@ If I want my printer to light itself on fire, I should be able to make my printe
 
 - [filament_switch|motion_sensor:  runout distance, smart and runout gcode](https://github.com/DangerKlippers/danger-klipper/pull/158)
 
+- [axis_twist_compensation: improved to also work properly with dockable probes](https://github.com/DangerKlippers/danger-klipper/pull/207)
+
 If you're feeling adventurous, take a peek at the extra features in the bleeding-edge branch [feature documentation](docs/Bleeding_Edge.md)
 and [feature configuration reference](docs/Config_Reference_Bleeding_Edge.md):
 

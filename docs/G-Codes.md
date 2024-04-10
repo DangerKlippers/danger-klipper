@@ -157,6 +157,13 @@ section](Config_Reference.md#axis_twist_compensation) is enabled.
 twist calibration wizard. `SAMPLE_COUNT` specifies the number of points along
 the X axis to calibrate at and defaults to 3.
 
+#### ABORT
+`ABORT`: Can be called to ABORT the twist compensation.
+
+#### CONTINUE
+`CONTINUE`: if `wait_for_continue` is set to true, this command will be
+available between each probing sequence to continue to the next probing point
+
 ### [bed_mesh]
 
 The following commands are available when the
