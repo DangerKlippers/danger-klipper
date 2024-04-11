@@ -6614,11 +6614,13 @@ and detach a mag-probe for these commands!</li>
 <p>The following commands are available when the
 <a href="Config_Reference.html#z_tilt">z_tilt config section</a> is enabled.</p>
 <h4 id="z_tilt_adjust">Z_TILT_ADJUST<a class="headerlink" href="#z_tilt_adjust" title="Permanent link">&para;</a></h4>
-<p><code>Z_TILT_ADJUST [HORIZONTAL_MOVE_Z=&lt;value&gt;] [&lt;probe_parameter&gt;=&lt;value&gt;]</code>: This
+<p><code>Z_TILT_ADJUST [HORIZONTAL_MOVE_Z=&lt;value&gt;] [&lt;probe_parameter&gt;=&lt;value&gt;]
+[INCREASING_THRESHOLD=&lt;value&gt;]</code>: This
 command will probe the points specified in the config and then make independent
 adjustments to each Z stepper to compensate for tilt. See the PROBE command for
 details on the optional probe parameters. The optional <code>HORIZONTAL_MOVE_Z</code>
 value overrides the <code>horizontal_move_z</code> option specified in the config file.
+INCREASING_THRESHOLD sets the increasing_threshold parameter of z_tilt.
 The follwing commands are availabe when the parameter "extra_points" is
 configured in the z_tilt_ng section:</p>
 <ul>
