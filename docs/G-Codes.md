@@ -1799,11 +1799,13 @@ The following commands are available when the
 [z_tilt config section](Config_Reference.md#z_tilt) is enabled.
 
 #### Z_TILT_ADJUST
-`Z_TILT_ADJUST [HORIZONTAL_MOVE_Z=<value>] [<probe_parameter>=<value>]`: This
+`Z_TILT_ADJUST [HORIZONTAL_MOVE_Z=<value>] [<probe_parameter>=<value>]
+[INCREASING_THRESHOLD=<value>]`: This
 command will probe the points specified in the config and then make independent
 adjustments to each Z stepper to compensate for tilt. See the PROBE command for
 details on the optional probe parameters. The optional `HORIZONTAL_MOVE_Z`
 value overrides the `horizontal_move_z` option specified in the config file.
+INCREASING_THRESHOLD sets the increasing_threshold parameter of z_tilt.
 The follwing commands are availabe when the parameter "extra_points" is
 configured in the z_tilt_ng section:
 - `Z_TILT_CALIBRATE [AVGLEN=<value>]`: This command does multiple probe

@@ -1319,6 +1319,9 @@ extended [G-Code command](G-Codes.md#z_tilt) becomes available.
 #   more points than steppers then you will likely have a fixed
 #   minimum value for the range of probed points which you can learn
 #   by observing command output.
+#increasing_threshold: 0.0000001
+#   Sets the threshold that probe points can increase before z_tilt aborts.
+#   To disable the validation, set this parameter to a high value.
 ```
 
 ```
@@ -1342,6 +1345,8 @@ extended [G-Code command](G-Codes.md#z_tilt) becomes available.
 #retries: 0
 # See [z_tilt]
 #retry_tolerance: 0
+# See [z_tilt]
+#increasing_threshold: 0.0000001
 # See [z_tilt]
 #extra_points:
 #   A list in the same format as "points" above. This list contains
@@ -1420,6 +1425,9 @@ Where x is the 0, 0 point on the bed
 #retry_tolerance: 0
 #   If retries are enabled then retry if largest and smallest probed
 #   points differ more than retry_tolerance.
+#increasing_threshold: 0.0000001
+#   Sets the threshold that probe points can increase before qgl aborts.
+#   To disable the validation, set this parameter to a high value.
 ```
 
 ### [skew_correction]
