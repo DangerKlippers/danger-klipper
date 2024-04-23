@@ -415,20 +415,6 @@ class MCU_endstop:
             cq=cmd_queue,
         )
 
-
-    def home_start(self, print_time, sample_time, sample_count, rest_time,
-                   triggered=True):
-        clock = self._mcu.print_time_to_clock(print_time)
-        rest_ticks = self._mcu.print_time_to_clock(print_time+rest_time) - clock
-        self._rest_ticks = rest_ticks
-        trigger_completion = self._dispatch.start(print_time)
-        self._home_cmd.send(
-            [self._oid, clock, self._mcu.seconds_to_clock(sample_time),
-             sample_count, rest_ticks, triggered ^ self._invert,
-             self._dispatch.get_oid(), MCU_trsync.REASON_ENDSTOP_HIT],
-            reqclock=clock)
-
-
     def home_start(
         self, print_time, sample_time, sample_count, rest_time, triggered=True
     ):
