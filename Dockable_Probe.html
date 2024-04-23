@@ -1455,6 +1455,18 @@ attracted to the magnets on the toolhead.</p>
 </li>
 </ul>
 <ul>
+<li><code>extract_position: 295, 250, 0</code><br>
+  <em>Default Value: approach_position</em><br>
+  Euclid probe requires the toolhead to move to a different direction to extract
+  or dock mag_probe.</li>
+</ul>
+<ul>
+<li><code>insert_position: 295, 250, 0</code><br>
+  <em>Default Value: extract_position</em><br>
+  Usually the same as extract position for Euclid probe when the dock is on the
+  gantry.</li>
+</ul>
+<ul>
 <li><code>z_hop: 15.0</code><br>
   <em>Default Value: None</em><br>
   Distance (in mm) to lift the Z axis prior to attaching/detaching the probe.
@@ -1462,6 +1474,12 @@ attracted to the magnets on the toolhead.</p>
   than <code>z_hop</code>, then this will lift the head to a height of <code>z_hop</code>. If
   the Z axis is not already homed the head is lifted by <code>z_hop</code>.
   The default is to not implement Z hop.</li>
+</ul>
+<ul>
+<li><code>restore_toolhead: False|True</code><br>
+  <em>Default Value: True</em><br>
+  While True, the position of the toolhead is restored to the position prior to 
+  the attach/detach movements.</li>
 </ul>
 <h2 id="position-examples">Position Examples<a class="headerlink" href="#position-examples" title="Permanent link">&para;</a></h2>
 <p>Probe mounted on frame at back of print bed at a fixed Z position. To attach
@@ -1514,9 +1532,7 @@ z_hop: 15
 <p>Euclid style probe that requires the attach and detach movements to happen in
 opposite order. Attach: approach, move to dock, extract. Detach: move to
 extract position, move to dock, move to approach position. The approach and
-detach positions are the same, as are the extract and insert positions. The
-movements can be reordered as necessary by overriding the commands for
-extract/insert and using the same coordinates for approach and detach.</p>
+detach positions are the same, as are the extract and insert positions.</p>
 <div class="highlight"><pre><span></span><code>Attach:
 +--------+
 |        |
@@ -1533,17 +1549,9 @@ Detach:
 
 <div class="highlight"><pre><span></span><code>approach_position: 50, 150
 dock_position: 10, 150
+extract_position: 10, 130
 detach_position: 50, 150
 z_hop: 15
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>[gcode_macro MOVE_TO_EXTRACT_PROBE]
-gcode:
-    G1 X10 Y130
-
-[gcode_macro MOVE_TO_INSERT_PROBE]
-gcode:
-    G1 X10 Y130
 </code></pre></div>
 
 <h3 id="homing">Homing<a class="headerlink" href="#homing" title="Permanent link">&para;</a></h3>
@@ -1645,11 +1653,9 @@ overridden to move a servo if that's required for attaching your probe.</p>
 <p><code>MOVE_TO_DOCK_PROBE</code></p>
 <p>This command will move the toolhead to the <code>dock_position</code>.</p>
 <p><code>MOVE_TO_EXTRACT_PROBE</code></p>
-<p>This command will move the toolhead away from the dock after attaching the probe.
-By default it's an alias for <code>MOVE_TO_APPROACH_PROBE</code>.</p>
+<p>This command will move the toolhead to the <code>extract_position</code>.</p>
 <p><code>MOVE_TO_INSERT_PROBE</code></p>
-<p>This command will move the toolhead near the dock before detaching the probe.
-By default it's an alias for <code>MOVE_TO_APPROACH_PROBE</code>.</p>
+<p>This command will move the toolhead to the <code>insert_position</code>.</p>
 <p><code>MOVE_TO_DETACH_PROBE</code></p>
 <p>This command will move the toolhead to the <code>detach_position</code>. It can be
 overridden to move a servo if that's required for detaching your probe.</p>
