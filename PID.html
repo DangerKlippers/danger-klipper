@@ -1352,11 +1352,12 @@ high-level overview of what PID is and how to use it best in Klipper.</p>
 <p>When a calibration test is performed external influences should be minimized as
 much as possible:</p>
 <ul>
-<li>Turn off fans</li>
+<li>Turn off aux fans</li>
 <li>Turn off chamber heaters</li>
 <li>Turn off the extruder heater when calibrating the bed and vice versa</li>
-<li>Avoid external disturbances like drafts etc</li>
+<li>Avoid external disturbances like drafts, etc.</li>
 </ul>
+<p>More important than listed above, <strong>PID how you print</strong>. If your part fans are on when printing, PID tune with them on.</p>
 <h3 id="choosing-the-right-pid-algorithm">Choosing the right PID Algorithm<a class="headerlink" href="#choosing-the-right-pid-algorithm" title="Permanent link">&para;</a></h3>
 <p>Klipper offers two different PID algorithms: Positional and Velocity</p>
 <ul>
