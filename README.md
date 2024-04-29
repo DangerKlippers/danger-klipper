@@ -96,6 +96,8 @@ If I want my printer to light itself on fire, I should be able to make my printe
 
 - [configfile: recursive globs](https://github.com/DangerKlippers/danger-klipper/pull/200) / ([klipper#6375](https://github.com/Klipper3d/klipper/pull/6375))
 
+- [temperature_fan: curve control algorithm](https://github.com/DangerKlippers/danger-klipper/pull/193)
+
 If you're feeling adventurous, take a peek at the extra features in the bleeding-edge branch [feature documentation](docs/Bleeding_Edge.md)
 and [feature configuration reference](docs/Config_Reference_Bleeding_Edge.md):
 
