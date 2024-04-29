@@ -336,7 +336,13 @@ class TMC5160CurrentHelper:
             self._home_current,
         )
 
-    def set_current(self, run_current, hold_current, print_time):
+    def set_current(self, run_current, hold_current, print_time, force=False):
+        if (
+            run_current == self._prev_current
+            and hold_current == self.req_hold_current
+            and not force
+        ):
+            return
         self.req_hold_current = hold_current
         gscaler, irun, ihold = self._calc_current(run_current, hold_current)
         val = self.fields.set_field("globalscaler", gscaler)

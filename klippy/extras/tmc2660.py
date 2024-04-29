@@ -206,7 +206,9 @@ class TMC2660CurrentHelper:
             self._home_current,
         )
 
-    def set_current(self, run_current, hold_current, print_time):
+    def set_current(self, run_current, hold_current, print_time, force=False):
+        if run_current == self.current and not force:
+            return
         self.current = run_current
         self._update_current(run_current, print_time)
 

@@ -215,7 +215,7 @@ class TMCCurrentHelper:
         self.current_change_dwell_time = config.getfloat(
             "current_change_dwell_time", 0.5, above=0.0
         )
-        self.prev_current = self.run_current
+        self._prev_current = self.run_current
         self.req_hold_current = self.hold_current
         self.sense_resistor = config.getfloat(
             "sense_resistor", 0.110, above=0.0
@@ -279,7 +279,13 @@ class TMCCurrentHelper:
             self._home_current,
         )
 
-    def set_current(self, run_current, hold_current, print_time):
+    def set_current(self, run_current, hold_current, print_time, force=False):
+        if (
+            run_current == self._prev_current
+            and hold_current == self.req_hold_current
+            and not force
+        ):
+            return
         self.req_hold_current = hold_current
         vsense, irun, ihold = self._calc_current(run_current, hold_current)
         if vsense != self.fields.get_field("vsense"):
