@@ -189,6 +189,9 @@ class VibrationPulseTest:
     def get_max_freq(self):
         return self.freq_end
 
+    def get_accel_per_hz(self):
+        return self.accel_per_hz
+
 
 class ResonanceTester:
     def __init__(self, config):
@@ -380,6 +383,7 @@ class ResonanceTester:
                 data,
                 point=test_point,
                 max_freq=self._get_max_calibration_freq(),
+                accel_per_hz=self.test.get_accel_per_hz(),
             )
             gcmd.respond_info(
                 "Resonances data written to %s file" % (csv_name,)
@@ -457,6 +461,7 @@ class ResonanceTester:
                 calibration_data[axis],
                 all_shapers,
                 max_freq=max_freq,
+                accel_per_hz=self.test.get_accel_per_hz(),
             )
             gcmd.respond_info(
                 "Shaper calibration data written to %s file" % (csv_name,)
@@ -520,10 +525,11 @@ class ResonanceTester:
         all_shapers=None,
         point=None,
         max_freq=None,
+        accel_per_hz=None,
     ):
         output = self.get_filename(base_name, name_suffix, axis, point)
         shaper_calibrate.save_calibration_data(
-            output, calibration_data, all_shapers, max_freq
+            output, calibration_data, all_shapers, max_freq, accel_per_hz
         )
         return output
 
