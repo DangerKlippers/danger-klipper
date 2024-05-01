@@ -9,6 +9,7 @@ import math
 import multiprocessing
 import traceback
 
+
 shaper_defs = importlib.import_module(".shaper_defs", "extras")
 
 MIN_FREQ = 5.0
@@ -53,6 +54,17 @@ class CalibrationData:
             psd *= self.data_sets
             psd[:] = (psd + other_normalized) * (1.0 / joined_data_sets)
         self.data_sets = joined_data_sets
+
+    def subtract_data(self, other):
+        # subtracts other from self
+        np = self.numpy
+        for psd, other_psd in zip(self._psd_list, other._psd_list):
+            # `other` data may be defined at different frequency bins,
+            # interpolating to fix that.
+            other_normalized = other.data_sets * np.interp(
+                self.freq_bins, other.freq_bins, other_psd
+            )
+            psd[:] = np.maximum(psd - other_normalized, 0.0)
 
     def set_numpy(self, numpy):
         self.numpy = numpy

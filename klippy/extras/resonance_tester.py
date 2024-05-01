@@ -238,6 +238,7 @@ class ResonanceTester:
         raw_name_suffix=None,
         accel_chips=None,
         test_point=None,
+        is_3_point=False,
     ):
         toolhead = self.printer.lookup_object("toolhead")
         calibration_data = {axis: None for axis in axes}
@@ -247,6 +248,8 @@ class ResonanceTester:
         if test_point is not None:
             test_points = [test_point]
         else:
+            if is_3_point:
+                raise gcmd.error("3-point calibration not supported like this")
             test_points = self.test.get_start_test_points()
 
         for point in test_points:
@@ -255,6 +258,7 @@ class ResonanceTester:
                 gcmd.respond_info(
                     "Probing point (%.3f, %.3f, %.3f)" % tuple(point)
                 )
+            wip_calibration_data = {}
             for axis in axes:
                 toolhead.wait_moves()
                 toolhead.dwell(0.500)
@@ -291,17 +295,44 @@ class ResonanceTester:
                         )
                 if helper is None:
                     continue
-                for chip_axis, aclient, chip_name in raw_values:
-                    if not aclient.has_valid_samples():
-                        raise gcmd.error(
-                            "accelerometer '%s' measured no data" % (chip_name,)
-                        )
-                    new_data = helper.process_accelerometer_data(aclient)
-                    if calibration_data[axis] is None:
-                        calibration_data[axis] = new_data
-                    else:
-                        calibration_data[axis].add_data(new_data)
-        return calibration_data
+                if is_3_point:
+
+                    for _, aclient, chip_name in raw_values:
+                        if not aclient.has_valid_samples():
+                            raise gcmd.error(
+                                "accelerometer '%s' measured no data"
+                                % (chip_name,)
+                            )
+                        new_data = helper.process_accelerometer_data(aclient)
+                        wip_calibration_data[axis][chip_name] = new_data
+
+                    frame_data = wip_calibration_data[axis]["frame"]
+                    toolhead_data = wip_calibration_data[axis]["toolhead"]
+                    bed_data = wip_calibration_data[axis]["bed"]
+                    toolhead_data.subtract_data(frame_data)
+                    bed_data.subtract_data(frame_data)
+
+                    toolhead_data.add_data(bed_data)
+                    calibration_data[
+                        axis
+                    ] = toolhead_data  # toolhead now is actually total data. bed + toolhead avg technically
+
+                else:
+                    for chip_axis, aclient, chip_name in raw_values:
+                        if not aclient.has_valid_samples():
+                            raise gcmd.error(
+                                "accelerometer '%s' measured no data"
+                                % (chip_name,)
+                            )
+                        new_data = helper.process_accelerometer_data(aclient)
+                        if calibration_data[axis] is None:
+                            calibration_data[axis] = new_data
+                        else:
+                            calibration_data[axis].add_data(new_data)
+        if is_3_point:
+            return calibration_data, wip_calibration_data
+        else:
+            return calibration_data
 
     def _parse_chips(self, accel_chips):
         parsed_chips = []
@@ -461,6 +492,98 @@ class ResonanceTester:
             gcmd.respond_info(
                 "Shaper calibration data written to %s file" % (csv_name,)
             )
+        gcmd.respond_info(
+            "The SAVE_CONFIG command will update the printer config file\n"
+            "with these parameters and restart the printer."
+        )
+
+    def cmd_SHAPER_CALIBRATE_3_POINT(self, gcmd):
+        axis = gcmd.get("AXIS", None)
+        # Parse parameters
+        if not axis:
+            calibrate_axes = [TestAxis("x"), TestAxis("y")]
+        elif axis.lower() not in "xy":
+            raise gcmd.error("Unsupported axis '%s'" % (axis,))
+        else:
+            calibrate_axes = [TestAxis(axis.lower())]
+        nozzle_chip = self.printer.lookup_object("adxl345 nozzle")
+        bed_chip = self.printer.lookup_object("adxl345 bed")
+        frame_chip = self.printer.lookup_object("adxl345 frame")
+
+        max_smoothing = gcmd.get_float(
+            "MAX_SMOOTHING", self.max_smoothing, minval=0.05
+        )
+
+        name_suffix = gcmd.get("NAME", time.strftime("%Y%m%d_%H%M%S"))
+        if not self.is_valid_name_suffix(name_suffix):
+            raise gcmd.error("Invalid NAME parameter")
+
+        input_shaper = self.printer.lookup_object("input_shaper", None)
+
+        # Setup shaper calibration
+        helper = shaper_calibrate.ShaperCalibrate(self.printer)
+
+        calibration_data, per_adxl_calibration_data = self._run_test(
+            gcmd,
+            calibrate_axes,
+            helper,
+            accel_chips=[bed_chip, nozzle_chip, frame_chip],
+        )
+
+        configfile = self.printer.lookup_object("configfile")
+        for axis in calibrate_axes:
+            axis_name = axis.get_name()
+            gcmd.respond_info(
+                "Calculating the best input shaper parameters for %s axis"
+                % (axis_name,)
+            )
+            calibration_data[axis].normalize_to_frequencies()
+            systime = self.printer.get_reactor().monotonic()
+            toolhead = self.printer.lookup_object("toolhead")
+            toolhead_info = toolhead.get_status(systime)
+            scv = toolhead_info["square_corner_velocity"]
+            max_freq = self._get_max_calibration_freq()
+            best_shaper, all_shapers = helper.find_best_shaper(
+                calibration_data[axis],
+                max_smoothing=max_smoothing,
+                scv=scv,
+                max_freq=max_freq,
+                logger=gcmd.respond_info,
+            )
+            gcmd.respond_info(
+                "Recommended shaper_type_%s = %s, shaper_freq_%s = %.1f Hz"
+                % (axis_name, best_shaper.name, axis_name, best_shaper.freq)
+            )
+            if input_shaper is not None:
+                helper.apply_params(
+                    input_shaper, axis_name, best_shaper.name, best_shaper.freq
+                )
+            helper.save_params(
+                configfile, axis_name, best_shaper.name, best_shaper.freq
+            )
+            csv_name = self.save_calibration_data(
+                "calibration_data",
+                name_suffix,
+                helper,
+                axis,
+                calibration_data[axis],
+                all_shapers,
+                max_freq=max_freq,
+            )
+            gcmd.respond_info(
+                "Shaper calibration data written to %s file" % (csv_name,)
+            )
+            for chip in ["nozzle", "bed", "frame"]:
+                csv_name = self.save_calibration_data(
+                    "3_point_calibration_data",
+                    name_suffix,
+                    helper,
+                    axis,
+                    per_adxl_calibration_data[axis][chip],
+                )
+                gcmd.respond_info(
+                    f"{chip} shaper calibration data written to {csv_name} file"
+                )
         gcmd.respond_info(
             "The SAVE_CONFIG command will update the printer config file\n"
             "with these parameters and restart the printer."
