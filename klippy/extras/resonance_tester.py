@@ -222,6 +222,11 @@ class ResonanceTester:
             self.cmd_SHAPER_CALIBRATE,
             desc=self.cmd_SHAPER_CALIBRATE_help,
         )
+        self.gcode.register_command(
+            "SHAPER_CALIBRATE_3P",
+            self.cmd_SHAPER_CALIBRATE_3_POINT,
+            desc=self.cmd_SHAPER_CALIBRATE_help,
+        )
         self.printer.register_event_handler("klippy:connect", self.connect)
 
     def connect(self):
