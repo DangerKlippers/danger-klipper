@@ -317,12 +317,18 @@ class ResonanceTester:
                     nozzle_data = wip_calibration_data[axis]["nozzle"].copy()
                     bed_data = wip_calibration_data[axis]["bed"].copy()
                     nozzle_data.subtract_data(frame_data)
+                    wip_calibration_data[axis][
+                        "nozzle_subtracted"
+                    ] = nozzle_data
                     bed_data.subtract_data(frame_data)
+                    wip_calibration_data[axis]["bed_subtracted"] = bed_data
 
-                    nozzle_data.add_data(bed_data)
+                    total_data = nozzle_data.copy()
+
+                    total_data.add_data(bed_data)
                     calibration_data[
                         axis
-                    ] = nozzle_data  # nozzle now is actually total data. bed + nozzle avg technically
+                    ] = total_data  # nozzle now is actually total data. bed + nozzle avg technically
 
                 else:
                     for chip_axis, aclient, chip_name in raw_values:
@@ -581,7 +587,13 @@ class ResonanceTester:
             gcmd.respond_info(
                 "Shaper calibration data written to %s file" % (csv_name,)
             )
-            for chip in ["nozzle", "bed", "frame"]:
+            for chip in [
+                "nozzle",
+                "bed",
+                "frame",
+                "nozzle_subtracted",
+                "bed_subtracted",
+            ]:
                 csv_name = self.save_calibration_data(
                     f"3_point_calibration_data_{chip}",
                     name_suffix,
