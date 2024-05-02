@@ -80,13 +80,16 @@ class CalibrationData:
         return self._psd_map[axis]
 
     def copy(self):
-        return CalibrationData(
+        new_data = CalibrationData(
             deepcopy(self.freq_bins),
             deepcopy(self.psd_sum),
             deepcopy(self.psd_x),
             deepcopy(self.psd_y),
             deepcopy(self.psd_z),
         )
+        new_data.data_sets = self.data_sets
+        new_data.set_numpy(self.numpy)
+        return new_data
 
 
 CalibrationResult = collections.namedtuple(
