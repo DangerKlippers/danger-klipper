@@ -8,7 +8,7 @@ import os
 import time
 from contextlib import contextmanager
 from . import shaper_calibrate
-import logging
+
 
 class TestAxis:
     def __init__(self, axis=None, vib_dir=None):
@@ -313,9 +313,9 @@ class ResonanceTester:
                         new_data = helper.process_accelerometer_data(aclient)
                         wip_calibration_data[axis][chip_name] = new_data
 
-                    frame_data = wip_calibration_data[axis]["frame"]
-                    nozzle_data = wip_calibration_data[axis]["nozzle"]
-                    bed_data = wip_calibration_data[axis]["bed"]
+                    frame_data = wip_calibration_data[axis]["frame"].copy()
+                    nozzle_data = wip_calibration_data[axis]["nozzle"].copy()
+                    bed_data = wip_calibration_data[axis]["bed"].copy()
                     nozzle_data.subtract_data(frame_data)
                     bed_data.subtract_data(frame_data)
 
