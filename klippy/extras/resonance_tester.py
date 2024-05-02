@@ -8,7 +8,7 @@ import os
 import time
 from contextlib import contextmanager
 from . import shaper_calibrate
-
+import logging
 
 class TestAxis:
     def __init__(self, axis=None, vib_dir=None):
@@ -223,7 +223,7 @@ class ResonanceTester:
             desc=self.cmd_SHAPER_CALIBRATE_help,
         )
         self.gcode.register_command(
-            "SHAPER_CALIBRATE_3P",
+            "SHAPER_CALIBRATE_TRIPLE",
             self.cmd_SHAPER_CALIBRATE_3_POINT,
             desc=self.cmd_SHAPER_CALIBRATE_help,
         )
@@ -251,10 +251,10 @@ class ResonanceTester:
         self.test.prepare_test(gcmd)
 
         if test_point is not None:
-            test_points = [test_point]
-        else:
             if is_3_point:
                 raise gcmd.error("3-point calibration not supported like this")
+            test_points = [test_point]
+        else:
             test_points = self.test.get_start_test_points()
 
         for point in test_points:
@@ -265,6 +265,7 @@ class ResonanceTester:
                 )
             wip_calibration_data = {}
             for axis in axes:
+                wip_calibration_data[axis] = {}
                 toolhead.wait_moves()
                 toolhead.dwell(0.500)
                 if len(axes) > 1:
@@ -293,6 +294,7 @@ class ResonanceTester:
                             point if len(test_points) > 1 else None,
                             chip_name if accel_chips is not None else None,
                         )
+                        gcmd.respond_info(f"pre-write! raw_name: {raw_name}")
                         aclient.write_to_file(raw_name)
                         gcmd.respond_info(
                             "Writing raw accelerometer data to "
@@ -312,15 +314,15 @@ class ResonanceTester:
                         wip_calibration_data[axis][chip_name] = new_data
 
                     frame_data = wip_calibration_data[axis]["frame"]
-                    toolhead_data = wip_calibration_data[axis]["toolhead"]
+                    nozzle_data = wip_calibration_data[axis]["nozzle"]
                     bed_data = wip_calibration_data[axis]["bed"]
-                    toolhead_data.subtract_data(frame_data)
+                    nozzle_data.subtract_data(frame_data)
                     bed_data.subtract_data(frame_data)
 
-                    toolhead_data.add_data(bed_data)
+                    nozzle_data.add_data(bed_data)
                     calibration_data[
                         axis
-                    ] = toolhead_data  # toolhead now is actually total data. bed + toolhead avg technically
+                    ] = nozzle_data  # nozzle now is actually total data. bed + nozzle avg technically
 
                 else:
                     for chip_axis, aclient, chip_name in raw_values:
@@ -532,6 +534,7 @@ class ResonanceTester:
             gcmd,
             calibrate_axes,
             helper,
+            is_3_point=True,
             accel_chips=[bed_chip, nozzle_chip, frame_chip],
         )
 
@@ -580,7 +583,7 @@ class ResonanceTester:
             )
             for chip in ["nozzle", "bed", "frame"]:
                 csv_name = self.save_calibration_data(
-                    "3_point_calibration_data",
+                    f"3_point_calibration_data_{chip}",
                     name_suffix,
                     helper,
                     axis,

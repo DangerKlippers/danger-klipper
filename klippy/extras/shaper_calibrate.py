@@ -8,7 +8,7 @@ import importlib
 import math
 import multiprocessing
 import traceback
-
+from copy import copy
 
 shaper_defs = importlib.import_module(".shaper_defs", "extras")
 
@@ -78,7 +78,9 @@ class CalibrationData:
 
     def get_psd(self, axis="all"):
         return self._psd_map[axis]
-
+    
+    def copy(self):
+        return CalibrationData(copy(self.freq_bins), copy(self.psd_sum), copy(self.psd_x), copy(self.psd_y), copy(self.psd_z))
 
 CalibrationResult = collections.namedtuple(
     "CalibrationResult",
