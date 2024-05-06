@@ -1053,7 +1053,7 @@ in the config file.
 
 #### PID_PROFILE
 `PID_PROFILE LOAD=<profile_name> HEATER=<heater_name> [DEFAULT=<profile_name>]
-[VERBOSE=<verbosity>] [RESET_TARGET=0|1] [LOAD_CLEAN=0|1]`:
+[VERBOSE=<verbosity>] [KEEP_TARGET=0|1] [LOAD_CLEAN=0|1]`:
 Loads the given PID_PROFILE for the specified heater. If DEFAULT is specified,
 the Profile specified in DEFAULT will be loaded when then given Profile for LOAD
 can't be found (like a getOrDefault method). If VERBOSE is set to LOW, minimal
