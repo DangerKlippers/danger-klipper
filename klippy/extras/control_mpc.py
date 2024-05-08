@@ -13,7 +13,9 @@ class ControlMPC:
         self.heater_max_power = heater.get_max_power() * self.const_heater_power
 
         self.want_ambient_refresh = self.ambient_sensor is not None
-        self.state_block_temp = AMBIENT_TEMP if load_clean else self._heater_temp()
+        self.state_block_temp = (
+            AMBIENT_TEMP if load_clean else self._heater_temp()
+        )
         self.state_sensor_temp = self.state_block_temp
         self.state_ambient_temp = AMBIENT_TEMP
 
@@ -309,7 +311,9 @@ class MpcCalibrate:
         )
         fan_breakpoints = gcmd.get_int("FAN_BREAKPOINTS", 3, minval=2)
         target_temp = gcmd.get_float("TARGET", 200.0, minval=90.0)
-        threshold_temp = gcmd.get_float("THRESHOLD", max(50.0, min(100, target_temp-100.0)))
+        threshold_temp = gcmd.get_float(
+            "THRESHOLD", max(50.0, min(100, target_temp - 100.0))
+        )
 
         control = TuningControl(self.heater)
         old_control = self.heater.set_control(control)
@@ -365,15 +369,18 @@ class MpcCalibrate:
                 else first_res["sensor_responsiveness"]
             )
             ambient_transfer = second_res["ambient_transfer"]
-            fan_ambient_transfer = second_res["fan_ambient_transfer"]
+            fan_ambient_transfer = ", ".join(
+                [f"{p:.6g}" for p in second_res["fan_ambient_transfer"]]
+            )
 
             cfgname = self.heater.get_name()
             gcmd.respond_info(
                 f"Finished MPC calibration of heater '{cfgname}'\n"
                 "Measured:\n "
-                f"  block_heat_capacity={block_heat_capacity:#.6g} J/K\n"
-                f"  sensor_responsiveness={sensor_responsiveness:#.6g} K/s/K\n"
-                f"  ambient_transfer={ambient_transfer:#.6g} W/K\n"
+                f"  block_heat_capacity={block_heat_capacity:#.6g} [J/K]\n"
+                f"  sensor_responsiveness={sensor_responsiveness:#.6g} [K/s/K]\n"
+                f"  ambient_transfer={ambient_transfer:#.6g} [W/K]\n"
+                f"  fan_ambient_transfer={fan_ambient_transfer} [W/K]\n"
             )
 
             configfile = self.heater.printer.lookup_object("configfile")
@@ -392,7 +399,7 @@ class MpcCalibrate:
             configfile.set(
                 cfgname,
                 "fan_ambient_transfer",
-                ", ".join([f"{p:.6g}" for p in fan_ambient_transfer]),
+                fan_ambient_transfer,
             )
 
         except self.printer.command_error as e:
@@ -562,7 +569,12 @@ class MpcCalibrate:
         return best
 
     def process_first_pass(
-        self, all_samples, heater_power, ambient_temp, threshold_temp, use_analytic
+        self,
+        all_samples,
+        heater_power,
+        ambient_temp,
+        threshold_temp,
+        use_analytic,
     ):
         # Find a continous segment of samples that all lie in the threshold.. range
         best_lower = None
