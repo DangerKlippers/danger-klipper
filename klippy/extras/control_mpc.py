@@ -12,14 +12,10 @@ class ControlMPC:
         self.heater = heater
         self.heater_max_power = heater.get_max_power() * self.const_heater_power
 
-        ambient = (
-            AMBIENT_TEMP
-            if self.ambient_sensor is None
-            else self.ambient_sensor.get_temp(heater.reactor.monotonic())[0]
-        )
-        self.state_block_temp = ambient if load_clean else self._heater_temp()
+        self.want_ambient_refresh = self.ambient_sensor is not None
+        self.state_block_temp = AMBIENT_TEMP if load_clean else self._heater_temp()
         self.state_sensor_temp = self.state_block_temp
-        self.state_ambient_temp = ambient
+        self.state_ambient_temp = AMBIENT_TEMP
 
         self.last_power = 0.0
         self.last_loss_ambient = 0.0
@@ -28,7 +24,7 @@ class ControlMPC:
         self.last_temp_time = 0.0
 
         self.printer = heater.printer
-        self.toolhead = self.printer.lookup_object("toolhead")
+        self.toolhead = None
 
         if not register:
             return
@@ -132,19 +128,22 @@ class ControlMPC:
             dt = 0.1
 
         ## Extruder position
-        extruder = self.toolhead.get_extruder()
-        if (
-            hasattr(extruder, "extruder_stepper")
-            and extruder.get_heater() == self.heater
-        ):
-            pos_prev = extruder.find_past_position(read_time - dt)
-            pos = extruder.find_past_position(read_time)
-            pos_next = extruder.find_past_position(read_time + dt)
-            extrude_speed_prev = max(0.0, (pos - pos_prev)) / dt
-            extrude_speed_next = max(0.0, (pos_next - pos)) / dt
-        else:
-            extrude_speed_prev = 0.0
-            extrude_speed_next = 0.0
+        if self.toolhead is None:
+            self.toolhead = self.printer.lookup_object("toolhead")
+        if self.toolhead is not None:
+            extruder = self.toolhead.get_extruder()
+            if (
+                hasattr(extruder, "extruder_stepper")
+                and extruder.get_heater() == self.heater
+            ):
+                pos_prev = extruder.find_past_position(read_time - dt)
+                pos = extruder.find_past_position(read_time)
+                pos_next = extruder.find_past_position(read_time + dt)
+                extrude_speed_prev = max(0.0, (pos - pos_prev)) / dt
+                extrude_speed_next = max(0.0, (pos_next - pos)) / dt
+            else:
+                extrude_speed_prev = 0.0
+                extrude_speed_next = 0.0
 
         # Modulate ambient transfer coefficient with fan speed
         ambient_transfer = self.const_ambient_transfer
@@ -200,9 +199,12 @@ class ControlMPC:
         self.state_block_temp += adjustment_dT
         self.state_sensor_temp += adjustment_dT
 
-        if self.ambient_sensor is not None:
-            self.state_ambient_temp = self.ambient_sensor.get_temp(read_time)[0]
-        elif (self.last_power > 0 and self.last_power < 1.0) or abs(
+        if self.want_ambient_refresh:
+            temp = self.ambient_sensor.get_temp(read_time)[0]
+            if temp != 0.0:
+                self.state_ambient_temp = temp
+                self.want_ambient_refresh = False
+        if (self.last_power > 0 and self.last_power < 1.0) or abs(
             expected_block_dT + adjustment_dT
         ) < self.const_steady_state_rate * dt:
             if adjustment_dT > 0.0:
@@ -295,7 +297,6 @@ class MpcCalibrate:
     def __init__(self, printer, heater, orig_control):
         self.printer = printer
         self.heater = heater
-        self.duty_limit = heater.get_max_power()
         self.orig_control = orig_control
 
     def run(self, gcmd):
@@ -307,17 +308,19 @@ class MpcCalibrate:
             "AMBIENT_MEASURE_SAMPLE_TIME", 5.0, below=ambient_max_measure_time
         )
         fan_breakpoints = gcmd.get_int("FAN_BREAKPOINTS", 3, minval=2)
-        target_temp = gcmd.get_float("TARGET_TEMP", 200.0, minval=150.0)
+        target_temp = gcmd.get_float("TARGET", 200.0, minval=90.0)
+        threshold_temp = gcmd.get_float("THRESHOLD", max(50.0, min(100, target_temp-100.0)))
 
         control = TuningControl(self.heater)
         old_control = self.heater.set_control(control)
         try:
-            ambient_temp = self.await_ambient(gcmd, control)
+            ambient_temp = self.await_ambient(gcmd, control, threshold_temp)
             samples = self.heatup_test(gcmd, target_temp, control)
             first_res = self.process_first_pass(
                 samples,
-                self.orig_control.const_heater_power,
+                self.orig_control.heater_max_power,
                 ambient_temp,
+                threshold_temp,
                 use_analytic,
             )
             logging.info("First pass: %s", first_res)
@@ -347,7 +350,7 @@ class MpcCalibrate:
                 first_res,
                 transfer_res,
                 ambient_temp,
-                self.orig_control.const_heater_power,
+                self.orig_control.heater_max_power,
             )
             logging.info("Second pass: %s", second_res)
 
@@ -418,38 +421,40 @@ class MpcCalibrate:
         self.printer.wait_while(process)
         return samples[-1][1]
 
-    def await_ambient(self, gcmd, control):
-        control.set_output(0.0, 1.0)  # Turn on fan to increase settling speed
+    def await_ambient(self, gcmd, control, minimum_temp):
+        self.heater.alter_target(1.0)  # Turn on fan to increase settling speed
         if self.orig_control.ambient_sensor is not None:
-            # If we have an ambient sensor we won't waste time waiting for ambient. We do however need to wait for sub 100(we pick 90).
+            # If we have an ambient sensor we won't waste time waiting for ambient.
+            # We do however need to wait for sub minimum_temp(we pick -5 C relative).
             reported = [False]
+            target = minimum_temp - 5
 
             def process(eventtime):
                 temp, _ = self.heater.get_temp(eventtime)
-                ret = temp > 90.0
+                ret = temp > target
                 if ret and not reported[0]:
                     gcmd.respond_info(
-                        "Waiting for heater to drop below 90 degrees celcius"
+                        f"Waiting for heater to drop below {target} degrees celcius"
                     )
                     reported[0] = True
                 return ret
 
             self.printer.wait_while(process)
-            control.set_output(0.0, 0.0)
+            self.heater.alter_target(0.0)
             return self.orig_control.ambient_sensor.get_temp(
                 self.heater.reactor.monotonic()
             )[0]
 
         gcmd.respond_info("Waiting for heater to settle at ambient temperature")
         ambient_temp = self.wait_settle(0.01)
-        control.set_output(0.0, 0.0)
+        self.heater.alter_target(0.0)
         return ambient_temp
 
     def heatup_test(self, gcmd, target_temp, control):
         gcmd.respond_info(
             "Performing heatup test, target is %.1f degrees" % (target_temp,)
         )
-        control.set_output(self.duty_limit, target_temp)
+        control.set_output(self.heater.get_max_power(), target_temp)
 
         control.logging = True
 
@@ -459,7 +464,7 @@ class MpcCalibrate:
 
         self.printer.wait_while(process)
         control.logging = False
-        control.set_output(0.0, 0.0)
+        self.heater.alter_target(0.0)
 
         log = control.log
         control.log = []
@@ -474,7 +479,7 @@ class MpcCalibrate:
         control,
         first_pass_results,
     ):
-        target_temp = first_pass_results["post_block_temp"]
+        target_temp = round(first_pass_results["post_block_temp"])
         self.heater.set_temp(target_temp)
         gcmd.respond_info(
             "Performing ambient transfer tests, target is %.1f degrees"
@@ -557,14 +562,14 @@ class MpcCalibrate:
         return best
 
     def process_first_pass(
-        self, all_samples, heater_power, ambient_temp, use_analytic
+        self, all_samples, heater_power, ambient_temp, threshold_temp, use_analytic
     ):
-        # Find a continous segment of samples that all lie in the 100.. range
+        # Find a continous segment of samples that all lie in the threshold.. range
         best_lower = None
         for idx in range(0, len(all_samples)):
-            if all_samples[idx][1] > 100.0 and best_lower is None:
+            if all_samples[idx][1] > threshold_temp and best_lower is None:
                 best_lower = idx
-            elif all_samples[idx][1] < 100.0:
+            elif all_samples[idx][1] < threshold_temp:
                 best_lower = None
 
         t1_time = all_samples[best_lower][0] - all_samples[0][0]

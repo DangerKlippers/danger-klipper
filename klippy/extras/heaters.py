@@ -383,7 +383,7 @@ class Heater:
                         )
                 temp_profile["ambient_temp_sensor"] = ambient_sensor
 
-                fan_name = config_section.get("part_cooling_fan", None)
+                fan_name = config_section.get("cooling_fan", None)
                 fan = None
                 if fan_name is not None:
                     try:
