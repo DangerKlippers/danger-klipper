@@ -190,11 +190,8 @@ class Heater:
                 % (degrees, self.min_temp, self.max_temp)
             )
         with self.lock:
-            if degrees != 0.0 and hasattr(self.control, "is_valid"):
-                if not self.control.is_valid():
-                    raise self.printer.command_error(
-                        "Cannot activate heater as the control law is not fully configured"
-                    )
+            if degrees != 0.0 and hasattr(self.control, "check_valid"):
+                self.control.check_valid()
             self.target_temp = degrees
 
     def get_temp(self, eventtime):

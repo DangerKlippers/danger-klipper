@@ -100,6 +100,16 @@ class ControlMPC:
             and self.const_sensor_responsiveness is not None
         )
 
+    def check_valid(self):
+        if self.is_valid():
+            return
+        name = self.heater.get_name()
+        raise self.printer.command_error(
+            f"Cannot activate '{name}' as MPC control is not fully configured.\n\n"
+            f"Run 'MPC_CALIBRATE' or ensure 'block_heat_capacity', 'sensor_responsiveness', and "
+            f"'ambient_transfer' settings are defined for '{name}'."
+        )
+
     def _update_filament_const(self):
         radius = self.const_filament_diameter / 2.0
         self.const_filament_cross_section_heat_capacity = (
@@ -272,6 +282,9 @@ class ControlMPC:
 
     def get_status(self, eventtime):
         return {
+            "temp_block": self.state_block_temp,
+            "temp_sensor": self.state_sensor_temp,
+            "temp_ambient": self.state_ambient_temp,
             "power": self.last_power,
             "loss_ambient": self.last_loss_ambient,
             "loss_filament": self.last_loss_filament,
