@@ -355,7 +355,7 @@ class Heater:
                     "steady_state_rate", above=0.0, default=0.5
                 )
                 temp_profile["filament_diameter"] = config_section.getfloat(
-                    "filament_radius", above=0.0, default=1.75
+                    "filament_diameter", above=0.0, default=1.75
                 )
                 temp_profile["filament_density"] = config_section.getfloat(
                     "filament_density", above=0.0, default=0.0
