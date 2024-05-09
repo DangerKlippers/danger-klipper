@@ -273,7 +273,7 @@ class ControlMPC:
         self.heater.set_pwm(read_time, duty)
 
     def check_busy(self, eventtime, smoothed_temp, target_temp):
-        return self.last_power > 0.0
+        return abs(target_temp - smoothed_temp) > 1.0
 
     def update_smooth_time(self):
         self.smooth_time = self.heater.get_smooth_time()  # smoothing window
