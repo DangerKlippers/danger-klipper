@@ -1321,6 +1321,9 @@ are not backwards compatible. It is a good idea to review this
 document when upgrading the Klipper software.</p>
 <p>All dates in this document are approximate.</p>
 <h2 id="changes">Changes<a class="headerlink" href="#changes" title="Permanent link">&para;</a></h2>
+<p>20240430: The <code>adc_ignore_limits</code> parameter in the <code>[danger_options]</code>
+config section has been renamed to <code>temp_ignore_limits</code> and it now
+covers all possible temperature sensors.</p>
 <p>20240415: The <code>on_error_gcode</code> parameter in the <code>[virtual_sdcard]</code>
 config section now has a default. If this parameter is not specified
 it now defaults to <code>TURN_OFF_HEATERS</code>. If the previous behavior is
