@@ -3210,6 +3210,31 @@ pin:
 #   the fan.
 ```
 
+### [heated_fan]
+
+Heated print cooling fans. An experimental module for high-temperature
+printing that requires part cooling air to be closer to the printed part
+temperature.
+
+```
+
+[heated_fan]
+#   See the "fan" section for a description for fan parameters.
+#   See the "heater_generic" section for a description for the heater
+#   parameters.
+#heater_temp: 50
+#   The target temperature (in Celsius) for the heater when the fan is
+#   turned on. The default is 50 Celsius.
+#min_speed: 1.0
+#   The minimum fan speed (expressed as a value from 0.0 to 1.0) that the
+#   fan will be set to when its associated heater is on (e.g.: to protect
+#   ducts from melting). If the fan is set to a speed lower than min_speed,
+#   the min_speed value is applied. The default is 1.0 (100%)
+#idle_timeout: 60
+#   A timeout in seconds for the fan to stay on when it is requested to turn
+#   off, to protect ducts from melting. The default is 60 (s).
+```
+
 ### [heater_fan]
 
 Heater cooling fans (one may define any number of sections with a

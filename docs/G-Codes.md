@@ -526,6 +526,18 @@ MOTION_QUEUE (as defined in an [extruder](Config_Reference.md#extruder)
 config section). If MOTION_QUEUE is an empty string then the stepper
 will be desynchronized from all extruder movement.
 
+### [heated_fan]
+
+The following command is available when a
+[heated_fan](Config_Reference.md#heated_fan) is
+enabled.
+
+### SET_HEATED_FAN_TARGET
+`SET_HEATED_FAN_TARGET TARGET=<temperature>`: Override the `heater_temp`
+setting in the [heated_fan config section]((Config_Reference.md#heated_fan))
+until Klipper is restarted. Useful for slicers to set different heated fan
+temperatures at different layers.
+
 ### [fan_generic]
 
 The following command is available when a
@@ -1585,7 +1597,7 @@ for details on the difference between lanes and tools and how they
 relate to each other.
 
 #### T0, T1, T2, etc.
-`T<tool index>`: Equivalent to calling 
+`T<tool index>`: Equivalent to calling
 `TR_LOAD_TOOLHEAD TOOL=<tool index>`. All of the optional parameters
 accepted by the TR_LOAD_TOOLHEAD command can also be used with these
 commands.
