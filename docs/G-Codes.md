@@ -1042,14 +1042,19 @@ noise readings might allow 0.01, to be used, while noisy reading might
 require a value of 0.03 or higher.
 
 #### SET_HEATER_PID
-`SET_HEATER_PID HEATER=<config_name> KP=<kp> KI=<ki> KD=<kd>`: Will
+`SET_HEATER_PID HEATER=<heater_name> KP=<kp> KI=<ki> KD=<kd>`: Will
 allow one to manually change PID parameters of heaters without a
 reload of the firmware.
+HEATER takes the short name (so for `heater_generic chamber` you would only
+write `chamber`)
 
 ### [pid_profile]
 
 The PID_PROFILE module is automatically loaded if a heater is defined
 in the config file.
+
+HEATER generally takes the short name (so for `heater_generic chamber` you would
+only write `chamber`)
 
 #### PID_PROFILE
 `PID_PROFILE LOAD=<profile_name> HEATER=<heater_name> [DEFAULT=<profile_name>]
@@ -1068,11 +1073,11 @@ started up, if set to 0, the profile will retain previous heating information.
 By default the information will be kept to reduce overshoot, change this value
 if you encounter weird behaviour while switching profiles.
 
-`PID_PROFILE SAVE=<profile_name> HEATER=<config_name>`:
+`PID_PROFILE SAVE=<profile_name> HEATER=<heater_name>`:
 Saves the currently loaded profile of the specified heater to the config under
 the given name.
 
-`PID_PROFILE REMOVE=<profile_name> HEATER=<config_name>`:
+`PID_PROFILE REMOVE=<profile_name> HEATER=<heater_name>`:
 Removes the given profile from the profiles List for the current session and config if SAVE_CONFIG is issued afterwards.
 
 `PID_PROFILE SET_VALUES=<profile_name> HEATER=<heater_name> TARGET=<target_temp> TOLERANCE=<tolerance>
