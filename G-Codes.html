@@ -8,8 +8,15 @@
       
       
       
+      
+        <link rel="prev" href="Pressure_Advance.html">
+      
+      
+        <link rel="next" href="Command_Templates.html">
+      
+      
       <link rel="icon" href="img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.4, mkdocs-material-8.1.3">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.23">
     
     
       
@@ -17,26 +24,31 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.edf004c2.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.6543a935.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
         
-      
-    
-    
-    
-      
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
       <link rel="stylesheet" href="_klipper3d/css/extra.css">
     
-    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -45,11 +57,12 @@
   
   
 
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-3YZJ9658GV"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-3YZJ9658GV",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-3YZJ9658GV",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
 
-  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-138371409-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
-  <script async src="https://www.google-analytics.com/analytics.js"></script>
-
-
+    
     
     
   </head>
@@ -64,9 +77,6 @@
     
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
   
-    
-    
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -86,7 +96,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="Danger Klipper documentation" class="md-header__button md-logo" aria-label="Danger Klipper documentation" data-md-component="logo">
       
@@ -94,7 +106,8 @@
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -113,52 +126,60 @@
       </div>
     </div>
     
-      <form class="md-header__option" data-md-component="palette">
-        
-          
-          
-          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
-          
-            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1z"/></svg>
-            </label>
-          
-        
-          
-          
-          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
-          
-            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5z"/></svg>
-            </label>
-          
-        
-      </form>
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
       <div class="md-header__option">
-        <div class="md-select">
-          
-          <button class="md-header__button md-icon" aria-label="Select language">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2 0-.68.06-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.923 7.923 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8.008 8.008 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.65 15.65 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2z"/></svg>
-          </button>
-          <div class="md-select__inner">
-            <ul class="md-select__list">
-              
-                <li class="md-select__item">
-                  <a href="/" hreflang="en" class="md-select__link">
-                    English
-                  </a>
-                </li>
-                
-            </ul>
-          </div>
-        </div>
-      </div>
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2 0-.68.06-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.923 7.923 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8.008 8.008 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.65 15.65 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2Z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
     
     
       <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
@@ -166,17 +187,21 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-          <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08z"/></svg>
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
           </a>
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
       
@@ -189,7 +214,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -198,10 +223,10 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/DangerKlippers/danger-klipper/" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/DangerKlippers/danger-klipper" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     DangerKlippers/danger-klipper
@@ -231,6 +256,7 @@
                     
 
 
+
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="." title="Danger Klipper documentation" class="md-nav__button md-logo" aria-label="Danger Klipper documentation" data-md-component="logo">
@@ -242,10 +268,10 @@
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/DangerKlippers/danger-klipper/" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/DangerKlippers/danger-klipper" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     DangerKlippers/danger-klipper
@@ -257,14 +283,19 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="Overview.html" class="md-nav__link">
-        Overview
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
       </a>
     </li>
   
@@ -272,14 +303,19 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="Features.html" class="md-nav__link">
-        Features
+        
+  
+  <span class="md-ellipsis">
+    Features
+  </span>
+  
+
       </a>
     </li>
   
@@ -287,14 +323,19 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="FAQ.html" class="md-nav__link">
-        Frequently Asked Questions
+        
+  
+  <span class="md-ellipsis">
+    Frequently Asked Questions
+  </span>
+  
+
       </a>
     </li>
   
@@ -302,14 +343,19 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="Releases.html" class="md-nav__link">
-        Releases
+        
+  
+  <span class="md-ellipsis">
+    Releases
+  </span>
+  
+
       </a>
     </li>
   
@@ -317,14 +363,19 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="Config_Changes.html" class="md-nav__link">
-        Configuration Changes
+        
+  
+  <span class="md-ellipsis">
+    Configuration Changes
+  </span>
+  
+
       </a>
     </li>
   
@@ -332,14 +383,19 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="Contact.html" class="md-nav__link">
-        Contact
+        
+  
+  <span class="md-ellipsis">
+    Contact
+  </span>
+  
+
       </a>
     </li>
   
@@ -347,365 +403,520 @@
     
       
       
-      
-
   
   
     
   
   
+  
+    
+    
+    
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_7">
-          Installation and Configuration
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Installation and Configuration" data-md-level="1">
-        <label class="md-nav__title" for="__nav_7">
-          <span class="md-nav__icon md-icon"></span>
-          Installation and Configuration
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
           
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Installation and Configuration
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Installation and Configuration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Installation.html" class="md-nav__link">
-        Installation
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7_2" type="checkbox" id="__nav_7_2" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_7_2">
-          Configuration Reference
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Configuration Reference" data-md-level="2">
-        <label class="md-nav__title" for="__nav_7_2">
-          <span class="md-nav__icon md-icon"></span>
-          Configuration Reference
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
           
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Configuration Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Configuration Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Config_Reference.html" class="md-nav__link">
-        Configuration reference
+        
+  
+  <span class="md-ellipsis">
+    Configuration reference
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Rotation_Distance.html" class="md-nav__link">
-        Rotation distance
+        
+  
+  <span class="md-ellipsis">
+    Rotation distance
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Config_checks.html" class="md-nav__link">
-        Configuration checks
+        
+  
+  <span class="md-ellipsis">
+    Configuration checks
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7_4" type="checkbox" id="__nav_7_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_7_4">
-          Bed Level
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Bed Level" data-md-level="2">
-        <label class="md-nav__title" for="__nav_7_4">
-          <span class="md-nav__icon md-icon"></span>
-          Bed Level
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_4" >
+        
           
+          <label class="md-nav__link" for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Bed Level
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            Bed Level
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Bed_Level.html" class="md-nav__link">
-        Bed leveling
+        
+  
+  <span class="md-ellipsis">
+    Bed leveling
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Delta_Calibrate.html" class="md-nav__link">
-        Delta calibration
+        
+  
+  <span class="md-ellipsis">
+    Delta calibration
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Probe_Calibrate.html" class="md-nav__link">
-        Probe calibration
+        
+  
+  <span class="md-ellipsis">
+    Probe calibration
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="BLTouch.html" class="md-nav__link">
-        BL-Touch
+        
+  
+  <span class="md-ellipsis">
+    BL-Touch
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Manual_Level.html" class="md-nav__link">
-        Manual leveling
+        
+  
+  <span class="md-ellipsis">
+    Manual leveling
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Bed_Mesh.html" class="md-nav__link">
-        Bed Mesh
+        
+  
+  <span class="md-ellipsis">
+    Bed Mesh
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Endstop_Phase.html" class="md-nav__link">
-        Endstop phase
+        
+  
+  <span class="md-ellipsis">
+    Endstop phase
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Axis_Twist_Compensation.html" class="md-nav__link">
-        Axis Twist Compensation
+        
+  
+  <span class="md-ellipsis">
+    Axis Twist Compensation
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7_5" type="checkbox" id="__nav_7_5" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_7_5">
-          Resonance Compensation
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Resonance Compensation" data-md-level="2">
-        <label class="md-nav__title" for="__nav_7_5">
-          <span class="md-nav__icon md-icon"></span>
-          Resonance Compensation
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_5" >
+        
           
+          <label class="md-nav__link" for="__nav_7_5" id="__nav_7_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Resonance Compensation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            Resonance Compensation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Resonance_Compensation.html" class="md-nav__link">
-        Resonance Compensation
+        
+  
+  <span class="md-ellipsis">
+    Resonance Compensation
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Measuring_Resonances.html" class="md-nav__link">
-        Measuring Resonances
+        
+  
+  <span class="md-ellipsis">
+    Measuring Resonances
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Pressure_Advance.html" class="md-nav__link">
-        Pressure advance
+        
+  
+  <span class="md-ellipsis">
+    Pressure advance
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
   
   
     
   
   
+  
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
         
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          G-Codes
+          
+  
+  <span class="md-ellipsis">
+    G-Codes
+  </span>
+  
+
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="G-Codes.html" class="md-nav__link md-nav__link--active">
-        G-Codes
+        
+  
+  <span class="md-ellipsis">
+    G-Codes
+  </span>
+  
+
       </a>
       
         
@@ -725,14 +936,18 @@
       
         <li class="md-nav__item">
   <a href="#g-code-commands" class="md-nav__link">
-    G-Code commands
+    <span class="md-ellipsis">
+      G-Code commands
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#additional-commands" class="md-nav__link">
-    Additional Commands
+    <span class="md-ellipsis">
+      Additional Commands
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Additional Commands">
@@ -740,7 +955,9 @@
         
           <li class="md-nav__item">
   <a href="#adxl345" class="md-nav__link">
-    [adxl345]
+    <span class="md-ellipsis">
+      [adxl345]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[adxl345]">
@@ -748,28 +965,36 @@
         
           <li class="md-nav__item">
   <a href="#accelerometer_measure" class="md-nav__link">
-    ACCELEROMETER_MEASURE
+    <span class="md-ellipsis">
+      ACCELEROMETER_MEASURE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#accelerometer_query" class="md-nav__link">
-    ACCELEROMETER_QUERY
+    <span class="md-ellipsis">
+      ACCELEROMETER_QUERY
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#accelerometer_debug_read" class="md-nav__link">
-    ACCELEROMETER_DEBUG_READ
+    <span class="md-ellipsis">
+      ACCELEROMETER_DEBUG_READ
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#accelerometer_debug_write" class="md-nav__link">
-    ACCELEROMETER_DEBUG_WRITE
+    <span class="md-ellipsis">
+      ACCELEROMETER_DEBUG_WRITE
+    </span>
   </a>
   
 </li>
@@ -781,7 +1006,9 @@
         
           <li class="md-nav__item">
   <a href="#angle" class="md-nav__link">
-    [angle]
+    <span class="md-ellipsis">
+      [angle]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[angle]">
@@ -789,21 +1016,27 @@
         
           <li class="md-nav__item">
   <a href="#angle_calibrate" class="md-nav__link">
-    ANGLE_CALIBRATE
+    <span class="md-ellipsis">
+      ANGLE_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#angle_debug_read" class="md-nav__link">
-    ANGLE_DEBUG_READ
+    <span class="md-ellipsis">
+      ANGLE_DEBUG_READ
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#angle_debug_write" class="md-nav__link">
-    ANGLE_DEBUG_WRITE
+    <span class="md-ellipsis">
+      ANGLE_DEBUG_WRITE
+    </span>
   </a>
   
 </li>
@@ -815,7 +1048,9 @@
         
           <li class="md-nav__item">
   <a href="#axis_twist_compensation" class="md-nav__link">
-    [axis_twist_compensation]
+    <span class="md-ellipsis">
+      [axis_twist_compensation]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[axis_twist_compensation]">
@@ -823,7 +1058,9 @@
         
           <li class="md-nav__item">
   <a href="#axis_twist_compensation_calibrate" class="md-nav__link">
-    AXIS_TWIST_COMPENSATION_CALIBRATE
+    <span class="md-ellipsis">
+      AXIS_TWIST_COMPENSATION_CALIBRATE
+    </span>
   </a>
   
 </li>
@@ -835,7 +1072,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_mesh" class="md-nav__link">
-    [bed_mesh]
+    <span class="md-ellipsis">
+      [bed_mesh]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[bed_mesh]">
@@ -843,42 +1082,54 @@
         
           <li class="md-nav__item">
   <a href="#bed_mesh_calibrate" class="md-nav__link">
-    BED_MESH_CALIBRATE
+    <span class="md-ellipsis">
+      BED_MESH_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_output" class="md-nav__link">
-    BED_MESH_OUTPUT
+    <span class="md-ellipsis">
+      BED_MESH_OUTPUT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_map" class="md-nav__link">
-    BED_MESH_MAP
+    <span class="md-ellipsis">
+      BED_MESH_MAP
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_clear" class="md-nav__link">
-    BED_MESH_CLEAR
+    <span class="md-ellipsis">
+      BED_MESH_CLEAR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_profile" class="md-nav__link">
-    BED_MESH_PROFILE
+    <span class="md-ellipsis">
+      BED_MESH_PROFILE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_offset" class="md-nav__link">
-    BED_MESH_OFFSET
+    <span class="md-ellipsis">
+      BED_MESH_OFFSET
+    </span>
   </a>
   
 </li>
@@ -890,7 +1141,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_screws" class="md-nav__link">
-    [bed_screws]
+    <span class="md-ellipsis">
+      [bed_screws]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[bed_screws]">
@@ -898,7 +1151,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_screws_adjust" class="md-nav__link">
-    BED_SCREWS_ADJUST
+    <span class="md-ellipsis">
+      BED_SCREWS_ADJUST
+    </span>
   </a>
   
 </li>
@@ -910,7 +1165,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_tilt" class="md-nav__link">
-    [bed_tilt]
+    <span class="md-ellipsis">
+      [bed_tilt]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[bed_tilt]">
@@ -918,7 +1175,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_tilt_calibrate" class="md-nav__link">
-    BED_TILT_CALIBRATE
+    <span class="md-ellipsis">
+      BED_TILT_CALIBRATE
+    </span>
   </a>
   
 </li>
@@ -930,7 +1189,9 @@
         
           <li class="md-nav__item">
   <a href="#belay" class="md-nav__link">
-    [belay]
+    <span class="md-ellipsis">
+      [belay]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[belay]">
@@ -938,21 +1199,27 @@
         
           <li class="md-nav__item">
   <a href="#query_belay" class="md-nav__link">
-    QUERY_BELAY
+    <span class="md-ellipsis">
+      QUERY_BELAY
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#belay_set_multiplier" class="md-nav__link">
-    BELAY_SET_MULTIPLIER
+    <span class="md-ellipsis">
+      BELAY_SET_MULTIPLIER
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#belay_set_stepper" class="md-nav__link">
-    BELAY_SET_STEPPER
+    <span class="md-ellipsis">
+      BELAY_SET_STEPPER
+    </span>
   </a>
   
 </li>
@@ -964,7 +1231,9 @@
         
           <li class="md-nav__item">
   <a href="#bltouch" class="md-nav__link">
-    [bltouch]
+    <span class="md-ellipsis">
+      [bltouch]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[bltouch]">
@@ -972,14 +1241,18 @@
         
           <li class="md-nav__item">
   <a href="#bltouch_debug" class="md-nav__link">
-    BLTOUCH_DEBUG
+    <span class="md-ellipsis">
+      BLTOUCH_DEBUG
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bltouch_store" class="md-nav__link">
-    BLTOUCH_STORE
+    <span class="md-ellipsis">
+      BLTOUCH_STORE
+    </span>
   </a>
   
 </li>
@@ -991,7 +1264,9 @@
         
           <li class="md-nav__item">
   <a href="#configfile" class="md-nav__link">
-    [configfile]
+    <span class="md-ellipsis">
+      [configfile]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[configfile]">
@@ -999,7 +1274,9 @@
         
           <li class="md-nav__item">
   <a href="#save_config" class="md-nav__link">
-    SAVE_CONFIG
+    <span class="md-ellipsis">
+      SAVE_CONFIG
+    </span>
   </a>
   
 </li>
@@ -1011,7 +1288,9 @@
         
           <li class="md-nav__item">
   <a href="#delayed_gcode" class="md-nav__link">
-    [delayed_gcode]
+    <span class="md-ellipsis">
+      [delayed_gcode]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[delayed_gcode]">
@@ -1019,7 +1298,9 @@
         
           <li class="md-nav__item">
   <a href="#update_delayed_gcode" class="md-nav__link">
-    UPDATE_DELAYED_GCODE
+    <span class="md-ellipsis">
+      UPDATE_DELAYED_GCODE
+    </span>
   </a>
   
 </li>
@@ -1031,7 +1312,9 @@
         
           <li class="md-nav__item">
   <a href="#delta_calibrate" class="md-nav__link">
-    [delta_calibrate]
+    <span class="md-ellipsis">
+      [delta_calibrate]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[delta_calibrate]">
@@ -1039,14 +1322,18 @@
         
           <li class="md-nav__item">
   <a href="#delta_calibrate_1" class="md-nav__link">
-    DELTA_CALIBRATE
+    <span class="md-ellipsis">
+      DELTA_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#delta_analyze" class="md-nav__link">
-    DELTA_ANALYZE
+    <span class="md-ellipsis">
+      DELTA_ANALYZE
+    </span>
   </a>
   
 </li>
@@ -1058,7 +1345,9 @@
         
           <li class="md-nav__item">
   <a href="#display" class="md-nav__link">
-    [display]
+    <span class="md-ellipsis">
+      [display]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[display]">
@@ -1066,7 +1355,9 @@
         
           <li class="md-nav__item">
   <a href="#set_display_group" class="md-nav__link">
-    SET_DISPLAY_GROUP
+    <span class="md-ellipsis">
+      SET_DISPLAY_GROUP
+    </span>
   </a>
   
 </li>
@@ -1078,7 +1369,9 @@
         
           <li class="md-nav__item">
   <a href="#display_status" class="md-nav__link">
-    [display_status]
+    <span class="md-ellipsis">
+      [display_status]
+    </span>
   </a>
   
 </li>
@@ -1090,7 +1383,9 @@
       
         <li class="md-nav__item">
   <a href="#dockable_probe" class="md-nav__link">
-    [dockable_probe]
+    <span class="md-ellipsis">
+      [dockable_probe]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[dockable_probe]">
@@ -1098,7 +1393,9 @@
         
           <li class="md-nav__item">
   <a href="#dual_carriage" class="md-nav__link">
-    [dual_carriage]
+    <span class="md-ellipsis">
+      [dual_carriage]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[dual_carriage]">
@@ -1106,21 +1403,27 @@
         
           <li class="md-nav__item">
   <a href="#set_dual_carriage" class="md-nav__link">
-    SET_DUAL_CARRIAGE
+    <span class="md-ellipsis">
+      SET_DUAL_CARRIAGE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#save_dual_carriage_state" class="md-nav__link">
-    SAVE_DUAL_CARRIAGE_STATE
+    <span class="md-ellipsis">
+      SAVE_DUAL_CARRIAGE_STATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#restore_dual_carriage_state" class="md-nav__link">
-    RESTORE_DUAL_CARRIAGE_STATE
+    <span class="md-ellipsis">
+      RESTORE_DUAL_CARRIAGE_STATE
+    </span>
   </a>
   
 </li>
@@ -1132,7 +1435,9 @@
         
           <li class="md-nav__item">
   <a href="#endstop_phase" class="md-nav__link">
-    [endstop_phase]
+    <span class="md-ellipsis">
+      [endstop_phase]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[endstop_phase]">
@@ -1140,7 +1445,9 @@
         
           <li class="md-nav__item">
   <a href="#endstop_phase_calibrate" class="md-nav__link">
-    ENDSTOP_PHASE_CALIBRATE
+    <span class="md-ellipsis">
+      ENDSTOP_PHASE_CALIBRATE
+    </span>
   </a>
   
 </li>
@@ -1152,7 +1459,9 @@
         
           <li class="md-nav__item">
   <a href="#exclude_object" class="md-nav__link">
-    [exclude_object]
+    <span class="md-ellipsis">
+      [exclude_object]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[exclude_object]">
@@ -1160,28 +1469,36 @@
         
           <li class="md-nav__item">
   <a href="#exclude_object_1" class="md-nav__link">
-    EXCLUDE_OBJECT
+    <span class="md-ellipsis">
+      EXCLUDE_OBJECT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#exclude_object_define" class="md-nav__link">
-    EXCLUDE_OBJECT_DEFINE
+    <span class="md-ellipsis">
+      EXCLUDE_OBJECT_DEFINE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#exclude_object_start" class="md-nav__link">
-    EXCLUDE_OBJECT_START
+    <span class="md-ellipsis">
+      EXCLUDE_OBJECT_START
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#exclude_object_end" class="md-nav__link">
-    EXCLUDE_OBJECT_END
+    <span class="md-ellipsis">
+      EXCLUDE_OBJECT_END
+    </span>
   </a>
   
 </li>
@@ -1193,7 +1510,9 @@
         
           <li class="md-nav__item">
   <a href="#extruder" class="md-nav__link">
-    [extruder]
+    <span class="md-ellipsis">
+      [extruder]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[extruder]">
@@ -1201,28 +1520,36 @@
         
           <li class="md-nav__item">
   <a href="#activate_extruder" class="md-nav__link">
-    ACTIVATE_EXTRUDER
+    <span class="md-ellipsis">
+      ACTIVATE_EXTRUDER
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_pressure_advance" class="md-nav__link">
-    SET_PRESSURE_ADVANCE
+    <span class="md-ellipsis">
+      SET_PRESSURE_ADVANCE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_extruder_rotation_distance" class="md-nav__link">
-    SET_EXTRUDER_ROTATION_DISTANCE
+    <span class="md-ellipsis">
+      SET_EXTRUDER_ROTATION_DISTANCE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#sync_extruder_motion" class="md-nav__link">
-    SYNC_EXTRUDER_MOTION
+    <span class="md-ellipsis">
+      SYNC_EXTRUDER_MOTION
+    </span>
   </a>
   
 </li>
@@ -1234,7 +1561,9 @@
         
           <li class="md-nav__item">
   <a href="#fan_generic" class="md-nav__link">
-    [fan_generic]
+    <span class="md-ellipsis">
+      [fan_generic]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[fan_generic]">
@@ -1242,7 +1571,9 @@
         
           <li class="md-nav__item">
   <a href="#set_fan_speed" class="md-nav__link">
-    SET_FAN_SPEED
+    <span class="md-ellipsis">
+      SET_FAN_SPEED
+    </span>
   </a>
   
 </li>
@@ -1254,7 +1585,9 @@
         
           <li class="md-nav__item">
   <a href="#filament_switch_sensor" class="md-nav__link">
-    [filament_switch_sensor]
+    <span class="md-ellipsis">
+      [filament_switch_sensor]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[filament_switch_sensor]">
@@ -1262,14 +1595,18 @@
         
           <li class="md-nav__item">
   <a href="#query_filament_sensor" class="md-nav__link">
-    QUERY_FILAMENT_SENSOR
+    <span class="md-ellipsis">
+      QUERY_FILAMENT_SENSOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_filament_sensor" class="md-nav__link">
-    SET_FILAMENT_SENSOR
+    <span class="md-ellipsis">
+      SET_FILAMENT_SENSOR
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="SET_FILAMENT_SENSOR">
@@ -1277,14 +1614,18 @@
         
           <li class="md-nav__item">
   <a href="#for-filament_switch_sensor" class="md-nav__link">
-    For filament_switch_sensor:
+    <span class="md-ellipsis">
+      For filament_switch_sensor:
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#for-filament_motion_sensor" class="md-nav__link">
-    For filament_motion_sensor:
+    <span class="md-ellipsis">
+      For filament_motion_sensor:
+    </span>
   </a>
   
 </li>
@@ -1301,7 +1642,9 @@
         
           <li class="md-nav__item">
   <a href="#firmware_retraction" class="md-nav__link">
-    [firmware_retraction]
+    <span class="md-ellipsis">
+      [firmware_retraction]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[firmware_retraction]">
@@ -1309,21 +1652,27 @@
         
           <li class="md-nav__item">
   <a href="#set_retraction" class="md-nav__link">
-    SET_RETRACTION
+    <span class="md-ellipsis">
+      SET_RETRACTION
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#get_retraction" class="md-nav__link">
-    GET_RETRACTION
+    <span class="md-ellipsis">
+      GET_RETRACTION
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#clear_retraction" class="md-nav__link">
-    CLEAR_RETRACTION
+    <span class="md-ellipsis">
+      CLEAR_RETRACTION
+    </span>
   </a>
   
 </li>
@@ -1335,7 +1684,9 @@
         
           <li class="md-nav__item">
   <a href="#force_move" class="md-nav__link">
-    [force_move]
+    <span class="md-ellipsis">
+      [force_move]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[force_move]">
@@ -1343,21 +1694,27 @@
         
           <li class="md-nav__item">
   <a href="#stepper_buzz" class="md-nav__link">
-    STEPPER_BUZZ
+    <span class="md-ellipsis">
+      STEPPER_BUZZ
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#force_move_1" class="md-nav__link">
-    FORCE_MOVE
+    <span class="md-ellipsis">
+      FORCE_MOVE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_kinematic_position" class="md-nav__link">
-    SET_KINEMATIC_POSITION
+    <span class="md-ellipsis">
+      SET_KINEMATIC_POSITION
+    </span>
   </a>
   
 </li>
@@ -1369,7 +1726,9 @@
         
           <li class="md-nav__item">
   <a href="#gcode" class="md-nav__link">
-    [gcode]
+    <span class="md-ellipsis">
+      [gcode]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[gcode]">
@@ -1377,35 +1736,45 @@
         
           <li class="md-nav__item">
   <a href="#restart" class="md-nav__link">
-    RESTART
+    <span class="md-ellipsis">
+      RESTART
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#firmware_restart" class="md-nav__link">
-    FIRMWARE_RESTART
+    <span class="md-ellipsis">
+      FIRMWARE_RESTART
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#heater_interrupt" class="md-nav__link">
-    HEATER_INTERRUPT
+    <span class="md-ellipsis">
+      HEATER_INTERRUPT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#status" class="md-nav__link">
-    STATUS
+    <span class="md-ellipsis">
+      STATUS
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#help" class="md-nav__link">
-    HELP
+    <span class="md-ellipsis">
+      HELP
+    </span>
   </a>
   
 </li>
@@ -1417,14 +1786,18 @@
         
           <li class="md-nav__item">
   <a href="#gcode_arcs" class="md-nav__link">
-    [gcode_arcs]
+    <span class="md-ellipsis">
+      [gcode_arcs]
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#gcode_macro" class="md-nav__link">
-    [gcode_macro]
+    <span class="md-ellipsis">
+      [gcode_macro]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[gcode_macro]">
@@ -1432,7 +1805,9 @@
         
           <li class="md-nav__item">
   <a href="#set_gcode_variable" class="md-nav__link">
-    SET_GCODE_VARIABLE
+    <span class="md-ellipsis">
+      SET_GCODE_VARIABLE
+    </span>
   </a>
   
 </li>
@@ -1444,7 +1819,9 @@
         
           <li class="md-nav__item">
   <a href="#gcode_move" class="md-nav__link">
-    [gcode_move]
+    <span class="md-ellipsis">
+      [gcode_move]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[gcode_move]">
@@ -1452,28 +1829,36 @@
         
           <li class="md-nav__item">
   <a href="#get_position" class="md-nav__link">
-    GET_POSITION
+    <span class="md-ellipsis">
+      GET_POSITION
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_gcode_offset" class="md-nav__link">
-    SET_GCODE_OFFSET
+    <span class="md-ellipsis">
+      SET_GCODE_OFFSET
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#save_gcode_state" class="md-nav__link">
-    SAVE_GCODE_STATE
+    <span class="md-ellipsis">
+      SAVE_GCODE_STATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#restore_gcode_state" class="md-nav__link">
-    RESTORE_GCODE_STATE
+    <span class="md-ellipsis">
+      RESTORE_GCODE_STATE
+    </span>
   </a>
   
 </li>
@@ -1485,7 +1870,9 @@
         
           <li class="md-nav__item">
   <a href="#hall_filament_width_sensor" class="md-nav__link">
-    [hall_filament_width_sensor]
+    <span class="md-ellipsis">
+      [hall_filament_width_sensor]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[hall_filament_width_sensor]">
@@ -1493,49 +1880,63 @@
         
           <li class="md-nav__item">
   <a href="#query_filament_width" class="md-nav__link">
-    QUERY_FILAMENT_WIDTH
+    <span class="md-ellipsis">
+      QUERY_FILAMENT_WIDTH
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#reset_filament_width_sensor" class="md-nav__link">
-    RESET_FILAMENT_WIDTH_SENSOR
+    <span class="md-ellipsis">
+      RESET_FILAMENT_WIDTH_SENSOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#disable_filament_width_sensor" class="md-nav__link">
-    DISABLE_FILAMENT_WIDTH_SENSOR
+    <span class="md-ellipsis">
+      DISABLE_FILAMENT_WIDTH_SENSOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#enable_filament_width_sensor" class="md-nav__link">
-    ENABLE_FILAMENT_WIDTH_SENSOR
+    <span class="md-ellipsis">
+      ENABLE_FILAMENT_WIDTH_SENSOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#query_raw_filament_width" class="md-nav__link">
-    QUERY_RAW_FILAMENT_WIDTH
+    <span class="md-ellipsis">
+      QUERY_RAW_FILAMENT_WIDTH
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#enable_filament_width_log" class="md-nav__link">
-    ENABLE_FILAMENT_WIDTH_LOG
+    <span class="md-ellipsis">
+      ENABLE_FILAMENT_WIDTH_LOG
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#disable_filament_width_log" class="md-nav__link">
-    DISABLE_FILAMENT_WIDTH_LOG
+    <span class="md-ellipsis">
+      DISABLE_FILAMENT_WIDTH_LOG
+    </span>
   </a>
   
 </li>
@@ -1547,7 +1948,9 @@
         
           <li class="md-nav__item">
   <a href="#heaters" class="md-nav__link">
-    [heaters]
+    <span class="md-ellipsis">
+      [heaters]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[heaters]">
@@ -1555,28 +1958,36 @@
         
           <li class="md-nav__item">
   <a href="#turn_off_heaters" class="md-nav__link">
-    TURN_OFF_HEATERS
+    <span class="md-ellipsis">
+      TURN_OFF_HEATERS
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#temperature_wait" class="md-nav__link">
-    TEMPERATURE_WAIT
+    <span class="md-ellipsis">
+      TEMPERATURE_WAIT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_heater_temperature" class="md-nav__link">
-    SET_HEATER_TEMPERATURE
+    <span class="md-ellipsis">
+      SET_HEATER_TEMPERATURE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_smooth_time" class="md-nav__link">
-    SET_SMOOTH_TIME
+    <span class="md-ellipsis">
+      SET_SMOOTH_TIME
+    </span>
   </a>
   
 </li>
@@ -1588,7 +1999,9 @@
         
           <li class="md-nav__item">
   <a href="#idle_timeout" class="md-nav__link">
-    [idle_timeout]
+    <span class="md-ellipsis">
+      [idle_timeout]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[idle_timeout]">
@@ -1596,7 +2009,9 @@
         
           <li class="md-nav__item">
   <a href="#set_idle_timeout" class="md-nav__link">
-    SET_IDLE_TIMEOUT
+    <span class="md-ellipsis">
+      SET_IDLE_TIMEOUT
+    </span>
   </a>
   
 </li>
@@ -1608,7 +2023,9 @@
         
           <li class="md-nav__item">
   <a href="#input_shaper" class="md-nav__link">
-    [input_shaper]
+    <span class="md-ellipsis">
+      [input_shaper]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[input_shaper]">
@@ -1616,7 +2033,9 @@
         
           <li class="md-nav__item">
   <a href="#set_input_shaper" class="md-nav__link">
-    SET_INPUT_SHAPER
+    <span class="md-ellipsis">
+      SET_INPUT_SHAPER
+    </span>
   </a>
   
 </li>
@@ -1628,7 +2047,9 @@
         
           <li class="md-nav__item">
   <a href="#manual_probe" class="md-nav__link">
-    [manual_probe]
+    <span class="md-ellipsis">
+      [manual_probe]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[manual_probe]">
@@ -1636,21 +2057,27 @@
         
           <li class="md-nav__item">
   <a href="#manual_probe_1" class="md-nav__link">
-    MANUAL_PROBE
+    <span class="md-ellipsis">
+      MANUAL_PROBE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#z_endstop_calibrate" class="md-nav__link">
-    Z_ENDSTOP_CALIBRATE
+    <span class="md-ellipsis">
+      Z_ENDSTOP_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#z_offset_apply_endstop" class="md-nav__link">
-    Z_OFFSET_APPLY_ENDSTOP
+    <span class="md-ellipsis">
+      Z_OFFSET_APPLY_ENDSTOP
+    </span>
   </a>
   
 </li>
@@ -1662,7 +2089,9 @@
         
           <li class="md-nav__item">
   <a href="#manual_stepper" class="md-nav__link">
-    [manual_stepper]
+    <span class="md-ellipsis">
+      [manual_stepper]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[manual_stepper]">
@@ -1670,7 +2099,9 @@
         
           <li class="md-nav__item">
   <a href="#manual_stepper_1" class="md-nav__link">
-    MANUAL_STEPPER
+    <span class="md-ellipsis">
+      MANUAL_STEPPER
+    </span>
   </a>
   
 </li>
@@ -1682,7 +2113,9 @@
         
           <li class="md-nav__item">
   <a href="#mcp4018" class="md-nav__link">
-    [mcp4018]
+    <span class="md-ellipsis">
+      [mcp4018]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[mcp4018]">
@@ -1690,7 +2123,9 @@
         
           <li class="md-nav__item">
   <a href="#set_digipot" class="md-nav__link">
-    SET_DIGIPOT
+    <span class="md-ellipsis">
+      SET_DIGIPOT
+    </span>
   </a>
   
 </li>
@@ -1702,7 +2137,9 @@
         
           <li class="md-nav__item">
   <a href="#led" class="md-nav__link">
-    [led]
+    <span class="md-ellipsis">
+      [led]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[led]">
@@ -1710,14 +2147,18 @@
         
           <li class="md-nav__item">
   <a href="#set_led" class="md-nav__link">
-    SET_LED
+    <span class="md-ellipsis">
+      SET_LED
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_led_template" class="md-nav__link">
-    SET_LED_TEMPLATE
+    <span class="md-ellipsis">
+      SET_LED_TEMPLATE
+    </span>
   </a>
   
 </li>
@@ -1729,7 +2170,9 @@
         
           <li class="md-nav__item">
   <a href="#output_pin" class="md-nav__link">
-    [output_pin]
+    <span class="md-ellipsis">
+      [output_pin]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[output_pin]">
@@ -1737,7 +2180,9 @@
         
           <li class="md-nav__item">
   <a href="#set_pin" class="md-nav__link">
-    SET_PIN
+    <span class="md-ellipsis">
+      SET_PIN
+    </span>
   </a>
   
 </li>
@@ -1749,7 +2194,9 @@
         
           <li class="md-nav__item">
   <a href="#palette2" class="md-nav__link">
-    [palette2]
+    <span class="md-ellipsis">
+      [palette2]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[palette2]">
@@ -1757,35 +2204,45 @@
         
           <li class="md-nav__item">
   <a href="#palette_connect" class="md-nav__link">
-    PALETTE_CONNECT
+    <span class="md-ellipsis">
+      PALETTE_CONNECT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#palette_disconnect" class="md-nav__link">
-    PALETTE_DISCONNECT
+    <span class="md-ellipsis">
+      PALETTE_DISCONNECT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#palette_clear" class="md-nav__link">
-    PALETTE_CLEAR
+    <span class="md-ellipsis">
+      PALETTE_CLEAR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#palette_cut" class="md-nav__link">
-    PALETTE_CUT
+    <span class="md-ellipsis">
+      PALETTE_CUT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#palette_smart_load" class="md-nav__link">
-    PALETTE_SMART_LOAD
+    <span class="md-ellipsis">
+      PALETTE_SMART_LOAD
+    </span>
   </a>
   
 </li>
@@ -1797,7 +2254,9 @@
         
           <li class="md-nav__item">
   <a href="#pid_calibrate" class="md-nav__link">
-    [pid_calibrate]
+    <span class="md-ellipsis">
+      [pid_calibrate]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[pid_calibrate]">
@@ -1805,14 +2264,18 @@
         
           <li class="md-nav__item">
   <a href="#pid_calibrate_1" class="md-nav__link">
-    PID_CALIBRATE
+    <span class="md-ellipsis">
+      PID_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_heater_pid" class="md-nav__link">
-    SET_HEATER_PID
+    <span class="md-ellipsis">
+      SET_HEATER_PID
+    </span>
   </a>
   
 </li>
@@ -1824,7 +2287,9 @@
         
           <li class="md-nav__item">
   <a href="#pid_profile" class="md-nav__link">
-    [pid_profile]
+    <span class="md-ellipsis">
+      [pid_profile]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[pid_profile]">
@@ -1832,7 +2297,9 @@
         
           <li class="md-nav__item">
   <a href="#pid_profile_1" class="md-nav__link">
-    PID_PROFILE
+    <span class="md-ellipsis">
+      PID_PROFILE
+    </span>
   </a>
   
 </li>
@@ -1844,7 +2311,9 @@
         
           <li class="md-nav__item">
   <a href="#pause_resume" class="md-nav__link">
-    [pause_resume]
+    <span class="md-ellipsis">
+      [pause_resume]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[pause_resume]">
@@ -1852,28 +2321,36 @@
         
           <li class="md-nav__item">
   <a href="#pause" class="md-nav__link">
-    PAUSE
+    <span class="md-ellipsis">
+      PAUSE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#resume" class="md-nav__link">
-    RESUME
+    <span class="md-ellipsis">
+      RESUME
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#clear_pause" class="md-nav__link">
-    CLEAR_PAUSE
+    <span class="md-ellipsis">
+      CLEAR_PAUSE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#cancel_print" class="md-nav__link">
-    CANCEL_PRINT
+    <span class="md-ellipsis">
+      CANCEL_PRINT
+    </span>
   </a>
   
 </li>
@@ -1885,7 +2362,9 @@
         
           <li class="md-nav__item">
   <a href="#print_stats" class="md-nav__link">
-    [print_stats]
+    <span class="md-ellipsis">
+      [print_stats]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[print_stats]">
@@ -1893,7 +2372,9 @@
         
           <li class="md-nav__item">
   <a href="#set_print_stats_info" class="md-nav__link">
-    SET_PRINT_STATS_INFO
+    <span class="md-ellipsis">
+      SET_PRINT_STATS_INFO
+    </span>
   </a>
   
 </li>
@@ -1905,7 +2386,9 @@
         
           <li class="md-nav__item">
   <a href="#probe" class="md-nav__link">
-    [probe]
+    <span class="md-ellipsis">
+      [probe]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[probe]">
@@ -1913,35 +2396,45 @@
         
           <li class="md-nav__item">
   <a href="#probe_1" class="md-nav__link">
-    PROBE
+    <span class="md-ellipsis">
+      PROBE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#query_probe" class="md-nav__link">
-    QUERY_PROBE
+    <span class="md-ellipsis">
+      QUERY_PROBE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#probe_accuracy" class="md-nav__link">
-    PROBE_ACCURACY
+    <span class="md-ellipsis">
+      PROBE_ACCURACY
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#probe_calibrate" class="md-nav__link">
-    PROBE_CALIBRATE
+    <span class="md-ellipsis">
+      PROBE_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#z_offset_apply_probe" class="md-nav__link">
-    Z_OFFSET_APPLY_PROBE
+    <span class="md-ellipsis">
+      Z_OFFSET_APPLY_PROBE
+    </span>
   </a>
   
 </li>
@@ -1953,7 +2446,9 @@
         
           <li class="md-nav__item">
   <a href="#probe_eddy_current" class="md-nav__link">
-    [probe_eddy_current]
+    <span class="md-ellipsis">
+      [probe_eddy_current]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[probe_eddy_current]">
@@ -1961,14 +2456,18 @@
         
           <li class="md-nav__item">
   <a href="#probe_eddy_current_calibrate" class="md-nav__link">
-    PROBE_EDDY_CURRENT_CALIBRATE
+    <span class="md-ellipsis">
+      PROBE_EDDY_CURRENT_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#ldc_calibrate_drive_current" class="md-nav__link">
-    LDC_CALIBRATE_DRIVE_CURRENT
+    <span class="md-ellipsis">
+      LDC_CALIBRATE_DRIVE_CURRENT
+    </span>
   </a>
   
 </li>
@@ -1980,7 +2479,9 @@
         
           <li class="md-nav__item">
   <a href="#pwm_cycle_time" class="md-nav__link">
-    [pwm_cycle_time]
+    <span class="md-ellipsis">
+      [pwm_cycle_time]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[pwm_cycle_time]">
@@ -1988,7 +2489,9 @@
         
           <li class="md-nav__item">
   <a href="#set_pin_1" class="md-nav__link">
-    SET_PIN
+    <span class="md-ellipsis">
+      SET_PIN
+    </span>
   </a>
   
 </li>
@@ -2000,7 +2503,9 @@
         
           <li class="md-nav__item">
   <a href="#query_adc" class="md-nav__link">
-    [query_adc]
+    <span class="md-ellipsis">
+      [query_adc]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[query_adc]">
@@ -2008,7 +2513,9 @@
         
           <li class="md-nav__item">
   <a href="#query_adc_1" class="md-nav__link">
-    QUERY_ADC
+    <span class="md-ellipsis">
+      QUERY_ADC
+    </span>
   </a>
   
 </li>
@@ -2020,7 +2527,9 @@
         
           <li class="md-nav__item">
   <a href="#query_endstops" class="md-nav__link">
-    [query_endstops]
+    <span class="md-ellipsis">
+      [query_endstops]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[query_endstops]">
@@ -2028,7 +2537,9 @@
         
           <li class="md-nav__item">
   <a href="#query_endstops_1" class="md-nav__link">
-    QUERY_ENDSTOPS
+    <span class="md-ellipsis">
+      QUERY_ENDSTOPS
+    </span>
   </a>
   
 </li>
@@ -2040,7 +2551,9 @@
         
           <li class="md-nav__item">
   <a href="#resonance_tester" class="md-nav__link">
-    [resonance_tester]
+    <span class="md-ellipsis">
+      [resonance_tester]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[resonance_tester]">
@@ -2048,21 +2561,27 @@
         
           <li class="md-nav__item">
   <a href="#measure_axes_noise" class="md-nav__link">
-    MEASURE_AXES_NOISE
+    <span class="md-ellipsis">
+      MEASURE_AXES_NOISE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#test_resonances" class="md-nav__link">
-    TEST_RESONANCES
+    <span class="md-ellipsis">
+      TEST_RESONANCES
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#shaper_calibrate" class="md-nav__link">
-    SHAPER_CALIBRATE
+    <span class="md-ellipsis">
+      SHAPER_CALIBRATE
+    </span>
   </a>
   
 </li>
@@ -2074,7 +2593,9 @@
         
           <li class="md-nav__item">
   <a href="#respond" class="md-nav__link">
-    [respond]
+    <span class="md-ellipsis">
+      [respond]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[respond]">
@@ -2082,7 +2603,9 @@
         
           <li class="md-nav__item">
   <a href="#respond_1" class="md-nav__link">
-    RESPOND
+    <span class="md-ellipsis">
+      RESPOND
+    </span>
   </a>
   
 </li>
@@ -2094,7 +2617,9 @@
         
           <li class="md-nav__item">
   <a href="#save_variables" class="md-nav__link">
-    [save_variables]
+    <span class="md-ellipsis">
+      [save_variables]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[save_variables]">
@@ -2102,7 +2627,9 @@
         
           <li class="md-nav__item">
   <a href="#save_variable" class="md-nav__link">
-    SAVE_VARIABLE
+    <span class="md-ellipsis">
+      SAVE_VARIABLE
+    </span>
   </a>
   
 </li>
@@ -2114,7 +2641,9 @@
         
           <li class="md-nav__item">
   <a href="#screws_tilt_adjust" class="md-nav__link">
-    [screws_tilt_adjust]
+    <span class="md-ellipsis">
+      [screws_tilt_adjust]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[screws_tilt_adjust]">
@@ -2122,7 +2651,9 @@
         
           <li class="md-nav__item">
   <a href="#screws_tilt_calculate" class="md-nav__link">
-    SCREWS_TILT_CALCULATE
+    <span class="md-ellipsis">
+      SCREWS_TILT_CALCULATE
+    </span>
   </a>
   
 </li>
@@ -2134,7 +2665,9 @@
         
           <li class="md-nav__item">
   <a href="#sdcard_loop" class="md-nav__link">
-    [sdcard_loop]
+    <span class="md-ellipsis">
+      [sdcard_loop]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[sdcard_loop]">
@@ -2142,21 +2675,27 @@
         
           <li class="md-nav__item">
   <a href="#sdcard_loop_begin" class="md-nav__link">
-    SDCARD_LOOP_BEGIN
+    <span class="md-ellipsis">
+      SDCARD_LOOP_BEGIN
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#sdcard_loop_end" class="md-nav__link">
-    SDCARD_LOOP_END
+    <span class="md-ellipsis">
+      SDCARD_LOOP_END
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#sdcard_loop_desist" class="md-nav__link">
-    SDCARD_LOOP_DESIST
+    <span class="md-ellipsis">
+      SDCARD_LOOP_DESIST
+    </span>
   </a>
   
 </li>
@@ -2168,7 +2707,9 @@
         
           <li class="md-nav__item">
   <a href="#servo" class="md-nav__link">
-    [servo]
+    <span class="md-ellipsis">
+      [servo]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[servo]">
@@ -2176,7 +2717,9 @@
         
           <li class="md-nav__item">
   <a href="#set_servo" class="md-nav__link">
-    SET_SERVO
+    <span class="md-ellipsis">
+      SET_SERVO
+    </span>
   </a>
   
 </li>
@@ -2188,7 +2731,9 @@
         
           <li class="md-nav__item">
   <a href="#skew_correction" class="md-nav__link">
-    [skew_correction]
+    <span class="md-ellipsis">
+      [skew_correction]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[skew_correction]">
@@ -2196,28 +2741,36 @@
         
           <li class="md-nav__item">
   <a href="#set_skew" class="md-nav__link">
-    SET_SKEW
+    <span class="md-ellipsis">
+      SET_SKEW
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#get_current_skew" class="md-nav__link">
-    GET_CURRENT_SKEW
+    <span class="md-ellipsis">
+      GET_CURRENT_SKEW
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#calc_measured_skew" class="md-nav__link">
-    CALC_MEASURED_SKEW
+    <span class="md-ellipsis">
+      CALC_MEASURED_SKEW
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#skew_profile" class="md-nav__link">
-    SKEW_PROFILE
+    <span class="md-ellipsis">
+      SKEW_PROFILE
+    </span>
   </a>
   
 </li>
@@ -2229,7 +2782,9 @@
         
           <li class="md-nav__item">
   <a href="#smart_effector" class="md-nav__link">
-    ⚠️ [smart_effector]
+    <span class="md-ellipsis">
+      ⚠️ [smart_effector]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="⚠️ [smart_effector]">
@@ -2237,14 +2792,18 @@
         
           <li class="md-nav__item">
   <a href="#set_smart_effector" class="md-nav__link">
-    SET_SMART_EFFECTOR
+    <span class="md-ellipsis">
+      SET_SMART_EFFECTOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#reset_smart_effector" class="md-nav__link">
-    RESET_SMART_EFFECTOR
+    <span class="md-ellipsis">
+      RESET_SMART_EFFECTOR
+    </span>
   </a>
   
 </li>
@@ -2256,7 +2815,9 @@
         
           <li class="md-nav__item">
   <a href="#stepper_enable" class="md-nav__link">
-    [stepper_enable]
+    <span class="md-ellipsis">
+      [stepper_enable]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[stepper_enable]">
@@ -2264,7 +2825,9 @@
         
           <li class="md-nav__item">
   <a href="#set_stepper_enable" class="md-nav__link">
-    SET_STEPPER_ENABLE
+    <span class="md-ellipsis">
+      SET_STEPPER_ENABLE
+    </span>
   </a>
   
 </li>
@@ -2276,7 +2839,9 @@
         
           <li class="md-nav__item">
   <a href="#temperature_fan" class="md-nav__link">
-    [temperature_fan]
+    <span class="md-ellipsis">
+      [temperature_fan]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[temperature_fan]">
@@ -2284,7 +2849,9 @@
         
           <li class="md-nav__item">
   <a href="#set_temperature_fan_target" class="md-nav__link">
-    SET_TEMPERATURE_FAN_TARGET
+    <span class="md-ellipsis">
+      SET_TEMPERATURE_FAN_TARGET
+    </span>
   </a>
   
 </li>
@@ -2296,7 +2863,9 @@
         
           <li class="md-nav__item">
   <a href="#tmcxxxx" class="md-nav__link">
-    [tmcXXXX]
+    <span class="md-ellipsis">
+      [tmcXXXX]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[tmcXXXX]">
@@ -2304,28 +2873,36 @@
         
           <li class="md-nav__item">
   <a href="#dump_tmc" class="md-nav__link">
-    DUMP_TMC
+    <span class="md-ellipsis">
+      DUMP_TMC
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#init_tmc" class="md-nav__link">
-    INIT_TMC
+    <span class="md-ellipsis">
+      INIT_TMC
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_tmc_current" class="md-nav__link">
-    SET_TMC_CURRENT
+    <span class="md-ellipsis">
+      SET_TMC_CURRENT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_tmc_field" class="md-nav__link">
-    SET_TMC_FIELD
+    <span class="md-ellipsis">
+      SET_TMC_FIELD
+    </span>
   </a>
   
 </li>
@@ -2337,7 +2914,9 @@
         
           <li class="md-nav__item">
   <a href="#toolhead" class="md-nav__link">
-    [toolhead]
+    <span class="md-ellipsis">
+      [toolhead]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[toolhead]">
@@ -2345,14 +2924,18 @@
         
           <li class="md-nav__item">
   <a href="#set_velocity_limit" class="md-nav__link">
-    SET_VELOCITY_LIMIT
+    <span class="md-ellipsis">
+      SET_VELOCITY_LIMIT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_kinematics_limit" class="md-nav__link">
-    ⚠️ SET_KINEMATICS_LIMIT
+    <span class="md-ellipsis">
+      ⚠️ SET_KINEMATICS_LIMIT
+    </span>
   </a>
   
 </li>
@@ -2364,7 +2947,9 @@
         
           <li class="md-nav__item">
   <a href="#trad_rack" class="md-nav__link">
-    [trad_rack]
+    <span class="md-ellipsis">
+      [trad_rack]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[trad_rack]">
@@ -2372,126 +2957,162 @@
         
           <li class="md-nav__item">
   <a href="#tr_home" class="md-nav__link">
-    TR_HOME
+    <span class="md-ellipsis">
+      TR_HOME
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_go_to_lane" class="md-nav__link">
-    TR_GO_TO_LANE
+    <span class="md-ellipsis">
+      TR_GO_TO_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_load_lane" class="md-nav__link">
-    TR_LOAD_LANE
+    <span class="md-ellipsis">
+      TR_LOAD_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_load_toolhead" class="md-nav__link">
-    TR_LOAD_TOOLHEAD
+    <span class="md-ellipsis">
+      TR_LOAD_TOOLHEAD
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#t0-t1-t2-etc" class="md-nav__link">
-    T0, T1, T2, etc.
+    <span class="md-ellipsis">
+      T0, T1, T2, etc.
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_unload_toolhead" class="md-nav__link">
-    TR_UNLOAD_TOOLHEAD
+    <span class="md-ellipsis">
+      TR_UNLOAD_TOOLHEAD
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_servo_down" class="md-nav__link">
-    TR_SERVO_DOWN
+    <span class="md-ellipsis">
+      TR_SERVO_DOWN
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_servo_up" class="md-nav__link">
-    TR_SERVO_UP
+    <span class="md-ellipsis">
+      TR_SERVO_UP
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_set_active_lane" class="md-nav__link">
-    TR_SET_ACTIVE_LANE
+    <span class="md-ellipsis">
+      TR_SET_ACTIVE_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_reset_active_lane" class="md-nav__link">
-    TR_RESET_ACTIVE_LANE
+    <span class="md-ellipsis">
+      TR_RESET_ACTIVE_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_resume" class="md-nav__link">
-    TR_RESUME
+    <span class="md-ellipsis">
+      TR_RESUME
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_locate_selector" class="md-nav__link">
-    TR_LOCATE_SELECTOR
+    <span class="md-ellipsis">
+      TR_LOCATE_SELECTOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_next" class="md-nav__link">
-    TR_NEXT
+    <span class="md-ellipsis">
+      TR_NEXT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_sync_to_extruder" class="md-nav__link">
-    TR_SYNC_TO_EXTRUDER
+    <span class="md-ellipsis">
+      TR_SYNC_TO_EXTRUDER
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_unsync_from_extruder" class="md-nav__link">
-    TR_UNSYNC_FROM_EXTRUDER
+    <span class="md-ellipsis">
+      TR_UNSYNC_FROM_EXTRUDER
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_servo_test" class="md-nav__link">
-    TR_SERVO_TEST
+    <span class="md-ellipsis">
+      TR_SERVO_TEST
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_calibrate_selector" class="md-nav__link">
-    TR_CALIBRATE_SELECTOR
+    <span class="md-ellipsis">
+      TR_CALIBRATE_SELECTOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_set_hotend_load_length" class="md-nav__link">
-    TR_SET_HOTEND_LOAD_LENGTH
+    <span class="md-ellipsis">
+      TR_SET_HOTEND_LOAD_LENGTH
+    </span>
   </a>
   
 </li>
@@ -2503,7 +3124,9 @@
         
           <li class="md-nav__item">
   <a href="#tr_discard_bowden_lengths" class="md-nav__link">
-    TR_DISCARD_BOWDEN_LENGTHS
+    <span class="md-ellipsis">
+      TR_DISCARD_BOWDEN_LENGTHS
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="TR_DISCARD_BOWDEN_LENGTHS">
@@ -2511,35 +3134,45 @@
         
           <li class="md-nav__item">
   <a href="#tr_assign_lane" class="md-nav__link">
-    TR_ASSIGN_LANE
+    <span class="md-ellipsis">
+      TR_ASSIGN_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_set_default_lane" class="md-nav__link">
-    TR_SET_DEFAULT_LANE
+    <span class="md-ellipsis">
+      TR_SET_DEFAULT_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_reset_tool_map" class="md-nav__link">
-    TR_RESET_TOOL_MAP
+    <span class="md-ellipsis">
+      TR_RESET_TOOL_MAP
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_print_tool_map" class="md-nav__link">
-    TR_PRINT_TOOL_MAP
+    <span class="md-ellipsis">
+      TR_PRINT_TOOL_MAP
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_print_tool_groups" class="md-nav__link">
-    TR_PRINT_TOOL_GROUPS
+    <span class="md-ellipsis">
+      TR_PRINT_TOOL_GROUPS
+    </span>
   </a>
   
 </li>
@@ -2551,7 +3184,9 @@
         
           <li class="md-nav__item">
   <a href="#tuning_tower" class="md-nav__link">
-    [tuning_tower]
+    <span class="md-ellipsis">
+      [tuning_tower]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[tuning_tower]">
@@ -2559,7 +3194,9 @@
         
           <li class="md-nav__item">
   <a href="#tuning_tower_1" class="md-nav__link">
-    TUNING_TOWER
+    <span class="md-ellipsis">
+      TUNING_TOWER
+    </span>
   </a>
   
 </li>
@@ -2571,7 +3208,9 @@
         
           <li class="md-nav__item">
   <a href="#virtual_sdcard" class="md-nav__link">
-    [virtual_sdcard]
+    <span class="md-ellipsis">
+      [virtual_sdcard]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[virtual_sdcard]">
@@ -2579,14 +3218,18 @@
         
           <li class="md-nav__item">
   <a href="#sdcard_print_file" class="md-nav__link">
-    SDCARD_PRINT_FILE
+    <span class="md-ellipsis">
+      SDCARD_PRINT_FILE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#sdcard_reset_file" class="md-nav__link">
-    SDCARD_RESET_FILE
+    <span class="md-ellipsis">
+      SDCARD_RESET_FILE
+    </span>
   </a>
   
 </li>
@@ -2598,7 +3241,9 @@
         
           <li class="md-nav__item">
   <a href="#z_thermal_adjust" class="md-nav__link">
-    [z_thermal_adjust]
+    <span class="md-ellipsis">
+      [z_thermal_adjust]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[z_thermal_adjust]">
@@ -2606,7 +3251,9 @@
         
           <li class="md-nav__item">
   <a href="#set_z_thermal_adjust" class="md-nav__link">
-    SET_Z_THERMAL_ADJUST
+    <span class="md-ellipsis">
+      SET_Z_THERMAL_ADJUST
+    </span>
   </a>
   
 </li>
@@ -2618,14 +3265,18 @@
         
           <li class="md-nav__item">
   <a href="#z_calibration" class="md-nav__link">
-    ⚠️ [z_calibration]
+    <span class="md-ellipsis">
+      ⚠️ [z_calibration]
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#z_tilt" class="md-nav__link">
-    [z_tilt]
+    <span class="md-ellipsis">
+      [z_tilt]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[z_tilt]">
@@ -2633,7 +3284,9 @@
         
           <li class="md-nav__item">
   <a href="#z_tilt_adjust" class="md-nav__link">
-    Z_TILT_ADJUST
+    <span class="md-ellipsis">
+      Z_TILT_ADJUST
+    </span>
   </a>
   
 </li>
@@ -2655,531 +3308,766 @@
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7_8" type="checkbox" id="__nav_7_8" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_7_8">
-          Command templates
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Command templates" data-md-level="2">
-        <label class="md-nav__title" for="__nav_7_8">
-          <span class="md-nav__icon md-icon"></span>
-          Command templates
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_8" >
+        
           
+          <label class="md-nav__link" for="__nav_7_8" id="__nav_7_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Command templates
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_8">
+            <span class="md-nav__icon md-icon"></span>
+            Command templates
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Command_Templates.html" class="md-nav__link">
-        Commands templates
+        
+  
+  <span class="md-ellipsis">
+    Commands templates
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Status_Reference.html" class="md-nav__link">
-        Status reference
+        
+  
+  <span class="md-ellipsis">
+    Status reference
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="TMC_Drivers.html" class="md-nav__link">
-        TMC drivers
+        
+  
+  <span class="md-ellipsis">
+    TMC drivers
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Multi_MCU_Homing.html" class="md-nav__link">
-        Multiple Micro-controller Homing and Probing
+        
+  
+  <span class="md-ellipsis">
+    Multiple Micro-controller Homing and Probing
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Slicers.html" class="md-nav__link">
-        Slicers
+        
+  
+  <span class="md-ellipsis">
+    Slicers
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Skew_Correction.html" class="md-nav__link">
-        Skew correction
+        
+  
+  <span class="md-ellipsis">
+    Skew correction
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Exclude_Object.html" class="md-nav__link">
-        Exclude Objects
+        
+  
+  <span class="md-ellipsis">
+    Exclude Objects
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Using_PWM_Tools.html" class="md-nav__link">
-        Using PWM tools
+        
+  
+  <span class="md-ellipsis">
+    Using PWM tools
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
     
       
       
-      
-
+  
   
   
   
     
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_8">
-          Developer Documentation
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Developer Documentation" data-md-level="1">
-        <label class="md-nav__title" for="__nav_8">
-          <span class="md-nav__icon md-icon"></span>
-          Developer Documentation
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
           
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Developer Documentation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Developer Documentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Code_Overview.html" class="md-nav__link">
-        Code overview
+        
+  
+  <span class="md-ellipsis">
+    Code overview
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Kinematics.html" class="md-nav__link">
-        Kinematics
+        
+  
+  <span class="md-ellipsis">
+    Kinematics
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Protocol.html" class="md-nav__link">
-        Protocol
+        
+  
+  <span class="md-ellipsis">
+    Protocol
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="API_Server.html" class="md-nav__link">
-        API server
+        
+  
+  <span class="md-ellipsis">
+    API server
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="MCU_Commands.html" class="md-nav__link">
-        MCU commands
+        
+  
+  <span class="md-ellipsis">
+    MCU commands
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="CANBUS_protocol.html" class="md-nav__link">
-        CANBUS protocol
+        
+  
+  <span class="md-ellipsis">
+    CANBUS protocol
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Debugging.html" class="md-nav__link">
-        Debugging
+        
+  
+  <span class="md-ellipsis">
+    Debugging
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Benchmarks.html" class="md-nav__link">
-        Benchmarks
+        
+  
+  <span class="md-ellipsis">
+    Benchmarks
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="CONTRIBUTING.html" class="md-nav__link">
-        Contributing to Klipper
+        
+  
+  <span class="md-ellipsis">
+    Contributing to Klipper
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Packaging.html" class="md-nav__link">
-        Packaging Klipper
+        
+  
+  <span class="md-ellipsis">
+    Packaging Klipper
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
     
       
       
-      
-
+  
   
   
   
     
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_9">
-          Device Specific Documents
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Device Specific Documents" data-md-level="1">
-        <label class="md-nav__title" for="__nav_9">
-          <span class="md-nav__icon md-icon"></span>
-          Device Specific Documents
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
           
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Device Specific Documents
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Device Specific Documents
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Example_Configs.html" class="md-nav__link">
-        Example configurations
+        
+  
+  <span class="md-ellipsis">
+    Example configurations
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="SDCard_Updates.html" class="md-nav__link">
-        SDCard updates
+        
+  
+  <span class="md-ellipsis">
+    SDCard updates
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="RPi_microcontroller.html" class="md-nav__link">
-        RPi microcontroller
+        
+  
+  <span class="md-ellipsis">
+    RPi microcontroller
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Beaglebone.html" class="md-nav__link">
-        Beaglebone
+        
+  
+  <span class="md-ellipsis">
+    Beaglebone
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Bootloaders.html" class="md-nav__link">
-        Bootloaders
+        
+  
+  <span class="md-ellipsis">
+    Bootloaders
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Bootloader_Entry.html" class="md-nav__link">
-        Bootloader Entry
+        
+  
+  <span class="md-ellipsis">
+    Bootloader Entry
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="CANBUS.html" class="md-nav__link">
-        CANBUS
+        
+  
+  <span class="md-ellipsis">
+    CANBUS
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="CANBUS_Troubleshooting.html" class="md-nav__link">
-        CANBUS Troubleshooting
+        
+  
+  <span class="md-ellipsis">
+    CANBUS Troubleshooting
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="TSL1401CL_Filament_Width_Sensor.html" class="md-nav__link">
-        TSL1401CL filament width sensor
+        
+  
+  <span class="md-ellipsis">
+    TSL1401CL filament width sensor
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Hall_Filament_Width_Sensor.html" class="md-nav__link">
-        Hall filament width sensor
+        
+  
+  <span class="md-ellipsis">
+    Hall filament width sensor
+  </span>
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="Eddy_Probe.html" class="md-nav__link">
-        Eddy Current Inductive probe
+        
+  
+  <span class="md-ellipsis">
+    Eddy Current Inductive probe
+  </span>
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="Sponsors.html" class="md-nav__link">
-        Sponsors
+        
+  
+  <span class="md-ellipsis">
+    Sponsors
+  </span>
+  
+
       </a>
     </li>
   
@@ -3213,14 +4101,18 @@
       
         <li class="md-nav__item">
   <a href="#g-code-commands" class="md-nav__link">
-    G-Code commands
+    <span class="md-ellipsis">
+      G-Code commands
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#additional-commands" class="md-nav__link">
-    Additional Commands
+    <span class="md-ellipsis">
+      Additional Commands
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Additional Commands">
@@ -3228,7 +4120,9 @@
         
           <li class="md-nav__item">
   <a href="#adxl345" class="md-nav__link">
-    [adxl345]
+    <span class="md-ellipsis">
+      [adxl345]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[adxl345]">
@@ -3236,28 +4130,36 @@
         
           <li class="md-nav__item">
   <a href="#accelerometer_measure" class="md-nav__link">
-    ACCELEROMETER_MEASURE
+    <span class="md-ellipsis">
+      ACCELEROMETER_MEASURE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#accelerometer_query" class="md-nav__link">
-    ACCELEROMETER_QUERY
+    <span class="md-ellipsis">
+      ACCELEROMETER_QUERY
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#accelerometer_debug_read" class="md-nav__link">
-    ACCELEROMETER_DEBUG_READ
+    <span class="md-ellipsis">
+      ACCELEROMETER_DEBUG_READ
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#accelerometer_debug_write" class="md-nav__link">
-    ACCELEROMETER_DEBUG_WRITE
+    <span class="md-ellipsis">
+      ACCELEROMETER_DEBUG_WRITE
+    </span>
   </a>
   
 </li>
@@ -3269,7 +4171,9 @@
         
           <li class="md-nav__item">
   <a href="#angle" class="md-nav__link">
-    [angle]
+    <span class="md-ellipsis">
+      [angle]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[angle]">
@@ -3277,21 +4181,27 @@
         
           <li class="md-nav__item">
   <a href="#angle_calibrate" class="md-nav__link">
-    ANGLE_CALIBRATE
+    <span class="md-ellipsis">
+      ANGLE_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#angle_debug_read" class="md-nav__link">
-    ANGLE_DEBUG_READ
+    <span class="md-ellipsis">
+      ANGLE_DEBUG_READ
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#angle_debug_write" class="md-nav__link">
-    ANGLE_DEBUG_WRITE
+    <span class="md-ellipsis">
+      ANGLE_DEBUG_WRITE
+    </span>
   </a>
   
 </li>
@@ -3303,7 +4213,9 @@
         
           <li class="md-nav__item">
   <a href="#axis_twist_compensation" class="md-nav__link">
-    [axis_twist_compensation]
+    <span class="md-ellipsis">
+      [axis_twist_compensation]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[axis_twist_compensation]">
@@ -3311,7 +4223,9 @@
         
           <li class="md-nav__item">
   <a href="#axis_twist_compensation_calibrate" class="md-nav__link">
-    AXIS_TWIST_COMPENSATION_CALIBRATE
+    <span class="md-ellipsis">
+      AXIS_TWIST_COMPENSATION_CALIBRATE
+    </span>
   </a>
   
 </li>
@@ -3323,7 +4237,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_mesh" class="md-nav__link">
-    [bed_mesh]
+    <span class="md-ellipsis">
+      [bed_mesh]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[bed_mesh]">
@@ -3331,42 +4247,54 @@
         
           <li class="md-nav__item">
   <a href="#bed_mesh_calibrate" class="md-nav__link">
-    BED_MESH_CALIBRATE
+    <span class="md-ellipsis">
+      BED_MESH_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_output" class="md-nav__link">
-    BED_MESH_OUTPUT
+    <span class="md-ellipsis">
+      BED_MESH_OUTPUT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_map" class="md-nav__link">
-    BED_MESH_MAP
+    <span class="md-ellipsis">
+      BED_MESH_MAP
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_clear" class="md-nav__link">
-    BED_MESH_CLEAR
+    <span class="md-ellipsis">
+      BED_MESH_CLEAR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_profile" class="md-nav__link">
-    BED_MESH_PROFILE
+    <span class="md-ellipsis">
+      BED_MESH_PROFILE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bed_mesh_offset" class="md-nav__link">
-    BED_MESH_OFFSET
+    <span class="md-ellipsis">
+      BED_MESH_OFFSET
+    </span>
   </a>
   
 </li>
@@ -3378,7 +4306,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_screws" class="md-nav__link">
-    [bed_screws]
+    <span class="md-ellipsis">
+      [bed_screws]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[bed_screws]">
@@ -3386,7 +4316,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_screws_adjust" class="md-nav__link">
-    BED_SCREWS_ADJUST
+    <span class="md-ellipsis">
+      BED_SCREWS_ADJUST
+    </span>
   </a>
   
 </li>
@@ -3398,7 +4330,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_tilt" class="md-nav__link">
-    [bed_tilt]
+    <span class="md-ellipsis">
+      [bed_tilt]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[bed_tilt]">
@@ -3406,7 +4340,9 @@
         
           <li class="md-nav__item">
   <a href="#bed_tilt_calibrate" class="md-nav__link">
-    BED_TILT_CALIBRATE
+    <span class="md-ellipsis">
+      BED_TILT_CALIBRATE
+    </span>
   </a>
   
 </li>
@@ -3418,7 +4354,9 @@
         
           <li class="md-nav__item">
   <a href="#belay" class="md-nav__link">
-    [belay]
+    <span class="md-ellipsis">
+      [belay]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[belay]">
@@ -3426,21 +4364,27 @@
         
           <li class="md-nav__item">
   <a href="#query_belay" class="md-nav__link">
-    QUERY_BELAY
+    <span class="md-ellipsis">
+      QUERY_BELAY
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#belay_set_multiplier" class="md-nav__link">
-    BELAY_SET_MULTIPLIER
+    <span class="md-ellipsis">
+      BELAY_SET_MULTIPLIER
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#belay_set_stepper" class="md-nav__link">
-    BELAY_SET_STEPPER
+    <span class="md-ellipsis">
+      BELAY_SET_STEPPER
+    </span>
   </a>
   
 </li>
@@ -3452,7 +4396,9 @@
         
           <li class="md-nav__item">
   <a href="#bltouch" class="md-nav__link">
-    [bltouch]
+    <span class="md-ellipsis">
+      [bltouch]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[bltouch]">
@@ -3460,14 +4406,18 @@
         
           <li class="md-nav__item">
   <a href="#bltouch_debug" class="md-nav__link">
-    BLTOUCH_DEBUG
+    <span class="md-ellipsis">
+      BLTOUCH_DEBUG
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#bltouch_store" class="md-nav__link">
-    BLTOUCH_STORE
+    <span class="md-ellipsis">
+      BLTOUCH_STORE
+    </span>
   </a>
   
 </li>
@@ -3479,7 +4429,9 @@
         
           <li class="md-nav__item">
   <a href="#configfile" class="md-nav__link">
-    [configfile]
+    <span class="md-ellipsis">
+      [configfile]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[configfile]">
@@ -3487,7 +4439,9 @@
         
           <li class="md-nav__item">
   <a href="#save_config" class="md-nav__link">
-    SAVE_CONFIG
+    <span class="md-ellipsis">
+      SAVE_CONFIG
+    </span>
   </a>
   
 </li>
@@ -3499,7 +4453,9 @@
         
           <li class="md-nav__item">
   <a href="#delayed_gcode" class="md-nav__link">
-    [delayed_gcode]
+    <span class="md-ellipsis">
+      [delayed_gcode]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[delayed_gcode]">
@@ -3507,7 +4463,9 @@
         
           <li class="md-nav__item">
   <a href="#update_delayed_gcode" class="md-nav__link">
-    UPDATE_DELAYED_GCODE
+    <span class="md-ellipsis">
+      UPDATE_DELAYED_GCODE
+    </span>
   </a>
   
 </li>
@@ -3519,7 +4477,9 @@
         
           <li class="md-nav__item">
   <a href="#delta_calibrate" class="md-nav__link">
-    [delta_calibrate]
+    <span class="md-ellipsis">
+      [delta_calibrate]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[delta_calibrate]">
@@ -3527,14 +4487,18 @@
         
           <li class="md-nav__item">
   <a href="#delta_calibrate_1" class="md-nav__link">
-    DELTA_CALIBRATE
+    <span class="md-ellipsis">
+      DELTA_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#delta_analyze" class="md-nav__link">
-    DELTA_ANALYZE
+    <span class="md-ellipsis">
+      DELTA_ANALYZE
+    </span>
   </a>
   
 </li>
@@ -3546,7 +4510,9 @@
         
           <li class="md-nav__item">
   <a href="#display" class="md-nav__link">
-    [display]
+    <span class="md-ellipsis">
+      [display]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[display]">
@@ -3554,7 +4520,9 @@
         
           <li class="md-nav__item">
   <a href="#set_display_group" class="md-nav__link">
-    SET_DISPLAY_GROUP
+    <span class="md-ellipsis">
+      SET_DISPLAY_GROUP
+    </span>
   </a>
   
 </li>
@@ -3566,7 +4534,9 @@
         
           <li class="md-nav__item">
   <a href="#display_status" class="md-nav__link">
-    [display_status]
+    <span class="md-ellipsis">
+      [display_status]
+    </span>
   </a>
   
 </li>
@@ -3578,7 +4548,9 @@
       
         <li class="md-nav__item">
   <a href="#dockable_probe" class="md-nav__link">
-    [dockable_probe]
+    <span class="md-ellipsis">
+      [dockable_probe]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[dockable_probe]">
@@ -3586,7 +4558,9 @@
         
           <li class="md-nav__item">
   <a href="#dual_carriage" class="md-nav__link">
-    [dual_carriage]
+    <span class="md-ellipsis">
+      [dual_carriage]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[dual_carriage]">
@@ -3594,21 +4568,27 @@
         
           <li class="md-nav__item">
   <a href="#set_dual_carriage" class="md-nav__link">
-    SET_DUAL_CARRIAGE
+    <span class="md-ellipsis">
+      SET_DUAL_CARRIAGE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#save_dual_carriage_state" class="md-nav__link">
-    SAVE_DUAL_CARRIAGE_STATE
+    <span class="md-ellipsis">
+      SAVE_DUAL_CARRIAGE_STATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#restore_dual_carriage_state" class="md-nav__link">
-    RESTORE_DUAL_CARRIAGE_STATE
+    <span class="md-ellipsis">
+      RESTORE_DUAL_CARRIAGE_STATE
+    </span>
   </a>
   
 </li>
@@ -3620,7 +4600,9 @@
         
           <li class="md-nav__item">
   <a href="#endstop_phase" class="md-nav__link">
-    [endstop_phase]
+    <span class="md-ellipsis">
+      [endstop_phase]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[endstop_phase]">
@@ -3628,7 +4610,9 @@
         
           <li class="md-nav__item">
   <a href="#endstop_phase_calibrate" class="md-nav__link">
-    ENDSTOP_PHASE_CALIBRATE
+    <span class="md-ellipsis">
+      ENDSTOP_PHASE_CALIBRATE
+    </span>
   </a>
   
 </li>
@@ -3640,7 +4624,9 @@
         
           <li class="md-nav__item">
   <a href="#exclude_object" class="md-nav__link">
-    [exclude_object]
+    <span class="md-ellipsis">
+      [exclude_object]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[exclude_object]">
@@ -3648,28 +4634,36 @@
         
           <li class="md-nav__item">
   <a href="#exclude_object_1" class="md-nav__link">
-    EXCLUDE_OBJECT
+    <span class="md-ellipsis">
+      EXCLUDE_OBJECT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#exclude_object_define" class="md-nav__link">
-    EXCLUDE_OBJECT_DEFINE
+    <span class="md-ellipsis">
+      EXCLUDE_OBJECT_DEFINE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#exclude_object_start" class="md-nav__link">
-    EXCLUDE_OBJECT_START
+    <span class="md-ellipsis">
+      EXCLUDE_OBJECT_START
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#exclude_object_end" class="md-nav__link">
-    EXCLUDE_OBJECT_END
+    <span class="md-ellipsis">
+      EXCLUDE_OBJECT_END
+    </span>
   </a>
   
 </li>
@@ -3681,7 +4675,9 @@
         
           <li class="md-nav__item">
   <a href="#extruder" class="md-nav__link">
-    [extruder]
+    <span class="md-ellipsis">
+      [extruder]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[extruder]">
@@ -3689,28 +4685,36 @@
         
           <li class="md-nav__item">
   <a href="#activate_extruder" class="md-nav__link">
-    ACTIVATE_EXTRUDER
+    <span class="md-ellipsis">
+      ACTIVATE_EXTRUDER
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_pressure_advance" class="md-nav__link">
-    SET_PRESSURE_ADVANCE
+    <span class="md-ellipsis">
+      SET_PRESSURE_ADVANCE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_extruder_rotation_distance" class="md-nav__link">
-    SET_EXTRUDER_ROTATION_DISTANCE
+    <span class="md-ellipsis">
+      SET_EXTRUDER_ROTATION_DISTANCE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#sync_extruder_motion" class="md-nav__link">
-    SYNC_EXTRUDER_MOTION
+    <span class="md-ellipsis">
+      SYNC_EXTRUDER_MOTION
+    </span>
   </a>
   
 </li>
@@ -3722,7 +4726,9 @@
         
           <li class="md-nav__item">
   <a href="#fan_generic" class="md-nav__link">
-    [fan_generic]
+    <span class="md-ellipsis">
+      [fan_generic]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[fan_generic]">
@@ -3730,7 +4736,9 @@
         
           <li class="md-nav__item">
   <a href="#set_fan_speed" class="md-nav__link">
-    SET_FAN_SPEED
+    <span class="md-ellipsis">
+      SET_FAN_SPEED
+    </span>
   </a>
   
 </li>
@@ -3742,7 +4750,9 @@
         
           <li class="md-nav__item">
   <a href="#filament_switch_sensor" class="md-nav__link">
-    [filament_switch_sensor]
+    <span class="md-ellipsis">
+      [filament_switch_sensor]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[filament_switch_sensor]">
@@ -3750,14 +4760,18 @@
         
           <li class="md-nav__item">
   <a href="#query_filament_sensor" class="md-nav__link">
-    QUERY_FILAMENT_SENSOR
+    <span class="md-ellipsis">
+      QUERY_FILAMENT_SENSOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_filament_sensor" class="md-nav__link">
-    SET_FILAMENT_SENSOR
+    <span class="md-ellipsis">
+      SET_FILAMENT_SENSOR
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="SET_FILAMENT_SENSOR">
@@ -3765,14 +4779,18 @@
         
           <li class="md-nav__item">
   <a href="#for-filament_switch_sensor" class="md-nav__link">
-    For filament_switch_sensor:
+    <span class="md-ellipsis">
+      For filament_switch_sensor:
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#for-filament_motion_sensor" class="md-nav__link">
-    For filament_motion_sensor:
+    <span class="md-ellipsis">
+      For filament_motion_sensor:
+    </span>
   </a>
   
 </li>
@@ -3789,7 +4807,9 @@
         
           <li class="md-nav__item">
   <a href="#firmware_retraction" class="md-nav__link">
-    [firmware_retraction]
+    <span class="md-ellipsis">
+      [firmware_retraction]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[firmware_retraction]">
@@ -3797,21 +4817,27 @@
         
           <li class="md-nav__item">
   <a href="#set_retraction" class="md-nav__link">
-    SET_RETRACTION
+    <span class="md-ellipsis">
+      SET_RETRACTION
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#get_retraction" class="md-nav__link">
-    GET_RETRACTION
+    <span class="md-ellipsis">
+      GET_RETRACTION
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#clear_retraction" class="md-nav__link">
-    CLEAR_RETRACTION
+    <span class="md-ellipsis">
+      CLEAR_RETRACTION
+    </span>
   </a>
   
 </li>
@@ -3823,7 +4849,9 @@
         
           <li class="md-nav__item">
   <a href="#force_move" class="md-nav__link">
-    [force_move]
+    <span class="md-ellipsis">
+      [force_move]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[force_move]">
@@ -3831,21 +4859,27 @@
         
           <li class="md-nav__item">
   <a href="#stepper_buzz" class="md-nav__link">
-    STEPPER_BUZZ
+    <span class="md-ellipsis">
+      STEPPER_BUZZ
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#force_move_1" class="md-nav__link">
-    FORCE_MOVE
+    <span class="md-ellipsis">
+      FORCE_MOVE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_kinematic_position" class="md-nav__link">
-    SET_KINEMATIC_POSITION
+    <span class="md-ellipsis">
+      SET_KINEMATIC_POSITION
+    </span>
   </a>
   
 </li>
@@ -3857,7 +4891,9 @@
         
           <li class="md-nav__item">
   <a href="#gcode" class="md-nav__link">
-    [gcode]
+    <span class="md-ellipsis">
+      [gcode]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[gcode]">
@@ -3865,35 +4901,45 @@
         
           <li class="md-nav__item">
   <a href="#restart" class="md-nav__link">
-    RESTART
+    <span class="md-ellipsis">
+      RESTART
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#firmware_restart" class="md-nav__link">
-    FIRMWARE_RESTART
+    <span class="md-ellipsis">
+      FIRMWARE_RESTART
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#heater_interrupt" class="md-nav__link">
-    HEATER_INTERRUPT
+    <span class="md-ellipsis">
+      HEATER_INTERRUPT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#status" class="md-nav__link">
-    STATUS
+    <span class="md-ellipsis">
+      STATUS
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#help" class="md-nav__link">
-    HELP
+    <span class="md-ellipsis">
+      HELP
+    </span>
   </a>
   
 </li>
@@ -3905,14 +4951,18 @@
         
           <li class="md-nav__item">
   <a href="#gcode_arcs" class="md-nav__link">
-    [gcode_arcs]
+    <span class="md-ellipsis">
+      [gcode_arcs]
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#gcode_macro" class="md-nav__link">
-    [gcode_macro]
+    <span class="md-ellipsis">
+      [gcode_macro]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[gcode_macro]">
@@ -3920,7 +4970,9 @@
         
           <li class="md-nav__item">
   <a href="#set_gcode_variable" class="md-nav__link">
-    SET_GCODE_VARIABLE
+    <span class="md-ellipsis">
+      SET_GCODE_VARIABLE
+    </span>
   </a>
   
 </li>
@@ -3932,7 +4984,9 @@
         
           <li class="md-nav__item">
   <a href="#gcode_move" class="md-nav__link">
-    [gcode_move]
+    <span class="md-ellipsis">
+      [gcode_move]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[gcode_move]">
@@ -3940,28 +4994,36 @@
         
           <li class="md-nav__item">
   <a href="#get_position" class="md-nav__link">
-    GET_POSITION
+    <span class="md-ellipsis">
+      GET_POSITION
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_gcode_offset" class="md-nav__link">
-    SET_GCODE_OFFSET
+    <span class="md-ellipsis">
+      SET_GCODE_OFFSET
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#save_gcode_state" class="md-nav__link">
-    SAVE_GCODE_STATE
+    <span class="md-ellipsis">
+      SAVE_GCODE_STATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#restore_gcode_state" class="md-nav__link">
-    RESTORE_GCODE_STATE
+    <span class="md-ellipsis">
+      RESTORE_GCODE_STATE
+    </span>
   </a>
   
 </li>
@@ -3973,7 +5035,9 @@
         
           <li class="md-nav__item">
   <a href="#hall_filament_width_sensor" class="md-nav__link">
-    [hall_filament_width_sensor]
+    <span class="md-ellipsis">
+      [hall_filament_width_sensor]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[hall_filament_width_sensor]">
@@ -3981,49 +5045,63 @@
         
           <li class="md-nav__item">
   <a href="#query_filament_width" class="md-nav__link">
-    QUERY_FILAMENT_WIDTH
+    <span class="md-ellipsis">
+      QUERY_FILAMENT_WIDTH
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#reset_filament_width_sensor" class="md-nav__link">
-    RESET_FILAMENT_WIDTH_SENSOR
+    <span class="md-ellipsis">
+      RESET_FILAMENT_WIDTH_SENSOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#disable_filament_width_sensor" class="md-nav__link">
-    DISABLE_FILAMENT_WIDTH_SENSOR
+    <span class="md-ellipsis">
+      DISABLE_FILAMENT_WIDTH_SENSOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#enable_filament_width_sensor" class="md-nav__link">
-    ENABLE_FILAMENT_WIDTH_SENSOR
+    <span class="md-ellipsis">
+      ENABLE_FILAMENT_WIDTH_SENSOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#query_raw_filament_width" class="md-nav__link">
-    QUERY_RAW_FILAMENT_WIDTH
+    <span class="md-ellipsis">
+      QUERY_RAW_FILAMENT_WIDTH
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#enable_filament_width_log" class="md-nav__link">
-    ENABLE_FILAMENT_WIDTH_LOG
+    <span class="md-ellipsis">
+      ENABLE_FILAMENT_WIDTH_LOG
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#disable_filament_width_log" class="md-nav__link">
-    DISABLE_FILAMENT_WIDTH_LOG
+    <span class="md-ellipsis">
+      DISABLE_FILAMENT_WIDTH_LOG
+    </span>
   </a>
   
 </li>
@@ -4035,7 +5113,9 @@
         
           <li class="md-nav__item">
   <a href="#heaters" class="md-nav__link">
-    [heaters]
+    <span class="md-ellipsis">
+      [heaters]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[heaters]">
@@ -4043,28 +5123,36 @@
         
           <li class="md-nav__item">
   <a href="#turn_off_heaters" class="md-nav__link">
-    TURN_OFF_HEATERS
+    <span class="md-ellipsis">
+      TURN_OFF_HEATERS
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#temperature_wait" class="md-nav__link">
-    TEMPERATURE_WAIT
+    <span class="md-ellipsis">
+      TEMPERATURE_WAIT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_heater_temperature" class="md-nav__link">
-    SET_HEATER_TEMPERATURE
+    <span class="md-ellipsis">
+      SET_HEATER_TEMPERATURE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_smooth_time" class="md-nav__link">
-    SET_SMOOTH_TIME
+    <span class="md-ellipsis">
+      SET_SMOOTH_TIME
+    </span>
   </a>
   
 </li>
@@ -4076,7 +5164,9 @@
         
           <li class="md-nav__item">
   <a href="#idle_timeout" class="md-nav__link">
-    [idle_timeout]
+    <span class="md-ellipsis">
+      [idle_timeout]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[idle_timeout]">
@@ -4084,7 +5174,9 @@
         
           <li class="md-nav__item">
   <a href="#set_idle_timeout" class="md-nav__link">
-    SET_IDLE_TIMEOUT
+    <span class="md-ellipsis">
+      SET_IDLE_TIMEOUT
+    </span>
   </a>
   
 </li>
@@ -4096,7 +5188,9 @@
         
           <li class="md-nav__item">
   <a href="#input_shaper" class="md-nav__link">
-    [input_shaper]
+    <span class="md-ellipsis">
+      [input_shaper]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[input_shaper]">
@@ -4104,7 +5198,9 @@
         
           <li class="md-nav__item">
   <a href="#set_input_shaper" class="md-nav__link">
-    SET_INPUT_SHAPER
+    <span class="md-ellipsis">
+      SET_INPUT_SHAPER
+    </span>
   </a>
   
 </li>
@@ -4116,7 +5212,9 @@
         
           <li class="md-nav__item">
   <a href="#manual_probe" class="md-nav__link">
-    [manual_probe]
+    <span class="md-ellipsis">
+      [manual_probe]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[manual_probe]">
@@ -4124,21 +5222,27 @@
         
           <li class="md-nav__item">
   <a href="#manual_probe_1" class="md-nav__link">
-    MANUAL_PROBE
+    <span class="md-ellipsis">
+      MANUAL_PROBE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#z_endstop_calibrate" class="md-nav__link">
-    Z_ENDSTOP_CALIBRATE
+    <span class="md-ellipsis">
+      Z_ENDSTOP_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#z_offset_apply_endstop" class="md-nav__link">
-    Z_OFFSET_APPLY_ENDSTOP
+    <span class="md-ellipsis">
+      Z_OFFSET_APPLY_ENDSTOP
+    </span>
   </a>
   
 </li>
@@ -4150,7 +5254,9 @@
         
           <li class="md-nav__item">
   <a href="#manual_stepper" class="md-nav__link">
-    [manual_stepper]
+    <span class="md-ellipsis">
+      [manual_stepper]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[manual_stepper]">
@@ -4158,7 +5264,9 @@
         
           <li class="md-nav__item">
   <a href="#manual_stepper_1" class="md-nav__link">
-    MANUAL_STEPPER
+    <span class="md-ellipsis">
+      MANUAL_STEPPER
+    </span>
   </a>
   
 </li>
@@ -4170,7 +5278,9 @@
         
           <li class="md-nav__item">
   <a href="#mcp4018" class="md-nav__link">
-    [mcp4018]
+    <span class="md-ellipsis">
+      [mcp4018]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[mcp4018]">
@@ -4178,7 +5288,9 @@
         
           <li class="md-nav__item">
   <a href="#set_digipot" class="md-nav__link">
-    SET_DIGIPOT
+    <span class="md-ellipsis">
+      SET_DIGIPOT
+    </span>
   </a>
   
 </li>
@@ -4190,7 +5302,9 @@
         
           <li class="md-nav__item">
   <a href="#led" class="md-nav__link">
-    [led]
+    <span class="md-ellipsis">
+      [led]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[led]">
@@ -4198,14 +5312,18 @@
         
           <li class="md-nav__item">
   <a href="#set_led" class="md-nav__link">
-    SET_LED
+    <span class="md-ellipsis">
+      SET_LED
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_led_template" class="md-nav__link">
-    SET_LED_TEMPLATE
+    <span class="md-ellipsis">
+      SET_LED_TEMPLATE
+    </span>
   </a>
   
 </li>
@@ -4217,7 +5335,9 @@
         
           <li class="md-nav__item">
   <a href="#output_pin" class="md-nav__link">
-    [output_pin]
+    <span class="md-ellipsis">
+      [output_pin]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[output_pin]">
@@ -4225,7 +5345,9 @@
         
           <li class="md-nav__item">
   <a href="#set_pin" class="md-nav__link">
-    SET_PIN
+    <span class="md-ellipsis">
+      SET_PIN
+    </span>
   </a>
   
 </li>
@@ -4237,7 +5359,9 @@
         
           <li class="md-nav__item">
   <a href="#palette2" class="md-nav__link">
-    [palette2]
+    <span class="md-ellipsis">
+      [palette2]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[palette2]">
@@ -4245,35 +5369,45 @@
         
           <li class="md-nav__item">
   <a href="#palette_connect" class="md-nav__link">
-    PALETTE_CONNECT
+    <span class="md-ellipsis">
+      PALETTE_CONNECT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#palette_disconnect" class="md-nav__link">
-    PALETTE_DISCONNECT
+    <span class="md-ellipsis">
+      PALETTE_DISCONNECT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#palette_clear" class="md-nav__link">
-    PALETTE_CLEAR
+    <span class="md-ellipsis">
+      PALETTE_CLEAR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#palette_cut" class="md-nav__link">
-    PALETTE_CUT
+    <span class="md-ellipsis">
+      PALETTE_CUT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#palette_smart_load" class="md-nav__link">
-    PALETTE_SMART_LOAD
+    <span class="md-ellipsis">
+      PALETTE_SMART_LOAD
+    </span>
   </a>
   
 </li>
@@ -4285,7 +5419,9 @@
         
           <li class="md-nav__item">
   <a href="#pid_calibrate" class="md-nav__link">
-    [pid_calibrate]
+    <span class="md-ellipsis">
+      [pid_calibrate]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[pid_calibrate]">
@@ -4293,14 +5429,18 @@
         
           <li class="md-nav__item">
   <a href="#pid_calibrate_1" class="md-nav__link">
-    PID_CALIBRATE
+    <span class="md-ellipsis">
+      PID_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_heater_pid" class="md-nav__link">
-    SET_HEATER_PID
+    <span class="md-ellipsis">
+      SET_HEATER_PID
+    </span>
   </a>
   
 </li>
@@ -4312,7 +5452,9 @@
         
           <li class="md-nav__item">
   <a href="#pid_profile" class="md-nav__link">
-    [pid_profile]
+    <span class="md-ellipsis">
+      [pid_profile]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[pid_profile]">
@@ -4320,7 +5462,9 @@
         
           <li class="md-nav__item">
   <a href="#pid_profile_1" class="md-nav__link">
-    PID_PROFILE
+    <span class="md-ellipsis">
+      PID_PROFILE
+    </span>
   </a>
   
 </li>
@@ -4332,7 +5476,9 @@
         
           <li class="md-nav__item">
   <a href="#pause_resume" class="md-nav__link">
-    [pause_resume]
+    <span class="md-ellipsis">
+      [pause_resume]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[pause_resume]">
@@ -4340,28 +5486,36 @@
         
           <li class="md-nav__item">
   <a href="#pause" class="md-nav__link">
-    PAUSE
+    <span class="md-ellipsis">
+      PAUSE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#resume" class="md-nav__link">
-    RESUME
+    <span class="md-ellipsis">
+      RESUME
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#clear_pause" class="md-nav__link">
-    CLEAR_PAUSE
+    <span class="md-ellipsis">
+      CLEAR_PAUSE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#cancel_print" class="md-nav__link">
-    CANCEL_PRINT
+    <span class="md-ellipsis">
+      CANCEL_PRINT
+    </span>
   </a>
   
 </li>
@@ -4373,7 +5527,9 @@
         
           <li class="md-nav__item">
   <a href="#print_stats" class="md-nav__link">
-    [print_stats]
+    <span class="md-ellipsis">
+      [print_stats]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[print_stats]">
@@ -4381,7 +5537,9 @@
         
           <li class="md-nav__item">
   <a href="#set_print_stats_info" class="md-nav__link">
-    SET_PRINT_STATS_INFO
+    <span class="md-ellipsis">
+      SET_PRINT_STATS_INFO
+    </span>
   </a>
   
 </li>
@@ -4393,7 +5551,9 @@
         
           <li class="md-nav__item">
   <a href="#probe" class="md-nav__link">
-    [probe]
+    <span class="md-ellipsis">
+      [probe]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[probe]">
@@ -4401,35 +5561,45 @@
         
           <li class="md-nav__item">
   <a href="#probe_1" class="md-nav__link">
-    PROBE
+    <span class="md-ellipsis">
+      PROBE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#query_probe" class="md-nav__link">
-    QUERY_PROBE
+    <span class="md-ellipsis">
+      QUERY_PROBE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#probe_accuracy" class="md-nav__link">
-    PROBE_ACCURACY
+    <span class="md-ellipsis">
+      PROBE_ACCURACY
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#probe_calibrate" class="md-nav__link">
-    PROBE_CALIBRATE
+    <span class="md-ellipsis">
+      PROBE_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#z_offset_apply_probe" class="md-nav__link">
-    Z_OFFSET_APPLY_PROBE
+    <span class="md-ellipsis">
+      Z_OFFSET_APPLY_PROBE
+    </span>
   </a>
   
 </li>
@@ -4441,7 +5611,9 @@
         
           <li class="md-nav__item">
   <a href="#probe_eddy_current" class="md-nav__link">
-    [probe_eddy_current]
+    <span class="md-ellipsis">
+      [probe_eddy_current]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[probe_eddy_current]">
@@ -4449,14 +5621,18 @@
         
           <li class="md-nav__item">
   <a href="#probe_eddy_current_calibrate" class="md-nav__link">
-    PROBE_EDDY_CURRENT_CALIBRATE
+    <span class="md-ellipsis">
+      PROBE_EDDY_CURRENT_CALIBRATE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#ldc_calibrate_drive_current" class="md-nav__link">
-    LDC_CALIBRATE_DRIVE_CURRENT
+    <span class="md-ellipsis">
+      LDC_CALIBRATE_DRIVE_CURRENT
+    </span>
   </a>
   
 </li>
@@ -4468,7 +5644,9 @@
         
           <li class="md-nav__item">
   <a href="#pwm_cycle_time" class="md-nav__link">
-    [pwm_cycle_time]
+    <span class="md-ellipsis">
+      [pwm_cycle_time]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[pwm_cycle_time]">
@@ -4476,7 +5654,9 @@
         
           <li class="md-nav__item">
   <a href="#set_pin_1" class="md-nav__link">
-    SET_PIN
+    <span class="md-ellipsis">
+      SET_PIN
+    </span>
   </a>
   
 </li>
@@ -4488,7 +5668,9 @@
         
           <li class="md-nav__item">
   <a href="#query_adc" class="md-nav__link">
-    [query_adc]
+    <span class="md-ellipsis">
+      [query_adc]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[query_adc]">
@@ -4496,7 +5678,9 @@
         
           <li class="md-nav__item">
   <a href="#query_adc_1" class="md-nav__link">
-    QUERY_ADC
+    <span class="md-ellipsis">
+      QUERY_ADC
+    </span>
   </a>
   
 </li>
@@ -4508,7 +5692,9 @@
         
           <li class="md-nav__item">
   <a href="#query_endstops" class="md-nav__link">
-    [query_endstops]
+    <span class="md-ellipsis">
+      [query_endstops]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[query_endstops]">
@@ -4516,7 +5702,9 @@
         
           <li class="md-nav__item">
   <a href="#query_endstops_1" class="md-nav__link">
-    QUERY_ENDSTOPS
+    <span class="md-ellipsis">
+      QUERY_ENDSTOPS
+    </span>
   </a>
   
 </li>
@@ -4528,7 +5716,9 @@
         
           <li class="md-nav__item">
   <a href="#resonance_tester" class="md-nav__link">
-    [resonance_tester]
+    <span class="md-ellipsis">
+      [resonance_tester]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[resonance_tester]">
@@ -4536,21 +5726,27 @@
         
           <li class="md-nav__item">
   <a href="#measure_axes_noise" class="md-nav__link">
-    MEASURE_AXES_NOISE
+    <span class="md-ellipsis">
+      MEASURE_AXES_NOISE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#test_resonances" class="md-nav__link">
-    TEST_RESONANCES
+    <span class="md-ellipsis">
+      TEST_RESONANCES
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#shaper_calibrate" class="md-nav__link">
-    SHAPER_CALIBRATE
+    <span class="md-ellipsis">
+      SHAPER_CALIBRATE
+    </span>
   </a>
   
 </li>
@@ -4562,7 +5758,9 @@
         
           <li class="md-nav__item">
   <a href="#respond" class="md-nav__link">
-    [respond]
+    <span class="md-ellipsis">
+      [respond]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[respond]">
@@ -4570,7 +5768,9 @@
         
           <li class="md-nav__item">
   <a href="#respond_1" class="md-nav__link">
-    RESPOND
+    <span class="md-ellipsis">
+      RESPOND
+    </span>
   </a>
   
 </li>
@@ -4582,7 +5782,9 @@
         
           <li class="md-nav__item">
   <a href="#save_variables" class="md-nav__link">
-    [save_variables]
+    <span class="md-ellipsis">
+      [save_variables]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[save_variables]">
@@ -4590,7 +5792,9 @@
         
           <li class="md-nav__item">
   <a href="#save_variable" class="md-nav__link">
-    SAVE_VARIABLE
+    <span class="md-ellipsis">
+      SAVE_VARIABLE
+    </span>
   </a>
   
 </li>
@@ -4602,7 +5806,9 @@
         
           <li class="md-nav__item">
   <a href="#screws_tilt_adjust" class="md-nav__link">
-    [screws_tilt_adjust]
+    <span class="md-ellipsis">
+      [screws_tilt_adjust]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[screws_tilt_adjust]">
@@ -4610,7 +5816,9 @@
         
           <li class="md-nav__item">
   <a href="#screws_tilt_calculate" class="md-nav__link">
-    SCREWS_TILT_CALCULATE
+    <span class="md-ellipsis">
+      SCREWS_TILT_CALCULATE
+    </span>
   </a>
   
 </li>
@@ -4622,7 +5830,9 @@
         
           <li class="md-nav__item">
   <a href="#sdcard_loop" class="md-nav__link">
-    [sdcard_loop]
+    <span class="md-ellipsis">
+      [sdcard_loop]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[sdcard_loop]">
@@ -4630,21 +5840,27 @@
         
           <li class="md-nav__item">
   <a href="#sdcard_loop_begin" class="md-nav__link">
-    SDCARD_LOOP_BEGIN
+    <span class="md-ellipsis">
+      SDCARD_LOOP_BEGIN
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#sdcard_loop_end" class="md-nav__link">
-    SDCARD_LOOP_END
+    <span class="md-ellipsis">
+      SDCARD_LOOP_END
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#sdcard_loop_desist" class="md-nav__link">
-    SDCARD_LOOP_DESIST
+    <span class="md-ellipsis">
+      SDCARD_LOOP_DESIST
+    </span>
   </a>
   
 </li>
@@ -4656,7 +5872,9 @@
         
           <li class="md-nav__item">
   <a href="#servo" class="md-nav__link">
-    [servo]
+    <span class="md-ellipsis">
+      [servo]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[servo]">
@@ -4664,7 +5882,9 @@
         
           <li class="md-nav__item">
   <a href="#set_servo" class="md-nav__link">
-    SET_SERVO
+    <span class="md-ellipsis">
+      SET_SERVO
+    </span>
   </a>
   
 </li>
@@ -4676,7 +5896,9 @@
         
           <li class="md-nav__item">
   <a href="#skew_correction" class="md-nav__link">
-    [skew_correction]
+    <span class="md-ellipsis">
+      [skew_correction]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[skew_correction]">
@@ -4684,28 +5906,36 @@
         
           <li class="md-nav__item">
   <a href="#set_skew" class="md-nav__link">
-    SET_SKEW
+    <span class="md-ellipsis">
+      SET_SKEW
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#get_current_skew" class="md-nav__link">
-    GET_CURRENT_SKEW
+    <span class="md-ellipsis">
+      GET_CURRENT_SKEW
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#calc_measured_skew" class="md-nav__link">
-    CALC_MEASURED_SKEW
+    <span class="md-ellipsis">
+      CALC_MEASURED_SKEW
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#skew_profile" class="md-nav__link">
-    SKEW_PROFILE
+    <span class="md-ellipsis">
+      SKEW_PROFILE
+    </span>
   </a>
   
 </li>
@@ -4717,7 +5947,9 @@
         
           <li class="md-nav__item">
   <a href="#smart_effector" class="md-nav__link">
-    ⚠️ [smart_effector]
+    <span class="md-ellipsis">
+      ⚠️ [smart_effector]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="⚠️ [smart_effector]">
@@ -4725,14 +5957,18 @@
         
           <li class="md-nav__item">
   <a href="#set_smart_effector" class="md-nav__link">
-    SET_SMART_EFFECTOR
+    <span class="md-ellipsis">
+      SET_SMART_EFFECTOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#reset_smart_effector" class="md-nav__link">
-    RESET_SMART_EFFECTOR
+    <span class="md-ellipsis">
+      RESET_SMART_EFFECTOR
+    </span>
   </a>
   
 </li>
@@ -4744,7 +5980,9 @@
         
           <li class="md-nav__item">
   <a href="#stepper_enable" class="md-nav__link">
-    [stepper_enable]
+    <span class="md-ellipsis">
+      [stepper_enable]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[stepper_enable]">
@@ -4752,7 +5990,9 @@
         
           <li class="md-nav__item">
   <a href="#set_stepper_enable" class="md-nav__link">
-    SET_STEPPER_ENABLE
+    <span class="md-ellipsis">
+      SET_STEPPER_ENABLE
+    </span>
   </a>
   
 </li>
@@ -4764,7 +6004,9 @@
         
           <li class="md-nav__item">
   <a href="#temperature_fan" class="md-nav__link">
-    [temperature_fan]
+    <span class="md-ellipsis">
+      [temperature_fan]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[temperature_fan]">
@@ -4772,7 +6014,9 @@
         
           <li class="md-nav__item">
   <a href="#set_temperature_fan_target" class="md-nav__link">
-    SET_TEMPERATURE_FAN_TARGET
+    <span class="md-ellipsis">
+      SET_TEMPERATURE_FAN_TARGET
+    </span>
   </a>
   
 </li>
@@ -4784,7 +6028,9 @@
         
           <li class="md-nav__item">
   <a href="#tmcxxxx" class="md-nav__link">
-    [tmcXXXX]
+    <span class="md-ellipsis">
+      [tmcXXXX]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[tmcXXXX]">
@@ -4792,28 +6038,36 @@
         
           <li class="md-nav__item">
   <a href="#dump_tmc" class="md-nav__link">
-    DUMP_TMC
+    <span class="md-ellipsis">
+      DUMP_TMC
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#init_tmc" class="md-nav__link">
-    INIT_TMC
+    <span class="md-ellipsis">
+      INIT_TMC
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_tmc_current" class="md-nav__link">
-    SET_TMC_CURRENT
+    <span class="md-ellipsis">
+      SET_TMC_CURRENT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_tmc_field" class="md-nav__link">
-    SET_TMC_FIELD
+    <span class="md-ellipsis">
+      SET_TMC_FIELD
+    </span>
   </a>
   
 </li>
@@ -4825,7 +6079,9 @@
         
           <li class="md-nav__item">
   <a href="#toolhead" class="md-nav__link">
-    [toolhead]
+    <span class="md-ellipsis">
+      [toolhead]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[toolhead]">
@@ -4833,14 +6089,18 @@
         
           <li class="md-nav__item">
   <a href="#set_velocity_limit" class="md-nav__link">
-    SET_VELOCITY_LIMIT
+    <span class="md-ellipsis">
+      SET_VELOCITY_LIMIT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#set_kinematics_limit" class="md-nav__link">
-    ⚠️ SET_KINEMATICS_LIMIT
+    <span class="md-ellipsis">
+      ⚠️ SET_KINEMATICS_LIMIT
+    </span>
   </a>
   
 </li>
@@ -4852,7 +6112,9 @@
         
           <li class="md-nav__item">
   <a href="#trad_rack" class="md-nav__link">
-    [trad_rack]
+    <span class="md-ellipsis">
+      [trad_rack]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[trad_rack]">
@@ -4860,126 +6122,162 @@
         
           <li class="md-nav__item">
   <a href="#tr_home" class="md-nav__link">
-    TR_HOME
+    <span class="md-ellipsis">
+      TR_HOME
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_go_to_lane" class="md-nav__link">
-    TR_GO_TO_LANE
+    <span class="md-ellipsis">
+      TR_GO_TO_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_load_lane" class="md-nav__link">
-    TR_LOAD_LANE
+    <span class="md-ellipsis">
+      TR_LOAD_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_load_toolhead" class="md-nav__link">
-    TR_LOAD_TOOLHEAD
+    <span class="md-ellipsis">
+      TR_LOAD_TOOLHEAD
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#t0-t1-t2-etc" class="md-nav__link">
-    T0, T1, T2, etc.
+    <span class="md-ellipsis">
+      T0, T1, T2, etc.
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_unload_toolhead" class="md-nav__link">
-    TR_UNLOAD_TOOLHEAD
+    <span class="md-ellipsis">
+      TR_UNLOAD_TOOLHEAD
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_servo_down" class="md-nav__link">
-    TR_SERVO_DOWN
+    <span class="md-ellipsis">
+      TR_SERVO_DOWN
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_servo_up" class="md-nav__link">
-    TR_SERVO_UP
+    <span class="md-ellipsis">
+      TR_SERVO_UP
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_set_active_lane" class="md-nav__link">
-    TR_SET_ACTIVE_LANE
+    <span class="md-ellipsis">
+      TR_SET_ACTIVE_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_reset_active_lane" class="md-nav__link">
-    TR_RESET_ACTIVE_LANE
+    <span class="md-ellipsis">
+      TR_RESET_ACTIVE_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_resume" class="md-nav__link">
-    TR_RESUME
+    <span class="md-ellipsis">
+      TR_RESUME
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_locate_selector" class="md-nav__link">
-    TR_LOCATE_SELECTOR
+    <span class="md-ellipsis">
+      TR_LOCATE_SELECTOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_next" class="md-nav__link">
-    TR_NEXT
+    <span class="md-ellipsis">
+      TR_NEXT
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_sync_to_extruder" class="md-nav__link">
-    TR_SYNC_TO_EXTRUDER
+    <span class="md-ellipsis">
+      TR_SYNC_TO_EXTRUDER
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_unsync_from_extruder" class="md-nav__link">
-    TR_UNSYNC_FROM_EXTRUDER
+    <span class="md-ellipsis">
+      TR_UNSYNC_FROM_EXTRUDER
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_servo_test" class="md-nav__link">
-    TR_SERVO_TEST
+    <span class="md-ellipsis">
+      TR_SERVO_TEST
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_calibrate_selector" class="md-nav__link">
-    TR_CALIBRATE_SELECTOR
+    <span class="md-ellipsis">
+      TR_CALIBRATE_SELECTOR
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_set_hotend_load_length" class="md-nav__link">
-    TR_SET_HOTEND_LOAD_LENGTH
+    <span class="md-ellipsis">
+      TR_SET_HOTEND_LOAD_LENGTH
+    </span>
   </a>
   
 </li>
@@ -4991,7 +6289,9 @@
         
           <li class="md-nav__item">
   <a href="#tr_discard_bowden_lengths" class="md-nav__link">
-    TR_DISCARD_BOWDEN_LENGTHS
+    <span class="md-ellipsis">
+      TR_DISCARD_BOWDEN_LENGTHS
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="TR_DISCARD_BOWDEN_LENGTHS">
@@ -4999,35 +6299,45 @@
         
           <li class="md-nav__item">
   <a href="#tr_assign_lane" class="md-nav__link">
-    TR_ASSIGN_LANE
+    <span class="md-ellipsis">
+      TR_ASSIGN_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_set_default_lane" class="md-nav__link">
-    TR_SET_DEFAULT_LANE
+    <span class="md-ellipsis">
+      TR_SET_DEFAULT_LANE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_reset_tool_map" class="md-nav__link">
-    TR_RESET_TOOL_MAP
+    <span class="md-ellipsis">
+      TR_RESET_TOOL_MAP
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_print_tool_map" class="md-nav__link">
-    TR_PRINT_TOOL_MAP
+    <span class="md-ellipsis">
+      TR_PRINT_TOOL_MAP
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#tr_print_tool_groups" class="md-nav__link">
-    TR_PRINT_TOOL_GROUPS
+    <span class="md-ellipsis">
+      TR_PRINT_TOOL_GROUPS
+    </span>
   </a>
   
 </li>
@@ -5039,7 +6349,9 @@
         
           <li class="md-nav__item">
   <a href="#tuning_tower" class="md-nav__link">
-    [tuning_tower]
+    <span class="md-ellipsis">
+      [tuning_tower]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[tuning_tower]">
@@ -5047,7 +6359,9 @@
         
           <li class="md-nav__item">
   <a href="#tuning_tower_1" class="md-nav__link">
-    TUNING_TOWER
+    <span class="md-ellipsis">
+      TUNING_TOWER
+    </span>
   </a>
   
 </li>
@@ -5059,7 +6373,9 @@
         
           <li class="md-nav__item">
   <a href="#virtual_sdcard" class="md-nav__link">
-    [virtual_sdcard]
+    <span class="md-ellipsis">
+      [virtual_sdcard]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[virtual_sdcard]">
@@ -5067,14 +6383,18 @@
         
           <li class="md-nav__item">
   <a href="#sdcard_print_file" class="md-nav__link">
-    SDCARD_PRINT_FILE
+    <span class="md-ellipsis">
+      SDCARD_PRINT_FILE
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#sdcard_reset_file" class="md-nav__link">
-    SDCARD_RESET_FILE
+    <span class="md-ellipsis">
+      SDCARD_RESET_FILE
+    </span>
   </a>
   
 </li>
@@ -5086,7 +6406,9 @@
         
           <li class="md-nav__item">
   <a href="#z_thermal_adjust" class="md-nav__link">
-    [z_thermal_adjust]
+    <span class="md-ellipsis">
+      [z_thermal_adjust]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[z_thermal_adjust]">
@@ -5094,7 +6416,9 @@
         
           <li class="md-nav__item">
   <a href="#set_z_thermal_adjust" class="md-nav__link">
-    SET_Z_THERMAL_ADJUST
+    <span class="md-ellipsis">
+      SET_Z_THERMAL_ADJUST
+    </span>
   </a>
   
 </li>
@@ -5106,14 +6430,18 @@
         
           <li class="md-nav__item">
   <a href="#z_calibration" class="md-nav__link">
-    ⚠️ [z_calibration]
+    <span class="md-ellipsis">
+      ⚠️ [z_calibration]
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#z_tilt" class="md-nav__link">
-    [z_tilt]
+    <span class="md-ellipsis">
+      [z_tilt]
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="[z_tilt]">
@@ -5121,7 +6449,9 @@
         
           <li class="md-nav__item">
   <a href="#z_tilt_adjust" class="md-nav__link">
-    Z_TILT_ADJUST
+    <span class="md-ellipsis">
+      Z_TILT_ADJUST
+    </span>
   </a>
   
 </li>
@@ -5144,13 +6474,14 @@
               </div>
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-<a href="https://github.com/DangerKlippers/danger-klipper/blob/master/docs/G-Codes.md" title="Edit this page" class="md-content__button md-icon">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-</a>
+                  
+
+  
+  
 
 
 <h1 id="g-codes">G-Codes<a class="headerlink" href="#g-codes" title="Permanent link">&para;</a></h1>
@@ -6728,54 +8059,36 @@ IMPORTANT: For the Z_TILT_CALIBRATE and Z_TILT_AUTODETECT commands to work
 the numpy package has to be installed via ~/klippy-env/bin/pip install -v numpy.</li>
 </ul>
 
-              
-            </article>
-          </div>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
-            Back to top
-          </a>
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
         
       </main>
       
         <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="Pressure_Advance.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Pressure advance" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Pressure advance
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="Command_Templates.html" class="md-footer__link md-footer__link--next" aria-label="Next: Commands templates" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Commands templates
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -6797,10 +8110,12 @@ the numpy package has to be installed via ~/klippy-env/bin/pip install -v numpy.
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.top", "search.suggest", "search.highlight", "search.share"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
     
     
-      <script src="assets/javascripts/bundle.e1a181d9.min.js"></script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.top", "search.suggest", "search.highlight", "search.share"], "search": "assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.ebd0bdb7.min.js"></script>
       
     
   </body>
