@@ -129,7 +129,7 @@ class ControlMPC:
         if self.last_temp_time == 0.0:
             dt = 0.1
 
-        ## Extruder position
+        # Extruder position
         if self.toolhead is None:
             self.toolhead = self.printer.lookup_object("toolhead")
         if self.toolhead is not None:
@@ -162,7 +162,7 @@ class ControlMPC:
             else:
                 ambient_transfer = below
 
-        ## Simulate
+        # Simulate
 
         # Expected power by heating at last power setting
         expected_heating = self.last_power
@@ -195,7 +195,7 @@ class ControlMPC:
         )
         self.state_sensor_temp += expected_sensor_dT
 
-        ## Correct
+        # Correct
 
         adjustment_dT = (temp - self.state_sensor_temp) * self.const_smoothing
         self.state_block_temp += adjustment_dT
@@ -219,7 +219,7 @@ class ControlMPC:
                 )
             self.state_ambient_temp += ambient_delta
 
-        ## Output
+        # Output
 
         # Amount of power needed to reach the target temperature in the desired time
 
@@ -302,7 +302,7 @@ class MpcCalibrate:
         self.orig_control = orig_control
 
     def run(self, gcmd):
-        use_analytic = gcmd.get("USE_DELTA", None) != None
+        use_analytic = gcmd.get("USE_DELTA", None) is not None
         ambient_max_measure_time = gcmd.get_float(
             "AMBIENT_MAX_MEASURE_TIME", 20.0, above=0.0
         )
