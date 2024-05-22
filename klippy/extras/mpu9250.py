@@ -105,6 +105,12 @@ class MPU9250:
             "query_mpu9250_status oid=%c", oid=self.oid, cq=cmdqueue
         )
 
+    def check_connected(self):
+        if self.mcu.non_critical_disconnected:
+            raise self.printer.command_error(
+                "non_critical_mcu: MPU [%s] is disconnected!" % self.name
+            )
+
     def read_reg(self, reg):
         params = self.i2c.i2c_read([reg], 1)
         return bytearray(params["response"])[0]
@@ -113,6 +119,7 @@ class MPU9250:
         self.i2c.i2c_write([reg, val & 0xFF], minclock=minclock)
 
     def start_internal_client(self):
+        self.check_connected()
         aqh = adxl345.AccelQueryHelper(self.printer)
         self.batch_bulk.add_client(aqh.handle_batch)
         return aqh
