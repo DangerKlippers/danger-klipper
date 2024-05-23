@@ -1727,6 +1727,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Homing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples-for-probe-as-virtual-endstop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples for probe as virtual endstop
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homing-override" class="md-nav__link">
+    <span class="md-ellipsis">
+      Homing override
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#safe_z_home" class="md-nav__link">
+    <span class="md-ellipsis">
+      safe_z_home
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1749,6 +1782,30 @@
       Tool Velocities
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safe-dock-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      Safe dock area
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safe dock area">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#move_avoiding_dock-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      MOVE_AVOIDING_DOCK description
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1855,7 +1912,7 @@ a variety of designs including servo and stepper actuated couplings.</p>
 Some users may be transitioning from a macro based set of commands and
 many of the options for the <code>[probe]</code> config section are the same.
 The <code>[dockable_probe]</code> module is first and foremost a <code>[probe]</code>
-but with additional functionality. Any options that can be specified
+but with additional functionality. Most of the options that can be specified
 for <code>[probe]</code> are valid for <code>[dockable_probe]</code>.</p>
 <div class="highlight"><pre><span></span><code>[dockable_probe]
 pin:
@@ -1941,9 +1998,78 @@ attracted to the magnets on the toolhead.</p>
 <ul>
 <li><code>restore_toolhead: False|True</code><br>
   <em>Default Value: True</em><br>
-  While True, the position of the toolhead is restored to the position prior to 
-  the attach/detach movements.</li>
+  The position of the toolhead is restored to the position prior to 
+  the attach/detach movements. See table below.</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Module</th>
+<th>restore_th=True</th>
+<th>restore_th=False</th>
+<th>notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ATTACH_PROBE</td>
+<td>dockable_probe.py</td>
+<td>True</td>
+<td>False</td>
+<td></td>
+</tr>
+<tr>
+<td>Z_TILT_ADJUST</td>
+<td>probe.py</td>
+<td>True</td>
+<td>False</td>
+<td></td>
+</tr>
+<tr>
+<td>QUAD_GANTRY_LEVEL</td>
+<td>probe.py</td>
+<td>True</td>
+<td>False</td>
+<td></td>
+</tr>
+<tr>
+<td>PROBE</td>
+<td>probe.py</td>
+<td>True</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>PROBE_ACCURACY</td>
+<td>probe.py</td>
+<td>True</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>AXIS_TWIST_COMPENSATION</td>
+<td>probe.py</td>
+<td>True</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>CALIBRATE_Z</td>
+<td>z_calibration.py</td>
+<td>True</td>
+<td>False</td>
+<td></td>
+</tr>
+<tr>
+<td>G28 Z</td>
+<td>probe.py</td>
+<td>True</td>
+<td>True</td>
+<td><strong>only for z_virtual_endstop</strong></td>
+</tr>
+</tbody>
+</table>
 <h2 id="position-examples">Position Examples<a class="headerlink" href="#position-examples" title="Permanent link">&para;</a></h2>
 <p>Probe mounted on frame at back of print bed at a fixed Z position. To attach
 the probe, the toolhead will move back and then forward. To detach, the toolhead
@@ -2018,9 +2144,52 @@ z_hop: 15
 </code></pre></div>
 
 <h3 id="homing">Homing<a class="headerlink" href="#homing" title="Permanent link">&para;</a></h3>
-<p>No configuration specific to the dockable probe is required when using
-the probe as a virtual endstop, though it's recommended to consider
-using <code>[safe_z_home]</code> or <code>[homing_override]</code>.</p>
+<p>No configuration specific to the dockable probe is required. However, when
+using the probe as a virtual endstop, it's required to
+use <code>[safe_z_home]</code> or <code>[homing_override]</code>.</p>
+<h4 id="examples-for-probe-as-virtual-endstop">Examples for probe as virtual endstop<a class="headerlink" href="#examples-for-probe-as-virtual-endstop" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<h4 id="homing-override">Homing override<a class="headerlink" href="#homing-override" title="Permanent link">&para;</a></h4>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">homing_override</span><span class="p">]</span>
+<span class="ss">axes</span><span class="p">:</span><span class="w"> </span><span class="n">xyz</span>
+<span class="ss">set_position_z</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="ss">gcode</span><span class="p">:</span>
+
+<span class="w">  </span><span class="nc">G90</span>
+<span class="w">  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="n">home_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;X&#39;</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="s1">&#39;Y&#39;</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="s1">&#39;Z&#39;</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="err">%</span><span class="p">}</span>
+
+<span class="w">  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">home_all</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;X&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="err">%</span><span class="p">}</span>
+<span class="w">    </span><span class="nc">G0</span><span class="w"> </span><span class="nc">Z10</span>
+<span class="w">    </span><span class="nc">G28</span><span class="w"> </span><span class="nc">X</span>
+<span class="w">  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="n">endif</span><span class="w"> </span><span class="err">%</span><span class="p">}</span>
+
+<span class="w">  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">home_all</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;Y&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="err">%</span><span class="p">}</span>
+<span class="w">    </span><span class="nc">G0</span><span class="w"> </span><span class="nc">Z10</span>
+<span class="w">    </span><span class="nc">G28</span><span class="w"> </span><span class="nc">Y</span>
+<span class="w">  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="n">endif</span><span class="w"> </span><span class="err">%</span><span class="p">}</span>
+
+<span class="w">  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">home_all</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;Z&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="err">%</span><span class="p">}</span>
+<span class="w">    </span><span class="nc">ATTACH_PROBE</span>
+<span class="w">    </span><span class="nc">MOVE_AVOIDING_DOCK</span><span class="w"> </span><span class="nc">X</span><span class="o">=</span><span class="mi">150</span><span class="w"> </span><span class="nc">Y</span><span class="o">=</span><span class="mi">150</span><span class="w"> </span><span class="nc">SPEED</span><span class="o">=</span><span class="mi">300</span>
+<span class="w">    </span><span class="c1"># Probe is already attached, no need to make a return trip to the dock.</span>
+<span class="w">    </span><span class="nc">G28</span><span class="w"> </span><span class="nc">Z</span><span class="w">  </span>
+<span class="w">  </span><span class="p">{</span><span class="err">%</span><span class="w"> </span><span class="n">endif</span><span class="w"> </span><span class="err">%</span><span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>
+<h4 id="safe_z_home">safe_z_home<a class="headerlink" href="#safe_z_home" title="Permanent link">&para;</a></h4>
+While homing Z with safe_z_home, the toolhead will move to home_xy_position then will 
+move  to the dock and return back to home_xy_position.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">safe_z_home</span><span class="p">]</span>
+<span class="ss">home_xy_position</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span><span class="mi">150</span>
+<span class="ss">z_hop</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
+</code></pre></div>
+
 <h3 id="probe-attachment-verification">Probe Attachment Verification<a class="headerlink" href="#probe-attachment-verification" title="Permanent link">&para;</a></h3>
 <p>Given the nature of this type of probe, it is necessary to verify whether or
 not it has successfully attached prior to attempting a probing move. Several
@@ -2091,6 +2260,34 @@ does not read <code>TRIGGERED</code> after attaching.</p>
   Movement speed when approaching the probe during <code>MOVE_TO_APPROACH_PROBE</code>
   and returning the toolhead to its previous position after attach/detach.</li>
 </ul>
+<h2 id="safe-dock-area">Safe dock area<a class="headerlink" href="#safe-dock-area" title="Permanent link">&para;</a></h2>
+<p>A safe dock area is defined to avoid collision with the dock during probe attachment/detachment moves. see <code>MOVE_AVOIDING_DOCK</code>.</p>
+<ul>
+<li><code>safe_dock_distance:</code><br>
+  <em>Default Value: minimum distance to the dock of approach_position or insert_position</em> <br>
+  This indroduce on the first version of the plugin. It defines a security area
+  centered on dock position during ATTACH/DETACH_PROBE operations.
+  Approach, insert and detach position shoulb outside this area.  </li>
+</ul>
+<ul>
+<li><code>safe_position: 250, 295, 0</code>
+  <em>Default Value: approach_position</em>
+  A safe position to ensure MOVE_AVOIDING_DOCK travel does not move out of range</li>
+</ul>
+<h3 id="move_avoiding_dock-description">MOVE_AVOIDING_DOCK description<a class="headerlink" href="#move_avoiding_dock-description" title="Permanent link">&para;</a></h3>
+<p><img alt="safe dock area" src="img/move_avoiding_dock.jpg" />
+The strategy described below is used by the attach and detach commands to avoid dock collision.</p>
+<blockquote>
+<p>[!NOTE]<br />
+The default <code>safe_position</code> is <code>approach_position</code>. To help determine the avoiding path and prevent moving out of range, it should be configured as a point next to the safe area, farthest from the "move out of range" zone. </p>
+</blockquote>
+<p>Several cases are illustrated:</p>
+<ol>
+<li>Moving from <code>A</code> to <code>B</code>: The requested trajectory passes over the safe dock area, so the calculated trajectory passes around the dock area, close to the safe position.</li>
+<li>Moving from <code>A'</code> to <code>B</code>: The toolhead leaves the safe dock area by the shortest path and reaches <code>B</code> as before.</li>
+<li>Moving from <code>A</code> to <code>B'</code>: Since <code>B'</code> is in the safe area, the toolhead stops at <code>B"</code>.</li>
+<li>Moving from <code>A'</code> to <code>B'</code>: The toolhead leaves the safe dock area by the shortest path.</li>
+</ol>
 <h2 id="dockable-probe-gcodes">Dockable Probe Gcodes<a class="headerlink" href="#dockable-probe-gcodes" title="Permanent link">&para;</a></h2>
 <h3 id="general">General<a class="headerlink" href="#general" title="Permanent link">&para;</a></h3>
 <p><code>ATTACH_PROBE</code></p>
@@ -2122,6 +2319,9 @@ overridden to move a servo if that's required for attaching your probe.</p>
 <p><code>MOVE_TO_DETACH_PROBE</code></p>
 <p>This command will move the toolhead to the <code>detach_position</code>. It can be
 overridden to move a servo if that's required for detaching your probe.</p>
+<p><code>MOVE_AVOIDING_DOCK [X=&lt;value&gt;] [Y=&lt;value&gt;] [SPEED=&lt;value&gt;]</code></p>
+<p>This command will move the toolhead to the absolute coordinates, avoiding the 
+safe dock area.</p>
 <h3 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h3>
 <p><code>QUERY_DOCKABLE_PROBE</code></p>
 <p>Responds in the gcode terminal with the current probe status. Valid
