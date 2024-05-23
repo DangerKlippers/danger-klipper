@@ -7370,12 +7370,16 @@ tight you can achieve depends on how clean your sensor readings are. low
 noise readings might allow 0.01, to be used, while noisy reading might
 require a value of 0.03 or higher.</p>
 <h4 id="set_heater_pid">SET_HEATER_PID<a class="headerlink" href="#set_heater_pid" title="Permanent link">&para;</a></h4>
-<p><code>SET_HEATER_PID HEATER=&lt;config_name&gt; KP=&lt;kp&gt; KI=&lt;ki&gt; KD=&lt;kd&gt;</code>: Will
+<p><code>SET_HEATER_PID HEATER=&lt;heater_name&gt; KP=&lt;kp&gt; KI=&lt;ki&gt; KD=&lt;kd&gt;</code>: Will
 allow one to manually change PID parameters of heaters without a
-reload of the firmware.</p>
+reload of the firmware.
+HEATER takes the short name (so for <code>heater_generic chamber</code> you would only
+write <code>chamber</code>)</p>
 <h3 id="pid_profile">[pid_profile]<a class="headerlink" href="#pid_profile" title="Permanent link">&para;</a></h3>
 <p>The PID_PROFILE module is automatically loaded if a heater is defined
 in the config file.</p>
+<p>HEATER generally takes the short name (so for <code>heater_generic chamber</code> you would
+only write <code>chamber</code>)</p>
 <h4 id="pid_profile_1">PID_PROFILE<a class="headerlink" href="#pid_profile_1" title="Permanent link">&para;</a></h4>
 <p><code>PID_PROFILE LOAD=&lt;profile_name&gt; HEATER=&lt;heater_name&gt; [DEFAULT=&lt;profile_name&gt;]
 [VERBOSE=&lt;verbosity&gt;] [KEEP_TARGET=0|1] [LOAD_CLEAN=0|1]</code>:
@@ -7392,10 +7396,10 @@ If LOAD_CLEAN is set to 1, the profile would be loaded as if the printer just
 started up, if set to 0, the profile will retain previous heating information.
 By default the information will be kept to reduce overshoot, change this value
 if you encounter weird behaviour while switching profiles.</p>
-<p><code>PID_PROFILE SAVE=&lt;profile_name&gt; HEATER=&lt;config_name&gt;</code>:
+<p><code>PID_PROFILE SAVE=&lt;profile_name&gt; HEATER=&lt;heater_name&gt;</code>:
 Saves the currently loaded profile of the specified heater to the config under
 the given name.</p>
-<p><code>PID_PROFILE REMOVE=&lt;profile_name&gt; HEATER=&lt;config_name&gt;</code>:
+<p><code>PID_PROFILE REMOVE=&lt;profile_name&gt; HEATER=&lt;heater_name&gt;</code>:
 Removes the given profile from the profiles List for the current session and config if SAVE_CONFIG is issued afterwards.</p>
 <p><code>PID_PROFILE SET_VALUES=&lt;profile_name&gt; HEATER=&lt;heater_name&gt; TARGET=&lt;target_temp&gt; TOLERANCE=&lt;tolerance&gt;
 CONTROL=&lt;control_type&gt; KP=&lt;kp&gt; KI=&lt;ki&gt; KD=&lt;kd&gt; [RESET_TARGET=0|1] [LOAD_CLEAN=0|1]</code>:
