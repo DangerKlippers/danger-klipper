@@ -316,7 +316,7 @@ class ADXL345:
     def check_connected(self):
         if self.mcu.non_critical_disconnected:
             raise self.printer.command_error(
-                "non_critical_mcu: ADXL [%s] is disconnected!" % self.name
+                f"ADXL: {self.name} could not connect cause mcu: {self.mcu.get_name()} is non_critical_disconnected!"
             )
 
     def read_reg(self, reg):
