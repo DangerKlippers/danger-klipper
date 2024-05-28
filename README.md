@@ -72,6 +72,8 @@ If I want my printer to light itself on fire, I should be able to make my printe
 
 - [temperature_mcu: add reference_voltage](https://github.com/DangerKlippers/danger-klipper/pull/99) ([klipper#5713](https://github.com/Klipper3d/klipper/pull/5713))
 
+- [tla2518 support](https://github.com/DangerKlippers/danger-klipper/pull/103)
+
 - [adxl345: improve ACCELEROMETER_QUERY command](https://github.com/DangerKlippers/danger-klipper/pull/124)
 
 - [extruder: add flag to use the PA constant from a trapq move vs a cached value](https://github.com/DangerKlippers/danger-klipper/pull/132)

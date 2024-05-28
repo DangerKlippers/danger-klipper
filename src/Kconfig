@@ -114,6 +114,10 @@ config WANT_LIS2DW
     bool
     depends on HAVE_GPIO_SPI
     default y
+config WANT_TLA2518
+    bool
+    depends on HAVE_GPIO_SPI
+    default y
 config WANT_LDC1612
     bool
     depends on HAVE_GPIO_I2C
@@ -143,6 +147,9 @@ config WANT_SENSORS
     depends on HAVE_GPIO_I2C || HAVE_GPIO_SPI
 config WANT_LIS2DW
     bool "Support lis2dw 3-axis accelerometer"
+    depends on HAVE_GPIO_SPI
+config WANT_TLA2518
+    bool "Support TLA2518 8-channel 12-bit ADC"
     depends on HAVE_GPIO_SPI
 config WANT_LDC1612
     bool "Support ldc1612 eddy current sensor"
