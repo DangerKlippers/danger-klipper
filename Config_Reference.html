@@ -1501,6 +1501,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#heated_fan" class="md-nav__link">
+    <span class="md-ellipsis">
+      [heated_fan]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#heater_fan" class="md-nav__link">
     <span class="md-ellipsis">
       [heater_fan]
@@ -4247,6 +4256,15 @@
   <a href="#fan" class="md-nav__link">
     <span class="md-ellipsis">
       [fan]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heated_fan" class="md-nav__link">
+    <span class="md-ellipsis">
+      [heated_fan]
     </span>
   </a>
   
@@ -7782,6 +7800,27 @@ pin:
 #   input. In such a case, the PWM pin can be used normally, and e.g. a
 #   ground-switched FET(standard fan pin) can be used to control power to
 #   the fan.
+</code></pre></div>
+
+<h3 id="heated_fan">[heated_fan]<a class="headerlink" href="#heated_fan" title="Permanent link">&para;</a></h3>
+<p>Heated print cooling fans. An experimental module for high-temperature
+printing that requires part cooling air to be closer to the printed part
+temperature.</p>
+<div class="highlight"><pre><span></span><code>[heated_fan]
+#   See the &quot;fan&quot; section for a description for fan parameters.
+#   See the &quot;heater_generic&quot; section for a description for the heater
+#   parameters.
+#heater_temp: 50
+#   The target temperature (in Celsius) for the heater when the fan is
+#   turned on. The default is 50 Celsius.
+#min_speed: 1.0
+#   The minimum fan speed (expressed as a value from 0.0 to 1.0) that the
+#   fan will be set to when its associated heater is on (e.g.: to protect
+#   ducts from melting). If the fan is set to a speed lower than min_speed,
+#   the min_speed value is applied. The default is 1.0 (100%)
+#idle_timeout: 60
+#   A timeout in seconds for the fan to stay on when it is requested to turn
+#   off, to protect ducts from melting. The default is 60 (s).
 </code></pre></div>
 
 <h3 id="heater_fan">[heater_fan]<a class="headerlink" href="#heater_fan" title="Permanent link">&para;</a></h3>

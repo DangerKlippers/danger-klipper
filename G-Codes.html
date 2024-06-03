@@ -1560,6 +1560,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#heated_fan" class="md-nav__link">
+    <span class="md-ellipsis">
+      [heated_fan]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_heated_fan_target" class="md-nav__link">
+    <span class="md-ellipsis">
+      SET_HEATED_FAN_TARGET
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fan_generic" class="md-nav__link">
     <span class="md-ellipsis">
       [fan_generic]
@@ -4725,6 +4743,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#heated_fan" class="md-nav__link">
+    <span class="md-ellipsis">
+      [heated_fan]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_heated_fan_target" class="md-nav__link">
+    <span class="md-ellipsis">
+      SET_HEATED_FAN_TARGET
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fan_generic" class="md-nav__link">
     <span class="md-ellipsis">
       [fan_generic]
@@ -6935,6 +6971,15 @@ to become synchronized to the movement of an extruder specified by
 MOTION_QUEUE (as defined in an <a href="Config_Reference.html#extruder">extruder</a>
 config section). If MOTION_QUEUE is an empty string then the stepper
 will be desynchronized from all extruder movement.</p>
+<h3 id="heated_fan">[heated_fan]<a class="headerlink" href="#heated_fan" title="Permanent link">&para;</a></h3>
+<p>The following command is available when a
+<a href="Config_Reference.html#heated_fan">heated_fan</a> is
+enabled.</p>
+<h3 id="set_heated_fan_target">SET_HEATED_FAN_TARGET<a class="headerlink" href="#set_heated_fan_target" title="Permanent link">&para;</a></h3>
+<p><code>SET_HEATED_FAN_TARGET TARGET=&lt;temperature&gt;</code>: Override the <code>heater_temp</code>
+setting in the <a href="(Config_Reference.md#heated_fan)">heated_fan config section</a>
+until Klipper is restarted. Useful for slicers to set different heated fan
+temperatures at different layers.</p>
 <h3 id="fan_generic">[fan_generic]<a class="headerlink" href="#fan_generic" title="Permanent link">&para;</a></h3>
 <p>The following command is available when a
 <a href="Config_Reference.html#fan_generic">fan_generic config section</a> is
@@ -7823,7 +7868,7 @@ specified, they override the corresponding settings in the
 for details on the difference between lanes and tools and how they
 relate to each other.</p>
 <h4 id="t0-t1-t2-etc">T0, T1, T2, etc.<a class="headerlink" href="#t0-t1-t2-etc" title="Permanent link">&para;</a></h4>
-<p><code>T&lt;tool index&gt;</code>: Equivalent to calling 
+<p><code>T&lt;tool index&gt;</code>: Equivalent to calling
 <code>TR_LOAD_TOOLHEAD TOOL=&lt;tool index&gt;</code>. All of the optional parameters
 accepted by the TR_LOAD_TOOLHEAD command can also be used with these
 commands.</p>
