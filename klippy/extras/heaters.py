@@ -340,7 +340,7 @@ class Heater:
                     "target_reach_time", above=0.0, default=2.0
                 )
                 temp_profile["smoothing"] = config_section.getfloat(
-                    "smoothing", above=0.0, default=0.25
+                    "smoothing", above=0.0, default=0.83
                 )
                 temp_profile["heater_power"] = config_section.getfloat(
                     "heater_power", above=0.0
