@@ -371,13 +371,18 @@ class Heater:
                 )
                 ambient_sensor = None
                 if ambient_sensor_name is not None:
-                    try:
+                    ambient_sensor = config_section.get_printer().load_object(
+                        config_section,
+                        ambient_sensor_name,
+                        None,
+                    )
+                    if ambient_sensor is None:
                         ambient_sensor = (
                             config_section.get_printer().lookup_object(
-                                ambient_sensor_name
+                                ambient_sensor_name, None
                             )
                         )
-                    except Exception:
+                    if ambient_sensor is None:
                         raise config_section.error(
                             f"Unknown ambient_temp_sensor '{ambient_sensor_name}' specified"
                         )
@@ -386,11 +391,16 @@ class Heater:
                 fan_name = config_section.get("cooling_fan", None)
                 fan = None
                 if fan_name is not None:
-                    try:
+                    fan_obj = config_section.get_printer().load_object(
+                        config_section,
+                        fan_name,
+                        None,
+                    )
+                    if fan_obj is None:
                         fan_obj = config_section.get_printer().lookup_object(
-                            fan_name
+                            fan_name, None
                         )
-                    except Exception:
+                    if fan_obj is None:
                         raise config_section.error(
                             f"Unknown part_cooling_fan '{fan_name}' specified"
                         )
@@ -659,7 +669,11 @@ class Heater:
                     msg += "Smooth Time: %.3f\n" % smooth_time
                 msg += (
                     "PID Parameters: pid_Kp=%.3f pid_Ki=%.3f pid_Kd=%.3f\n"
-                    % (profile["pid_kp"], profile["pid_ki"], profile["pid_kd"])
+                    % (
+                        profile["pid_kp"],
+                        profile["pid_ki"],
+                        profile["pid_kd"],
+                    )
                 )
                 self.outer_instance.gcode.respond_info(msg)
 
