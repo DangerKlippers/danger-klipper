@@ -1996,6 +1996,54 @@ If the [extruder] and [heater_bed] sections are located in a cfg file other than
 </tbody>
 </table>
 <p>**Use the specific heat from the base polymer</p>
+<h3 id="an-example-macro-for-automatically-setting-these-values">An example macro for automatically setting these values<a class="headerlink" href="#an-example-macro-for-automatically-setting-these-values" title="Permanent link">&para;</a></h3>
+<p>These values are copied from the above tables, heat capacities are the middle of the range.</p>
+<p>Your slicer must be configured to pass the current material type to your <code>PRINT_START</code>, for PrusaSlicer and family you may use <code>PRINT_START MATERIAL=[filament_type[initial_extruder]] # and other values...</code></p>
+<p>Then, in your <code>PRINT_START</code> macro, call <code>_SET_MPC_MATERIAL MATERIAL={params.MATERIAL}</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">[gcode_macro SET_MPC_MATERIAL]</span>
+<span class="na">description</span><span class="o">:</span><span class="w"> </span><span class="s">Set heater MPC parameters for a given material</span>
+<span class="na">variable_filament_table</span><span class="o">:</span>
+<span class="w">    </span><span class="c1">## Update this table to adjust material settings</span>
+<span class="w">    </span><span class="na">{</span>
+<span class="w">        </span><span class="c1">## ( density, heat capacity )  # suggested heat capacity range</span>
+<span class="w">        </span><span class="na">&quot;PLA&quot;</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.25, 2.20 ),</span><span class="w">  </span><span class="c1"># 1.80 - 2.20</span>
+<span class="w">        </span><span class="na">&quot;PETG&quot;</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.27, 2.20 ),</span><span class="w">  </span><span class="c1"># 1.70 - 2.20</span>
+<span class="w">        </span><span class="na">&quot;PC+ABS&quot;</span><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.15, 2.20 ),</span><span class="w">  </span><span class="c1"># 1.50 - 2.20</span>
+<span class="w">        </span><span class="na">&quot;ABS&quot;</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.06, 2.40 ),</span><span class="w">  </span><span class="c1"># 1.25 - 2.40</span>
+<span class="w">        </span><span class="na">&quot;ASA&quot;</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.07, 2.10 ),</span><span class="w">  </span><span class="c1"># 1.30 - 2.10</span>
+<span class="w">        </span><span class="na">&quot;PA6&quot;</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.12, 2.50 ),</span><span class="w">  </span><span class="c1"># 2.00 - 2.50</span>
+<span class="w">        </span><span class="na">&quot;PA&quot;</span><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.15, 2.50 ),</span><span class="w">  </span><span class="c1"># 2.00 - 2.50</span>
+<span class="w">        </span><span class="na">&quot;PC&quot;</span><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.20, 1.90 ),</span><span class="w">  </span><span class="c1"># 1.10 - 1.90</span>
+<span class="w">        </span><span class="na">&quot;TPU&quot;</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.21, 2.00 ),</span><span class="w">  </span><span class="c1"># 1.50 - 2.00</span>
+<span class="w">        </span><span class="na">&quot;TPU-90A&quot;</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.15, 2.00 ),</span><span class="w">  </span><span class="c1"># 1.50 - 2.00</span>
+<span class="w">        </span><span class="na">&quot;TPU-95A&quot;</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.22, 2.00 ),</span><span class="w">  </span><span class="c1"># 1.50 - 2.00</span>
+<span class="w">        </span><span class="na">&quot;ABS-CF&quot;</span><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.11, 2.40 ),</span><span class="w">  </span><span class="c1"># 1.25 - 2.40</span>
+<span class="w">        </span><span class="na">&quot;ASA-CF&quot;</span><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.11, 2.10 ),</span><span class="w">  </span><span class="c1"># 1.30 - 2.10</span>
+<span class="w">        </span><span class="na">&quot;PA6-CF&quot;</span><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.19, 2.50 ),</span><span class="w">  </span><span class="c1"># 2.00 - 2.50</span>
+<span class="w">        </span><span class="na">&quot;PC+ABS-CF&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.22, 2.20 ),</span><span class="w">  </span><span class="c1"># 1.50 - 2.20</span>
+<span class="w">        </span><span class="na">&quot;PC+CF&quot;</span><span class="w">     </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.36, 1.90 ),</span><span class="w">  </span><span class="c1"># 1.10 - 1.90</span>
+<span class="w">        </span><span class="na">&quot;PLA-CF&quot;</span><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.29, 2.20 ),</span><span class="w">  </span><span class="c1"># 1.80 - 2.20</span>
+<span class="w">        </span><span class="na">&quot;PETG-CF&quot;</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="s">( 1.30, 2.20 ),</span><span class="w">  </span><span class="c1"># 1.70 - 2.20</span>
+<span class="w">    </span><span class="na">}</span>
+<span class="na">gcode</span><span class="o">:</span>
+<span class="w">    </span><span class="na">{% set material</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">params.MATERIAL | upper %}</span>
+<span class="w">    </span><span class="na">{% set heater</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">params.HEATER | default(&#39;extruder&#39;) %}</span>
+<span class="w">    </span><span class="na">{% set extruder_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">printer.configfile.settings[heater] %}</span>
+
+<span class="w">    </span><span class="na">{% if material in filament_table %}</span>
+<span class="w">        </span><span class="na">{% set (density, heat_capacity)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">filament_table[material] %}</span>
+
+<span class="w">        </span><span class="na">RESPOND PREFIX</span><span class="o">=</span><span class="s">🔥 MSG=&quot;Configured {heater} MPC for {material}. Density: {density}, Heat Capacity: {heat_capacity}&quot;</span>
+<span class="w">    </span><span class="na">{% else %}</span>
+<span class="w">        </span><span class="na">{% set density</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">extruder_config.filament_density %}</span>
+<span class="w">        </span><span class="na">{% set heat_capacity</span><span class="o">=</span><span class="s">extruder_config.filament_heat_capacity %}</span>
+
+<span class="w">        </span><span class="na">RESPOND PREFIX</span><span class="o">=</span><span class="s">🔥 MSG=&quot;Unknown material &#39;{material}&#39;, using default mpc parameters for {heater}&quot;</span>
+<span class="w">    </span><span class="na">{% endif %}</span>
+
+<span class="w">    </span><span class="na">MPC_SET HEATER</span><span class="o">=</span><span class="s">{heater} FILAMENT_DENSITY={density} FILAMENT_HEAT_CAPACITY={heat_capacity}</span>
+</code></pre></div>
+
 <h1 id="real-time-model-state">Real-Time Model State<a class="headerlink" href="#real-time-model-state" title="Permanent link">&para;</a></h1>
 <p>The real-time temperatures and model states can be viewed from a browser by entering the following local address for your computer.</p>
 <div class="highlight"><pre><span></span><code>https://192.168.xxx.xxx:7125/printer/objects/query?extruder
