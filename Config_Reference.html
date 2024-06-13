@@ -702,6 +702,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#corexz-kinematics-with-limits-for-x-and-y-axes" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ CoreXZ Kinematics with limits for X and Y axes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#hybrid-corexy-kinematics" class="md-nav__link">
     <span class="md-ellipsis">
       Hybrid-CoreXY Kinematics
@@ -3478,6 +3487,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#corexz-kinematics-with-limits-for-x-and-y-axes" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ CoreXZ Kinematics with limits for X and Y axes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#hybrid-corexy-kinematics" class="md-nav__link">
     <span class="md-ellipsis">
       Hybrid-CoreXY Kinematics
@@ -5529,6 +5547,44 @@ max_z_accel:
 [stepper_z]
 </code></pre></div>
 
+<h3 id="corexz-kinematics-with-limits-for-x-and-y-axes">⚠️ CoreXZ Kinematics with limits for X and Y axes<a class="headerlink" href="#corexz-kinematics-with-limits-for-x-and-y-axes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>[printer]
+kinematics: limited_corexz
+max_velocity: 500 # Hypotenuse of the two values bellow
+max_x_velocity: 400
+max_y_velocity: 300
+max_z_velocity: 5
+max_accel: 1500 # Default acceleration of your choice
+max_x_accel: 12000
+max_y_accel: 9000
+max_z_accel: 100
+scale_xy_accel: [True/False, default False]
+</code></pre></div>
+
+<p><code>max_velocity</code> is usually the hypotenuses of X and Y velocity, For example:
+with <code>max_x_velocity: 300</code> and <code>max_y_velocity: 400</code>, the recommended value
+is <code>max_velocity: 500</code>.</p>
+<p>If <code>scale_xy_accel</code> is False, <code>max_accel</code>, set by <code>M204</code> or
+<code>SET_VELOCITY_LIMIT</code>, acts as a third limit. In that case, this module
+doesn't apply limitations to moves with an acceleration lower than
+<code>max_x_accel</code> and <code>max_y_accel</code>.</p>
+<p>When <code>scale_xy_accel</code> is <code>True</code>, <code>max_x_accel</code> and <code>max_y_accel</code> are scaled by
+the ratio of the dynamically set acceleration and the hypotenuse of
+<code>max_x_accel</code> and <code>max_y_accel</code>, as reported from <code>SET_KINEMATICS_LIMIT</code>.
+This means that the actual acceleration will always depend on the
+direction.</p>
+<p>For example with these settings:</p>
+<div class="highlight"><pre><span></span><code>[printer]
+max_x_accel: 12000
+max_y_accel: 9000
+scale_xy_accel: True
+</code></pre></div>
+
+<p>SET_KINEMATICS_LIMIT will report a maximum acceleration of 15000 mm/s^2
+on 37 degrees diagonals. Thus, setting an acceleration of 3000 mm/s^2 in
+the slicer will make the toolhead accelerate at 3000 mm/s^2 on these 37
+and 143 degrees diagonals, but only 12000 * 3000 / 15000 = 2400 mm/s^2
+for moves aligned with the X axis and 18000 mm/s^2 for pure Y moves.</p>
 <h3 id="hybrid-corexy-kinematics">Hybrid-CoreXY Kinematics<a class="headerlink" href="#hybrid-corexy-kinematics" title="Permanent link">&para;</a></h3>
 <p>See <a href="https://github.com/DangerKlippers/danger-klipperblob/master/config/example-hybrid-corexy.cfg">example-hybrid-corexy.cfg</a>
 for an example hybrid corexy kinematics config file.</p>
