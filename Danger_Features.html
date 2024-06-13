@@ -1916,6 +1916,7 @@
 <h2 id="changes-to-klipper-defaults">Changes to Klipper defaults<a class="headerlink" href="#changes-to-klipper-defaults" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="Config_Reference.html#⚠-force_move"><code>[force_move]</code></a> is enabled by default. Use <code>[force_move] enable_force_move: False</code> to disable it</li>
+<li><a href="Config_Reference.html#respond"><code>[respond]</code></a> is enabled by default. Use <code>[respond] enable_respond: False</code> to disable it</li>
 </ul>
 <h2 id="additional-configuration-options">Additional configuration options<a class="headerlink" href="#additional-configuration-options" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1948,7 +1949,7 @@
 <ul>
 <li><a href="PID.html">Velocity PID</a> can be more accurate than positional PID, but is more susceptible to noisy sensors and may require larger smoothing times</li>
 <li><a href="G-Codes.html#pid_profile"><code>PID_PROFILE [LOAD/SAVE]</code></a> allows you to calibrate and save PID profiles at multiple temperatures and fan speeds, and later restore them. With some clever macros, automatic per-material pid tuning is within reach!</li>
-<li><a href="G-Codes.html#set_heater_pid"><code>SET_HEATER_PID HEATER= KP= KI= KD=</code></a> can update your PID parameters without a reload. </li>
+<li><a href="G-Codes.html#set_heater_pid"><code>SET_HEATER_PID HEATER= KP= KI= KD=</code></a> can update your PID parameters without a reload.</li>
 <li><a href="G-Codes.html#heater_interrupt"><code>HEATER_INTERRUPT</code></a> will interrupt a <code>TEMPERATURE_WAIT</code>.</li>
 <li>ADC out of range errors now include which heater, and additional information to assist in troubleshooting</li>
 </ul>
