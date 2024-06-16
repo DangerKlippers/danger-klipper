@@ -6576,8 +6576,8 @@ using this feature may place the printer in an invalid state - see the
 <a href="G-Codes.html#force_move">command reference</a> for important details.</p>
 <div class="highlight"><pre><span></span><code>[force_move]
 #enable_force_move: True
-#   Set to true to enable FORCE_MOVE and SET_KINEMATIC_POSITION
-#   extended G-Code commands. The default is true.
+#   Set to `True` to enable FORCE_MOVE and SET_KINEMATIC_POSITION
+#   extended G-Code commands. The default is `True`.
 </code></pre></div>
 
 <h3 id="pause_resume">[pause_resume]<a class="headerlink" href="#pause_resume" title="Permanent link">&para;</a></h3>
@@ -6654,11 +6654,12 @@ allowing per-filament settings and runtime tuning.</p>
 #   Directly sets the default prefix. If present, this value will
 #   override the &quot;default_type&quot;.
 #enable_respond: True
-#   Set to true to enable M118 and RESPOND
-#   extended G-Code commands. The default is true.
+#   Set to `True` to enable M118 and RESPOND
+#   extended G-Code commands. The default is `True`.
 </code></pre></div>
 
 <h3 id="exclude_object">[exclude_object]<a class="headerlink" href="#exclude_object" title="Permanent link">&para;</a></h3>
+<p>This module is enabled by default in DangerKlipper!</p>
 <p>Enables support to exclude or cancel individual objects during the printing
 process.</p>
 <p>See the <a href="Exclude_Object.html">exclude objects guide</a> and
@@ -6667,6 +6668,9 @@ for additional information. See the
 <a href="https://github.com/DangerKlippers/danger-klipperblob/master/config/sample-macros.cfg">sample-macros.cfg</a> file for a
 Marlin/RepRapFirmware compatible M486 G-Code macro.</p>
 <div class="highlight"><pre><span></span><code>[exclude_object]
+#enable_exclude_object: True
+#   Set to `True` to enable `EXCLUDE_OBJECT_*` extended G-Code commands.
+#   The default is `True`.
 </code></pre></div>
 
 <h2 id="resonance-compensation">Resonance compensation<a class="headerlink" href="#resonance-compensation" title="Permanent link">&para;</a></h2>
