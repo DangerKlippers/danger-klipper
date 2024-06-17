@@ -41,7 +41,7 @@ cooling_fan: fan
 #   <fan_generic BedFans> for example.
 #ambient_temp_sensor: <temperature_sensor sensor_name>
 #   Optional. If this is not given MPC will estimate this parameter
-#   (reccomended).
+#   (recommended).
 #   It can use any sensor, but it should be a temperature sensor in proximity
 #   to the hotend or measuring the ambient air surrounding the hotend such as
 #   a chamber sensor. 
