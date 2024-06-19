@@ -141,7 +141,7 @@ The MPC calibration routine has to be run initially for each heater to be contro
 
 `HEATER=<heater>` :The heater to be calibrated. [extruder] or [heater_bed] supported.
 
-`[TARGET=<temperature>]` : Sets the calibration temperature in degrees C. TARGET default is 200C for extruder and 90C for beds. MPC calibration is temperature independent so calibration the extruder at higher temperatures will not necessarily produce better model parameters. This is an area of exploration for advanced users
+`[TARGET=<temperature>]` : Sets the calibration temperature in degrees C. TARGET default is 200C, which is a good target for the extruder. For the bed, 100C is the suggested temperature target. MPC calibration is temperature independent, so calibrating the extruder at higher temperatures will not necessarily produce better model parameters. This is an area of exploration for advanced users.
 
 `[FAN_BREAKPOINTS=<value>]` : Sets the number off fan setpoint to test during calibration. Three fan powers (0%, 50%, 100%) are tested by default. An arbitrary number breakpoints can be specified e.g. 7 breakpoints would result in (0, 16%, 33%, 50%, 66%, 83%, 100%) fan speeds. Each breakpoint adds about 20s to the calibration.
 
