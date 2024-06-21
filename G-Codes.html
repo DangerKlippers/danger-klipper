@@ -1850,6 +1850,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#reload_gcode_macros" class="md-nav__link">
+    <span class="md-ellipsis">
+      RELOAD_GCODE_MACROS
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -5033,6 +5042,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#reload_gcode_macros" class="md-nav__link">
+    <span class="md-ellipsis">
+      RELOAD_GCODE_MACROS
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6870,7 +6888,7 @@ commands are available when a
 <li><code>MOVE_TO_DETACH_PROBE</code>: Move away from the dock to disconnect the probe
   from the toolhead.</li>
 <li><code>MOVE_AVOIDING_DOCK [X=&lt;value&gt;] [Y=&lt;value&gt;] [SPEED=&lt;value&gt;]</code>: Move to the
-  defined point (absolute coordinates) avoiding the safe dock area </li>
+  defined point (absolute coordinates) avoiding the safe dock area</li>
 </ul>
 <h3 id="dual_carriage">[dual_carriage]<a class="headerlink" href="#dual_carriage" title="Permanent link">&para;</a></h3>
 <p>The following command is available when the
@@ -7177,6 +7195,11 @@ enabled (also see the
 <p><code>SET_GCODE_VARIABLE MACRO=&lt;macro_name&gt; VARIABLE=&lt;name&gt; VALUE=&lt;value&gt;</code>:
 This command allows one to change the value of a gcode_macro variable
 at run-time. The provided VALUE is parsed as a Python literal.</p>
+<h4 id="reload_gcode_macros">RELOAD_GCODE_MACROS<a class="headerlink" href="#reload_gcode_macros" title="Permanent link">&para;</a></h4>
+<p><code>RELOAD_GCODE_MACROS</code>: This command reads the config files and reloads
+all previously loaded gcode templates. It does not load new <code>[gcode_macro]</code>
+objects or unload deleted ones. Variables modified with SET_GCODE_VARIABLE
+remain unaffected.</p>
 <h3 id="gcode_move">[gcode_move]<a class="headerlink" href="#gcode_move" title="Permanent link">&para;</a></h3>
 <p>The gcode_move module is automatically loaded.</p>
 <h4 id="get_position">GET_POSITION<a class="headerlink" href="#get_position" title="Permanent link">&para;</a></h4>
