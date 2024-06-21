@@ -7629,8 +7629,8 @@ all enabled accelerometer chips.</p>
 <p><code>TEST_RESONANCES AXIS=&lt;axis&gt; OUTPUT=&lt;resonances,raw_data&gt;
 [NAME=&lt;name&gt;] [FREQ_START=&lt;min_freq&gt;] [FREQ_END=&lt;max_freq&gt;]
 [HZ_PER_SEC=&lt;hz_per_sec&gt;] [CHIPS=&lt;adxl345_chip_name&gt;]
-[POINT=x,y,z] [INPUT_SHAPING=[&lt;0:1&gt;]]</code>: Runs the resonance
-test in all configured probe points for the requested "axis" and
+[POINT=x,y,z] [ACCEL_PER_HZ=&lt;accel_per_hz&gt;] [INPUT_SHAPING=[&lt;0:1&gt;]]</code>: Runs
+the resonance test in all configured probe points for the requested "axis" and
 measures the acceleration using the accelerometer chips configured for
 the respective axis. "axis" can either be X or Y, or specify an
 arbitrary direction as <code>AXIS=dx,dy</code>, where dx and dy are floating
@@ -7639,10 +7639,10 @@ point numbers defining a direction vector (e.g. <code>AXIS=X</code>, <code>AXIS=
 and <code>AXIS=-dx,-dy</code> is equivalent. <code>adxl345_chip_name</code> can be one or
 more configured adxl345 chip,delimited with comma, for example
 <code>CHIPS="adxl345, adxl345 rpi"</code>. Note that <code>adxl345</code> can be omitted from
-named adxl345 chips. If POINT is specified it will override the point(s)
-configured in <code>[resonance_tester]</code>. If <code>INPUT_SHAPING=0</code> or not set(default),
-disables input shaping for the resonance testing, because
-it is not valid to run the resonance testing with the input shaper
+named adxl345 chips. If POINT or ACCEL_PER_HZ are specified,
+they will override the corresponding fields configured in <code>[resonance_tester]</code>.
+If <code>INPUT_SHAPING=0</code> or not set(default), disables input shaping for the resonance
+testing, because it is not valid to run the resonance testing with the input shaper
 enabled. <code>OUTPUT</code> parameter is a comma-separated list of which outputs
 will be written. If <code>raw_data</code> is requested, then the raw
 accelerometer data is written into a file or a series of files
