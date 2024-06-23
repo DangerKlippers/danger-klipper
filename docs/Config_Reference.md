@@ -2558,6 +2558,48 @@ end_gcode:
 #   detach the probe afterwards.
 ```
 
+### ⚠️[load_cell_probe]
+
+Load-cell based probe. One may define this section (instead of a probe
+section) to enable a load-cell based probe. See
+[Load-cell probe guide](LoadCellProbe.md) and
+[command reference](G-Codes.md#load_cell_probe) for further
+information. Some of the parameters are determined in a semi-automatic
+[calibration procedure](LoadCellProbe.md#setup-for-new-printer-models).
+
+```
+[load_cell_probe]
+#
+# General parameters:
+#
+adc:
+#   ADC pin which digitizes the load cell signal.
+adc_rate:
+#   Rate (in samples per second) at which to request the ADC samples.
+max_abs_force:
+#   Maximum absolute value of measured force (in chosen unit), if exceeded
+#   printer will shutdown immediately.
+#speed: 5.0
+#   Speed (in mm/s) of the Z axis when probing. The default is 5mm/s.
+#lift_speed:
+#   Speed (in mm/s) of the Z axis when lifting the probe between
+#   samples. The default is to use the same value as the 'speed'
+#   parameter.
+#
+# Parameters determined by semi-automatic procedure described in the
+# load-cell probe guide.
+#
+force_calibration:
+#   Conversion factor to get from ADC value to physical unit. Default value is
+#   1 (no conversion).
+stiffness:
+#   Stiffness/"spring constant", i.e. force per distance. Default value is a
+#   safe value resulting in very small step sizes.
+noise_level:
+#   Noise level of force measurements (standard deviation, in physical units).
+#   Default value is a safe value just to get started.
+```
+
 ## Additional stepper motors and extruders
 
 ### [stepper_z1]
