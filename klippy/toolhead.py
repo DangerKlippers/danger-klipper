@@ -64,6 +64,14 @@ class Move:
         self.delta_v2 = 2.0 * self.move_d * self.accel
         self.smooth_delta_v2 = min(self.smooth_delta_v2, self.delta_v2)
 
+    def set_speed(self, speed, accel):
+        speed2 = speed**2
+        self.max_cruise_v2 = speed2
+        self.min_move_t = self.move_d / speed
+        self.accel = min(self.accel, accel)
+        self.delta_v2 = 2.0 * self.move_d * self.accel
+        self.smooth_delta_v2 = min(self.smooth_delta_v2, self.delta_v2)
+
     def move_error(self, msg="Move out of range"):
         ep = self.end_pos
         m = "%s: %.3f %.3f %.3f [%.3f]" % (msg, ep[0], ep[1], ep[2], ep[3])
@@ -128,7 +136,7 @@ class Move:
         self.decel_t = decel_d / ((end_v + cruise_v) * 0.5)
 
 
-LOOKAHEAD_FLUSH_TIME = 0.250
+LOOKAHEAD_FLUSH_TIME = 0.05
 
 
 # Class to track a list of pending move requests and to facilitate

@@ -10,3 +10,4 @@ Jinja2==3.1.4
 python-can==3.3.4
 markupsafe==2.1.5
 numpy==1.25.2
+simple-pid==2.0.0

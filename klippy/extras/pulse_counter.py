@@ -84,3 +84,43 @@ class FrequencyCounter:
 
     def get_frequency(self):
         return self._freq
+
+
+class PWMCounter:
+    def __init__(self, printer, pin, sample_time, poll_time, frequency):
+        self._callback = None
+        self._last_time = self._last_count = None
+        self._frequency = frequency  # pulses / second at 100% duty cycle
+        self._duty_cycle = 0.0
+        self._counter = MCU_counter(printer, pin, sample_time, poll_time)
+        self._counter.setup_callback(self._counter_callback)
+
+    def _counter_callback(self, time, count, count_time):
+        if self._last_time is None:  # First sample
+            self._last_time = time
+        else:
+            delta_time = count_time - self._last_time
+            if delta_time > 0:
+                self._last_time = count_time
+                delta_count = count - self._last_count
+                counts_per_sec = delta_count / delta_time
+                # if delta time is 0.25 seconds
+                # and delta count is 10
+                # and pwm freq is 100hz
+                # counts per second is 40
+                # so duty cycle is 40 / 100 = 0.4
+                time_scale_factor = 1 / delta_time
+                self.duty_cycle = (
+                    counts_per_sec * time_scale_factor / self._frequency
+                )
+
+            else:  # No counts since last sample
+                self._last_time = time
+                self._freq = 0.0
+            if self._callback is not None:
+                self._callback(time, self._freq)
+
+        self._last_count = count
+
+    def get_duty_cycle(self):
+        return self._duty_cycle
