@@ -14,7 +14,10 @@ class PowerCore:
         self._pwm_reader = PowerCorePWMReader(config)
         self.printer: "Printer" = config.get_printer()
         self.reactor = self.printer.get_reactor()
-        self.toolhead: "ToolHead" = self.printer.lookup_object("toolhead")
+        self.toolhead: "ToolHead" = None
+        self.printer.register_event_handler(
+            "klippy:connect", self._handle_connect
+        )
         self.gcode: "GCodeDispatch" = self.printer.lookup_object("gcode")
         self.gcode.register_command(
             "GET_DUTY_CYCLE",
@@ -53,6 +56,9 @@ class PowerCore:
             sample_time=None,
             time_fn=self.reactor.monotonic(),
         )
+
+    def _handle_connect(self):
+        self.toolhead = self.printer.lookup_object("toolhead")
 
     def cmd_get_duty_cycle(self, gcmd):
         duty_cycle = self._pwm_reader.get_current_duty_cycle()
