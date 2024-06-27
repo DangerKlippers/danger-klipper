@@ -110,5 +110,5 @@ class PowerCorePWMReader:
         return self._pwm_counter.get_duty_cycle()
 
 
-def load_config_prefix(config):
+def load_config(config):
     return PowerCore(config)
