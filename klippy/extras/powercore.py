@@ -10,12 +10,12 @@ if TYPE_CHECKING:
 
 
 class PowerCore:
-    def __init__(self, config: ConfigWrapper):
+    def __init__(self, config: "ConfigWrapper"):
         self._pwm_reader = PowerCorePWMReader(config)
-        self.printer: Printer = config.get_printer()
+        self.printer: "Printer" = config.get_printer()
         self.reactor = self.printer.get_reactor()
-        self.toolhead: ToolHead = self.printer.lookup_object("toolhead")
-        self.gcode: GCodeDispatch = self.printer.lookup_object("gcode")
+        self.toolhead: "ToolHead" = self.printer.lookup_object("toolhead")
+        self.gcode: "GCodeDispatch" = self.printer.lookup_object("gcode")
         self.gcode.register_command(
             "GET_DUTY_CYCLE",
             self.cmd_get_duty_cycle,
@@ -73,13 +73,13 @@ class PowerCore:
     def disable_scaling(self):
         self.scaling_enabled = False
 
-    def check_move(self, move: Move):
+    def check_move(self, move: "Move"):
         if not self.scaling_enabled:
             return
         else:
             self.scale_move(move)
 
-    def scale_move(self, move: Move):
+    def scale_move(self, move: "Move"):
         current_duty_cycle = self._pwm_reader.get_current_duty_cycle()
         output = self.pid_controller(current_duty_cycle)
         # output it 0-1, scale it to min_feedrate-max_feedrate
