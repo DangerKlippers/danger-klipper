@@ -3,7 +3,7 @@
 # Copyright (C) 2021  Adrian Keet <arkeet@gmail.com>
 #
 # This file may be distributed under the terms of the GNU GPLv3 license.
-
+import logging
 
 class MCU_counter:
     def __init__(self, printer, pin, sample_time, poll_time):
@@ -109,8 +109,11 @@ class PWMCounter:
                 # and pwm freq is 100hz
                 # counts per second is 40
                 # so duty cycle is 40 / 100 = 0.4
+                # logging.info(f"total counts: {count}")
+                # logging.info(f"counts: {delta_count}")
                 time_scale_factor = 1 / delta_time
-                self.duty_cycle = (
+                logging.info(f"delta_time: {delta_time}, counts_per_sec: {counts_per_sec}, time_scale_factor: {time_scale_factor}")
+                self._duty_cycle = (
                     counts_per_sec * time_scale_factor / self._frequency
                 )
 

@@ -54,7 +54,7 @@ class PowerCore:
             setpoint=self.target_duty_cycle,
             output_limits=(0, 1),
             sample_time=None,
-            time_fn=self.reactor.monotonic(),
+            time_fn=self.reactor.monotonic,
         )
 
     def _handle_connect(self):
@@ -112,7 +112,7 @@ class PowerCorePWMReader:
             printer, pin, sample_time, poll_time, pwm_frequency
         )
 
-    def get_current_duty_cycle(self, eventtime):
+    def get_current_duty_cycle(self):
         return self._pwm_counter.get_duty_cycle()
 
 
