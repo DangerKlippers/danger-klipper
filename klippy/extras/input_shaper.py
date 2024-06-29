@@ -283,14 +283,29 @@ class TypedInputSmootherParams:
     smoothers = {s.name: s.init_func for s in shaper_defs.INPUT_SMOOTHERS}
 
     def __init__(self, axis, smoother_type, config):
+        self.printer = config.get_printer()
+        config_file = self.printer.lookup_object("configfile")
         self.axis = axis
         self.smoother_type = smoother_type
         self.smoother_freq = 0.0
+        self.damping_ratio = config.getfloat("damping_ratio_" + axis, None)
+        if self.damping_ratio:
+            config_file.warn(
+                "config",
+                f"Config Option 'damping_ratio_{axis}' is not valid for Smooth Shapers. It will not be used.",
+                "Invalid config option",
+            )
         if config is not None:
             if smoother_type not in self.smoothers:
                 raise config.error(
                     "Unsupported shaper type: %s" % (smoother_type,)
                 )
+
+        self.smoother_freq = config.getfloat(
+            "shaper_freq_" + axis, self.smoother_freq, minval=0.0
+        )
+
+        if not self.smoother_freq:
             self.smoother_freq = config.getfloat(
                 "smoother_freq_" + axis, self.smoother_freq, minval=0.0
             )
@@ -305,9 +320,16 @@ class TypedInputSmootherParams:
         if smoother_type not in self.smoothers:
             raise gcmd.error("Unsupported shaper type: %s" % (smoother_type,))
         axis = self.axis.upper()
+
         self.smoother_freq = gcmd.get_float(
-            "SMOOTHER_FREQ_" + axis, self.smoother_freq, minval=0.0
+            "SHAPER_FREQ_" + axis, self.smoother_freq, minval=0.0
         )
+
+        if not self.smoother_freq:
+            self.smoother_freq = gcmd.get_float(
+                "SMOOTHER_FREQ_" + axis, self.smoother_freq, minval=0.0
+            )
+
         self.smoother_type = smoother_type
 
     def get_smoother(self):
