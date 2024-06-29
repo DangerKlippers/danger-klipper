@@ -1,4 +1,4 @@
-from . import pulse_counter
+from . import pwm_in
 from typing import TYPE_CHECKING
 from simple_pid import PID
 
@@ -105,11 +105,12 @@ class PowerCorePWMReader:
         self._pwm_counter = None
 
         pin = config.get("alrt_pin")
-        poll_time = config.getfloat("alrt_poll_interval", 0.0015, above=0.0)
-        pwm_frequency = config.getfloat("pwm_frequency", 100.0, above=0.0)
-        sample_time = config.getfloat("alrt_sample_time", 0.1, above=0.0)
-        self._pwm_counter = pulse_counter.PWMCounter(
-            printer, pin, sample_time, poll_time, pwm_frequency
+        pwm_frequency = config.getfloat("alrt_pwm_frequency", 100.0, above=0.0)
+        report_interval = config.getfloat(
+            "alrt_report_interval", 0.1, above=0.1
+        )
+        self._pwm_counter = pwm_in.PWMIn(
+            printer, pin, report_interval, pwm_frequency
         )
 
     def get_current_duty_cycle(self):

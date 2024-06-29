@@ -102,11 +102,10 @@ void command_config_pwm_in(uint32_t *args)
     struct counter *c = oid_alloc(
         args[0], command_config_pwm_in, sizeof(*c));
     c->pin = gpio_in_setup(args[1], args[2]);
-    c->max_task_ticks = args[3];
     c->timer.func = pwm_in_event;
 }
 DECL_COMMAND(command_config_pwm_in,
-             "config_pwm_in oid=%c pin=%u pull_up=%c max_task_ticks=%u");
+             "config_pwm_in oid=%c pin=%u pull_up=%c");
 
 void command_query_counter(uint32_t *args)
 {
@@ -115,10 +114,11 @@ void command_query_counter(uint32_t *args)
     uint32_t cur = timer_read_time();
     c->timer.waketime = args[1];
     c->interval = args[2];
+    c->max_task_ticks = args[3];
     sched_add_timer(&c->timer);
 }
 DECL_COMMAND(command_query_counter,
-             "query_pwm_in oid=%c clock=%u interval=%u");
+             "query_pwm_in oid=%c clock=%u interval=%u max_task_ticks=%u");
 
 // void counter_task(void)
 // {

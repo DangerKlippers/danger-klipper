@@ -1159,6 +1159,9 @@ class MCU:
     def seconds_to_clock(self, time):
         return int(time * self._mcu_freq)
 
+    def ticks_to_seconds(self, ticks):
+        return float(ticks / self._mcu_freq)
+
     def get_max_stepper_error(self):
         return self._max_stepper_error
 
