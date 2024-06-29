@@ -1,7 +1,8 @@
 from . import pwm_in
+import math
 from typing import TYPE_CHECKING
 from simple_pid import PID
-
+import logging
 if TYPE_CHECKING:
     from ..toolhead import ToolHead, Move
     from ..configfile import ConfigWrapper
@@ -66,11 +67,12 @@ class PowerCore:
 
     def cmd_enable_scaling(self, gcmd):
         self.enable_scaling()
-        gcmd.respond_ok()
+        gcmd.respond_info("Enabled powercore move scaling")
 
     def cmd_disable_scaling(self, gcmd):
         self.disable_scaling()
-        gcmd.respond_ok()
+        gcmd.respond_info("Disabled powercore move scaling")
+
 
     def enable_scaling(self):
         self.pid_controller.reset()
@@ -80,18 +82,24 @@ class PowerCore:
         self.scaling_enabled = False
 
     def check_move(self, move: "Move"):
+        
         if not self.scaling_enabled:
             return
         else:
             self.scale_move(move)
 
     def scale_move(self, move: "Move"):
+        logging.info("scale_move")
         current_duty_cycle = self._pwm_reader.get_current_duty_cycle()
         output = self.pid_controller(current_duty_cycle)
         # output it 0-1, scale it to min_feedrate-max_feedrate
         feedrate = self.min_feedrate + output * (
             self.max_feedrate - self.min_feedrate
         )
+        logging.info(f"orig move feedrate: {math.sqrt(move.max_cruise_v2)}")
+        logging.info(f"new move feedrate: {feedrate}")
+        logging.info(f"current duty cycle: {current_duty_cycle}")
+        logging.info(f"pid output: {output}")
         # feedrate is in mm/min, set_speed expects mm/sec
         move.set_speed(feedrate * 60, self.adjustment_accel)
         self.gcode.respond_info(
@@ -109,12 +117,13 @@ class PowerCorePWMReader:
         report_interval = config.getfloat(
             "alrt_report_interval", 0.1, above=0.1
         )
+        additional_timeout_ticks = config.getint("additional_timeout_ticks", 0, minval=0)
         self._pwm_counter = pwm_in.PWMIn(
-            printer, pin, report_interval, pwm_frequency
+            printer, pin, report_interval, pwm_frequency, additional_timeout_ticks
         )
 
     def get_current_duty_cycle(self):
-        return self._pwm_counter.get_duty_cycle()
+        return round(self._pwm_counter.get_duty_cycle(), 3)
 
 
 def load_config(config):

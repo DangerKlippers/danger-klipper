@@ -16,41 +16,11 @@ struct pwm_in
     struct timer timer;
     uint32_t oid;
     uint32_t max_task_ticks;
-    uint8_t flags;
     struct gpio_in pin;
     uint32_t interval;
 };
 
-enum
-{
-    CF_PENDING = 1,
-};
-
-static struct task_wake counter_wake;
-
-static uint_fast8_t
-pwm_in_event(struct timer *timer)
-{
-    // called when timer starts
-    // measures high time in a single period
-    // waits for pin to go low, then high - sets start time
-    // once the pin goes low again, curtime - start time = high time
-    // if curtime exceeds timeout, high time is 0
-    struct pwm_in *c = container_of(timer, struct pwm_in, timer);
-
-    irq_disable();
-    uint32_t high_ticks = get_high_ticks(&c->max_task_ticks, &c->pin);
-    irq_enable();
-    uint32_t oid = c->oid;
-    sendf("pwm_in_state oid=%c high_ticks=%u",
-          oid, high_ticks);
-
-    // wake in interval ticks
-    c->timer.waketime = timer_read_time() + c->interval;
-    return SF_RESCHEDULE;
-}
-
-static uint_fast32_t
+static uint32_t
 get_high_ticks(uint32_t *max_task_ticks, struct gpio_in *pin)
 {
     uint32_t timeout = timer_read_time() + *max_task_ticks;
@@ -58,7 +28,7 @@ get_high_ticks(uint32_t *max_task_ticks, struct gpio_in *pin)
     uint8_t state_val = 0;
     for (;;)
     {
-        uint8_t value = gpio_in_read(pin);
+        uint8_t value = gpio_in_read(*pin);
         switch (state_val)
         {
         case 0: // waiting for low
@@ -86,7 +56,7 @@ get_high_ticks(uint32_t *max_task_ticks, struct gpio_in *pin)
             if (state_val == 0)
             // never seen low, so timeout means 100% pwm
             {
-                return max_task_ticks;
+                return (uint32_t) max_task_ticks;
             }
             else
             // we've seen low, so timeout means 0% pwm
@@ -97,9 +67,33 @@ get_high_ticks(uint32_t *max_task_ticks, struct gpio_in *pin)
     }
 }
 
-void command_config_pwm_in(uint32_t *args)
+static uint_fast8_t
+pwm_in_event(struct timer *timer)
 {
-    struct counter *c = oid_alloc(
+    // called when timer starts
+    // measures high time in a single period
+    // waits for pin to go low, then high - sets start time
+    // once the pin goes low again, curtime - start time = high time
+    // if curtime exceeds timeout, high time is 0
+    struct pwm_in *c = container_of(timer, struct pwm_in, timer);
+
+    irq_disable();
+    uint32_t high_ticks = get_high_ticks(&c->max_task_ticks, &c->pin);
+    irq_enable();
+    uint32_t oid = c->oid;
+    sendf("pwm_in_state oid=%c high_ticks=%u",
+          oid, high_ticks);
+
+    // wake in interval ticks
+    c->timer.waketime = timer_read_time() + c->interval;
+    return SF_RESCHEDULE;
+}
+
+
+void 
+command_config_pwm_in(uint32_t *args)
+{
+    struct pwm_in *c = oid_alloc(
         args[0], command_config_pwm_in, sizeof(*c));
     c->pin = gpio_in_setup(args[1], args[2]);
     c->timer.func = pwm_in_event;
@@ -107,17 +101,16 @@ void command_config_pwm_in(uint32_t *args)
 DECL_COMMAND(command_config_pwm_in,
              "config_pwm_in oid=%c pin=%u pull_up=%c");
 
-void command_query_counter(uint32_t *args)
+void command_query_pwm_in(uint32_t *args)
 {
-    struct counter *c = oid_lookup(args[0], command_config_pwm_in);
+    struct pwm_in *c = oid_lookup(args[0], command_config_pwm_in);
     sched_del_timer(&c->timer);
-    uint32_t cur = timer_read_time();
     c->timer.waketime = args[1];
     c->interval = args[2];
     c->max_task_ticks = args[3];
     sched_add_timer(&c->timer);
 }
-DECL_COMMAND(command_query_counter,
+DECL_COMMAND(command_query_pwm_in,
              "query_pwm_in oid=%c clock=%u interval=%u max_task_ticks=%u");
 
 // void counter_task(void)
