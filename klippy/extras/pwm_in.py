@@ -80,5 +80,8 @@ class PWMIn:
         if self._callback is not None:
             self._callback(self._duty_cycle)
 
+    def setup_callback(self, cb):
+        self._callback = cb
+
     def get_duty_cycle(self):
         return self._duty_cycle
