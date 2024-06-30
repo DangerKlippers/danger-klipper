@@ -92,9 +92,9 @@ class PowerCore:
     def cmd_reset_pid(self, gcmd):
         self.pid_controller.reset()
         gcmd.respond_info("Reset powercore PID")
-        
+
     def cmd_set_target_duty_cycle(self, gcmd):
-        target_duty_cycle = gcmd.get_float("duty_cycle", self.target_duty_cycle)
+        target_duty_cycle = gcmd.get_float("DUTY_CYCLE", self.target_duty_cycle)
         self.target_duty_cycle = target_duty_cycle
         self.pid_controller.setpoint = target_duty_cycle
         gcmd.respond_info(f"Target duty cycle: {target_duty_cycle}")
