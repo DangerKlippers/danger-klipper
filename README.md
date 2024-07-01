@@ -30,6 +30,8 @@ See the [Danger Features document](https://dangerklipper.io/Danger_Features.html
 
 - [heater: velocity PID](https://github.com/DangerKlippers/danger-klipper/pull/47) ([klipper#6272](https://github.com/Klipper3d/klipper/pull/6272))
 
+- [heater: positional PID](https://github.com/DangerKlippers/danger-klipper/pull/210)
+
 - [heater: PID-Profiles](https://github.com/DangerKlippers/danger-klipper/pull/162)
 
 - [heater: expose heater thermistor out of min/max](https://github.com/DangerKlippers/danger-klipper/pull/182)

@@ -130,6 +130,7 @@ class Heater:
                 "watermark": ControlBangBang,
                 "pid": ControlPID,
                 "pid_v": ControlVelocityPID,
+                "pid_p": ControlPositionalPID,
             }
         )
         return algos[profile["control"]](profile, self, load_clean)
@@ -274,7 +275,9 @@ class Heater:
     cmd_SET_HEATER_PID_help = "Sets a heater PID parameter"
 
     def cmd_SET_HEATER_PID(self, gcmd):
-        if not isinstance(self.control, (ControlPID, ControlVelocityPID)):
+        if not isinstance(
+            self.control, (ControlPID, ControlVelocityPID, ControlPositionalPID)
+        ):
             raise gcmd.error("Not a PID/PID_V controlled heater")
         kp = gcmd.get_float("KP", None)
         if kp is not None:
@@ -319,7 +322,7 @@ class Heater:
                 temp_profile["max_delta"] = config_section.getfloat(
                     "max_delta", 2.0, above=0.0
                 )
-            elif control == "pid" or control == "pid_v":
+            elif control == "pid" or control == "pid_v" or control == "pid_p":
                 for key, (type, placeholder) in PID_PROFILE_OPTIONS.items():
                     can_be_none = (
                         key != "pid_kp" and key != "pid_ki" and key != "pid_kd"
@@ -822,6 +825,83 @@ class ControlVelocityPID:
 
     def get_type(self):
         return "pid_v"
+
+
+######################################################################
+# Positional (PID) control algo
+######################################################################
+
+
+class ControlPositionalPID:
+    def __init__(self, profile, heater, load_clean=False):
+        self.profile = profile
+        self.heater = heater
+        self.heater_max_power = heater.get_max_power()
+        self.Kp = profile["pid_kp"] / PID_PARAM_BASE
+        self.Ki = profile["pid_ki"] / PID_PARAM_BASE
+        self.Kd = profile["pid_kd"] / PID_PARAM_BASE
+        smooth_time = (
+            self.heater.get_smooth_time()
+            if profile["smooth_time"] is None
+            else profile["smooth_time"]
+        )
+        self.dt = heater.pwm_delay
+        self.smooth = 1.0 + heater.get_smooth_time() / self.dt
+        self.prev_temp = AMBIENT_TEMP
+        self.prev_err = 0.0
+        self.prev_der = 0.0
+        self.int_sum = 0.0
+
+    def temperature_update(self, read_time, temp, target_temp):
+        # calculate the error
+        err = target_temp - temp
+        # calculate the current integral amount using the Trapezoidal rule
+        ic = ((self.prev_err + err) / 2.0) * self.dt
+        i = self.int_sum + ic
+        # calculate the current derivative using a modified moving average,
+        # and derivative on measurement, to account for derivative kick
+        # when the set point changes
+        dc = -(temp - self.prev_temp) / self.dt
+        dc = ((self.smooth - 1.0) * self.prev_der + dc) / self.smooth
+        # calculate the output
+        o = self.Kp * err + self.Ki * i + self.Kd * dc
+        # calculate the saturated output
+        so = max(0.0, min(self.heater_max_power, o))
+
+        # update the heater
+        self.heater.set_pwm(read_time, so)
+        # update the previous values
+        self.prev_temp = temp
+        self.prev_der = dc
+        if target_temp > 0.0:
+            self.prev_err = err
+            if o == so:
+                # not saturated so an update is allowed
+                self.int_sum = i
+            else:
+                # saturated, so conditionally integrate
+                if (o > 0.0) - (o < 0.0) != (ic > 0.0) - (ic < 0.0):
+                    # the signs are opposite so an update is allowed
+                    self.int_sum = i
+        else:
+            self.prev_err = 0.0
+            self.int_sum = 0.0
+
+    def check_busy(self, eventtime, smoothed_temp, target_temp):
+        temp_diff = target_temp - smoothed_temp
+        return (
+            abs(temp_diff) > PID_SETTLE_DELTA
+            or abs(self.prev_der) > PID_SETTLE_SLOPE
+        )
+
+    def update_smooth_time(self):
+        self.smooth_time = self.heater.get_smooth_time()  # smoothing window
+
+    def get_profile(self):
+        return self.profile
+
+    def get_type(self):
+        return "pid_p"
 
 
 ######################################################################

@@ -1022,9 +1022,10 @@ sensor_pin:
 #   be smoothed to reduce the impact of measurement noise. The default
 #   is 1 seconds.
 control:
-#   Control algorithm (either pid, pid_v or watermark). This parameter must
+#   Control algorithm: pid, pid_p, pid_v, or watermark. This parameter must
 #   be provided. pid_v should only be used on well calibrated heaters with
-#   low to moderate noise.
+#   low to moderate noise. pid_p is a reimplementation of the positional PID
+#   algorithm used by pid. See the PID documentation for further detail.
 pid_Kp:
 pid_Ki:
 pid_Kd:
