@@ -92,6 +92,9 @@ class FirmwareRetraction:
         self.printer.register_event_handler(
             "stepper_enable:motor_off", self._evaluate_retraction
         )
+        self.printer.register_event_handler(
+            "stepper_enable:axes_off", self._evaluate_retraction
+        )
 
         # Virtual SD card mode (Mainsail, Fluidd and DWC2-to-Klipper default)
         # Only register events if Virtual SD Card enabled
