@@ -1833,6 +1833,16 @@ allowing per-filament settings and runtime tuning.
 #   prevent collisions with the print during travel moves when retracted.
 #   The minimum value is 0 mm, the default value is 0 mm, which disables
 #   zhop moves.
+#reset_on_events: False
+#   While True, parameters are reset to configuration values on
+#   CLEAR_RETRACTION, homing, motor_off, start print and end print from
+#   virtual sdcard. Retracted state is set to False.
+#   While False, after events (homing, motor_off, start print, end print,
+#   cancel) zhop moves are cancelled until unreretract occurs.
+#clear_zhop_on_z_moves: False
+#   If True, when a command in Z is sent while toolhead is retracted, z_hop
+#   is cancelled until next retraction. Otherwise, `z_hop_height` is applied
+#   as an offset to all movements.
 ```
 
 ### [gcode_arcs]
