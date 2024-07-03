@@ -15,56 +15,82 @@ struct pwm_in
 {
     struct timer timer;
     uint32_t oid;
-    uint32_t max_task_ticks;
     struct gpio_in pin;
     uint32_t interval;
+    uint32_t period;
 };
 
 static uint32_t
-get_high_ticks(uint32_t *max_task_ticks, struct gpio_in *pin)
+get_high_time_and_set_period(struct pwm_in *p)
 {
-    uint32_t timeout = timer_read_time() + *max_task_ticks;
-    uint32_t high_start;
-    uint8_t state_val = 0;
-    for (;;)
+    // should see at most 1.5 periods
+    uint32_t deadline_ticks = (uint32_t)(p->period * 1.5);
+
+    uint32_t deadline = timer_read_time() + deadline_ticks;
+    uint32_t first_high_time;
+    uint32_t second_low_time;
+    uint32_t second_high_time;
+    uint32_t cur_time;
+    struct gpio_in *pin = &p->pin;
+    uint8_t value;
+
+    for (;;) // waiting for first low
     {
-        uint8_t value = gpio_in_read(*pin);
-        switch (state_val)
+        cur_time = timer_read_time();
+        value = gpio_in_read(pin);
+
+        if (deadline < cur_time)
+            return (uint32_t)deadline_ticks; // never see low, so 100% pwm
+        if (!value)
+            break;
+    }
+
+    for (;;) // waiting for first high
+    {
+        cur_time = timer_read_time();
+        value = gpio_in_read(pin);
+
+        if (deadline < cur_time)
+            return 0; // never see high, so 0% pwm
+        if (value)
         {
-        case 0: // waiting for low
-            if (!value)
-            {
-                state_val = 1;
-            }
+            first_high_time = cur_time;
             break;
-        case 1: // first high
-            if (value)
-            {
-                high_start = timer_read_time();
-                state_val = 2;
-            }
-            break;
-        case 2: // low after high again
-            if (!value)
-            {
-                return timer_read_time() - high_start;
-            }
-            break;
-        }
-        if (timer_is_before(timeout, timer_read_time()))
-        {
-            if (state_val == 0)
-            // never seen low, so timeout means 100% pwm
-            {
-                return (uint32_t) max_task_ticks;
-            }
-            else
-            // we've seen low, so timeout means 0% pwm
-            {
-                return 0;
-            }
         }
     }
+
+    for (;;) // waiting for second low
+    {
+        cur_time = timer_read_time();
+        value = gpio_in_read(pin);
+
+        if (deadline < cur_time)
+            return (uint32_t)deadline_ticks; // time out waiting for second low means 100%
+        if (!value)
+        {
+            second_low_time = cur_time;
+            break;
+        }
+    }
+
+    for (;;) // waiting for second high
+    {
+        cur_time = timer_read_time();
+        value = gpio_in_read(pin);
+
+        if (deadline < cur_time)
+            break;
+        if (value)
+        {
+            second_high_time = cur_time;
+            break;
+        }
+    }
+    if (second_high_time) // can only calc period after second high
+        p->period = second_high_time - first_high_time;
+
+    uint32_t high_time = second_low_time - first_high_time;
+    return high_time;
 }
 
 static uint_fast8_t
@@ -75,43 +101,42 @@ pwm_in_event(struct timer *timer)
     // waits for pin to go low, then high - sets start time
     // once the pin goes low again, curtime - start time = high time
     // if curtime exceeds timeout, high time is 0
-    struct pwm_in *c = container_of(timer, struct pwm_in, timer);
+    struct pwm_in *p = container_of(timer, struct pwm_in, timer);
 
     irq_disable();
-    uint32_t high_ticks = get_high_ticks(&c->max_task_ticks, &c->pin);
+    uint32_t high_ticks = get_high_time_and_set_period(&p);
     irq_enable();
-    uint32_t oid = c->oid;
-    sendf("pwm_in_state oid=%c high_ticks=%u",
-          oid, high_ticks);
+    uint32_t oid = p->oid;
+    uint32_t period = p->period;
+    sendf("pwm_in_state oid=%c high_ticks=%u period=%u",
+          oid, high_ticks, period);
 
     // wake in interval ticks
-    c->timer.waketime = timer_read_time() + c->interval;
+    p->timer.waketime = timer_read_time() + p->interval;
     return SF_RESCHEDULE;
 }
 
-
-void 
-command_config_pwm_in(uint32_t *args)
+void command_config_pwm_in(uint32_t *args)
 {
-    struct pwm_in *c = oid_alloc(
-        args[0], command_config_pwm_in, sizeof(*c));
-    c->pin = gpio_in_setup(args[1], args[2]);
-    c->timer.func = pwm_in_event;
+    struct pwm_in *p = oid_alloc(
+        args[0], command_config_pwm_in, sizeof(*p));
+    p->pin = gpio_in_setup(args[1], args[2]);
+    p->timer.func = pwm_in_event;
 }
 DECL_COMMAND(command_config_pwm_in,
              "config_pwm_in oid=%c pin=%u pull_up=%c");
 
 void command_query_pwm_in(uint32_t *args)
 {
-    struct pwm_in *c = oid_lookup(args[0], command_config_pwm_in);
-    sched_del_timer(&c->timer);
-    c->timer.waketime = args[1];
-    c->interval = args[2];
-    c->max_task_ticks = args[3];
-    sched_add_timer(&c->timer);
+    struct pwm_in *p = oid_lookup(args[0], command_config_pwm_in);
+    sched_del_timer(&p->timer);
+    p->timer.waketime = args[1];
+    p->interval = args[2];
+    p->period = args[3];
+    sched_add_timer(&p->timer);
 }
 DECL_COMMAND(command_query_pwm_in,
-             "query_pwm_in oid=%c clock=%u interval=%u max_task_ticks=%u");
+             "query_pwm_in oid=%c clock=%u interval=%u period=%u");
 
 // void counter_task(void)
 // {
@@ -122,13 +147,13 @@ DECL_COMMAND(command_query_pwm_in,
 //     struct counter *c;
 //     foreach_oid(oid, c, command_config_pwm_in)
 //     {
-//         if (!(c->flags & CF_PENDING))
+//         if (!(p->flags & CF_PENDING))
 //             continue;
 //         irq_disable();
-//         uint32_t waketime = c->timer.waketime;
-//         uint32_t count = c->count;
-//         uint32_t count_time = c->last_count_time;
-//         c->flags &= ~CF_PENDING;
+//         uint32_t waketime = p->timer.waketime;
+//         uint32_t count = p->count;
+//         uint32_t count_time = p->last_count_time;
+//         p->flags &= ~CF_PENDING;
 //         irq_enable();
 //         sendf("counter_state oid=%c next_clock=%u count=%u count_clock=%u",
 //               oid, waketime, count, count_time);

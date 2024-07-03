@@ -39,19 +39,19 @@ class PowerCore:
             desc="Disable powercore feedrate scaling",
         )
         self.gcode.register_command(
-            "SET_POWERCORE_PID", 
-            self.cmd_set_pid_params, 
-            desc="Set powercore pid params"
+            "SET_POWERCORE_PID",
+            self.cmd_set_pid_params,
+            desc="Set powercore pid params",
         )
         self.gcode.register_command(
             "RESET_POWERCORE_PID",
             self.cmd_reset_pid,
-            desc="resets pid controller"
+            desc="resets pid controller",
         )
         self.gcode.register_command(
             "SET_POWERCORE_TARGET_DUTY_CYCLE",
             self.cmd_set_target_duty_cycle,
-            desc="set the target powercore target duty cycle"
+            desc="set the target powercore target duty cycle",
         )
         self.target_duty_cycle: float = config.getfloat(
             "target_duty_cycle", 0.75, minval=0.0, maxval=1.0
@@ -65,9 +65,7 @@ class PowerCore:
         self.adjustment_accel = config.getfloat(
             "powercore_adjustment_accel", 500.0, above=0.0
         )
-        self.verbose_pid_output = config.getboolean(
-            "verbose_pid_output", False
-        )
+        self.verbose_pid_output = config.getboolean("verbose_pid_output", False)
         self.scaling_enabled = False
         self.pid_controller = PID(
             Kp=config.getfloat("pid_kp", 0.1),
@@ -98,7 +96,7 @@ class PowerCore:
         self.target_duty_cycle = target_duty_cycle
         self.pid_controller.setpoint = target_duty_cycle
         gcmd.respond_info(f"Target duty cycle: {target_duty_cycle}")
-        
+
     def cmd_set_pid_params(self, gcmd):
         kp = gcmd.get_float("KP", self.pid_controller.Kp)
         ki = gcmd.get_float("KI", self.pid_controller.Ki)
@@ -118,7 +116,6 @@ class PowerCore:
         self.disable_scaling()
         gcmd.respond_info("Disabled powercore move scaling")
 
-
     def enable_scaling(self):
         self.pid_controller.reset()
         self.scaling_enabled = True
@@ -127,7 +124,6 @@ class PowerCore:
         self.scaling_enabled = False
 
     def check_move(self, move: "Move"):
-        
         if not self.scaling_enabled:
             return
         else:
@@ -159,17 +155,18 @@ class PowerCorePWMReader:
         self._pwm_in = None
 
         pin = config.get("alrt_pin")
-        pwm_frequency = config.getfloat("alrt_pwm_frequency", 100.0, above=0.0)
-        additional_timeout_ticks = config.getint("additional_timeout_ticks", 0, minval=0)
+        pwm_frequency = config.getfloat(
+            "alrt_minimum_pwm_frequency", 10000.0, above=1000.0
+        )
         self.sample_interval = config.getfloat(
             "alrt_sample_interval", 0.1, above=0.1
         )
         self._pwm_in = pwm_in.PWMIn(
-            printer, pin, self.sample_interval, pwm_frequency, additional_timeout_ticks
+            printer, pin, self.sample_interval, pwm_frequency
         )
+
     def setup_callback(self, cb):
         self._pwm_in.setup_callback(cb)
-        
 
     def get_current_duty_cycle(self):
         return round(self._pwm_in.get_duty_cycle(), 3)
