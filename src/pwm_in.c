@@ -24,31 +24,32 @@ static uint32_t
 get_high_time_and_set_period(struct pwm_in *p)
 {
     // should see at most 1.5 periods
-    uint32_t deadline_ticks = (uint32_t)(p->period * 1.5);
+    uint32_t max_high_time = p->period;
+    uint32_t deadline_ticks = (uint32_t)(p->period * 1.7);// extra 0.2 for timing grace
 
     uint32_t deadline = timer_read_time() + deadline_ticks;
-    uint32_t first_high_time;
-    uint32_t second_low_time;
-    uint32_t second_high_time;
+    uint32_t first_high_time = 0;
+    uint32_t second_low_time = 0;
+    uint32_t second_high_time = 0;
     uint32_t cur_time;
-    struct gpio_in *pin = &p->pin;
+    struct gpio_in pin = p->pin;
     uint8_t value;
 
     for (;;) // waiting for first low
     {
-        cur_time = timer_read_time();
         value = gpio_in_read(pin);
+        cur_time = timer_read_time();
 
         if (deadline < cur_time)
-            return (uint32_t)deadline_ticks; // never see low, so 100% pwm
+            return (uint32_t)max_high_time; // never see low, so 100% pwm
         if (!value)
             break;
     }
 
     for (;;) // waiting for first high
     {
-        cur_time = timer_read_time();
         value = gpio_in_read(pin);
+        cur_time = timer_read_time();
 
         if (deadline < cur_time)
             return 0; // never see high, so 0% pwm
@@ -61,11 +62,11 @@ get_high_time_and_set_period(struct pwm_in *p)
 
     for (;;) // waiting for second low
     {
-        cur_time = timer_read_time();
         value = gpio_in_read(pin);
+        cur_time = timer_read_time();
 
         if (deadline < cur_time)
-            return (uint32_t)deadline_ticks; // time out waiting for second low means 100%
+            return (uint32_t)max_high_time; // time out waiting for second low means 100%
         if (!value)
         {
             second_low_time = cur_time;
@@ -75,8 +76,8 @@ get_high_time_and_set_period(struct pwm_in *p)
 
     for (;;) // waiting for second high
     {
-        cur_time = timer_read_time();
         value = gpio_in_read(pin);
+        cur_time = timer_read_time();
 
         if (deadline < cur_time)
             break;
@@ -104,7 +105,7 @@ pwm_in_event(struct timer *timer)
     struct pwm_in *p = container_of(timer, struct pwm_in, timer);
 
     irq_disable();
-    uint32_t high_ticks = get_high_time_and_set_period(&p);
+    uint32_t high_ticks = get_high_time_and_set_period(p);
     irq_enable();
     uint32_t oid = p->oid;
     uint32_t period = p->period;

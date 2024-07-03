@@ -50,6 +50,7 @@ class MCU_pwm_in:
         duty_cycle = pulse_width * self._pwm_frequency
         logging.info(f"duty cycle: {duty_cycle}")
         logging.info(f"pwm frequency: {self._pwm_frequency}")
+        logging.info(f"pulse_width: {pulse_width}, period: {self.period}")
         if duty_cycle > 1.0:
             logging.info("went over. weird.")
             duty_cycle = 1.0
