@@ -5,16 +5,21 @@
 # This file may be distributed under the terms of the GNU GPLv3 license.
 
 from .corexy import CoreXYKinematics
+from ..extras.powercore import PowerCore
 
 
 class PowerCoreXYKinematics(CoreXYKinematics):
     def __init__(self, toolhead, config):
         super().__init__(toolhead, config)
-        self.powercore = config.get_printer().lookup_object("powercore")
+        self.powercore: PowerCore = config.get_printer().lookup_object(
+            "powercore"
+        )
 
-    def check_move(self, move):
-        super().check_move(move)
-        self.powercore.check_move(move)
+    def scale_segmented_move(self, move):
+        self.powercore.scale_move(move)
+
+    def segment_move(self, move):
+        self.powercore.segment_move(move)
 
 
 def load_kinematics(toolhead, config):

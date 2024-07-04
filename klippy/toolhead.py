@@ -22,7 +22,7 @@ class Move:
         self.accel = toolhead.max_accel
         self.equilateral_corner_v2 = toolhead.equilateral_corner_v2
         self.timing_callbacks = []
-        velocity = min(speed, toolhead.max_velocity)
+        self.velocity = min(speed, toolhead.max_velocity)
         self.is_kinematic_move = True
         self.axes_d = axes_d = [end_pos[i] - start_pos[i] for i in (0, 1, 2, 3)]
         self.move_d = move_d = math.sqrt(sum([d * d for d in axes_d[:3]]))
@@ -40,17 +40,17 @@ class Move:
             if move_d:
                 inv_move_d = 1.0 / move_d
             self.accel = 99999999.9
-            velocity = speed
+            self.velocity = speed
             self.is_kinematic_move = False
         else:
             inv_move_d = 1.0 / move_d
         self.axes_r = [d * inv_move_d for d in axes_d]
-        self.min_move_t = move_d / velocity
+        self.min_move_t = move_d / self.velocity
         # Junction speeds are tracked in velocity squared.  The
         # delta_v2 is the maximum amount of this squared-velocity that
         # can change in this move.
         self.max_start_v2 = 0.0
-        self.max_cruise_v2 = velocity**2
+        self.max_cruise_v2 = self.velocity**2
         self.delta_v2 = 2.0 * move_d * self.accel
         self.max_smoothed_v2 = 0.0
         self.smooth_delta_v2 = 2.0 * move_d * toolhead.max_accel_to_decel
@@ -59,6 +59,7 @@ class Move:
         speed2 = speed**2
         if speed2 < self.max_cruise_v2:
             self.max_cruise_v2 = speed2
+            self.velocity = speed
             self.min_move_t = self.move_d / speed
         self.accel = min(self.accel, accel)
         self.delta_v2 = 2.0 * self.move_d * self.accel
@@ -70,6 +71,7 @@ class Move:
         self.min_move_t = self.move_d / speed
         self.accel = min(self.accel, accel)
         self.delta_v2 = 2.0 * self.move_d * self.accel
+        self.velocity = speed
         self.smooth_delta_v2 = min(self.smooth_delta_v2, self.delta_v2)
 
     def move_error(self, msg="Move out of range"):
@@ -223,15 +225,25 @@ class LookAheadQueue:
         # Remove processed moves from the queue
         del queue[:flush_count]
 
-    def add_move(self, move):
-        self.queue.append(move)
-        if len(self.queue) == 1:
-            return
-        move.calc_junction(self.queue[-2])
-        self.junction_flush -= move.min_move_t
-        if self.junction_flush <= 0.0:
-            # Enough moves have been queued to reach the target flush time.
-            self.flush(lazy=True)
+    def add_move(self, move: Move):
+        apply_junction = len(self.queue) > 0
+        if apply_junction:
+            move.calc_junction(self.queue[-1])
+
+        if hasattr(self.toolhead.kin, "segment_move"):
+            moves = self.toolhead.kin.segment_move(move)
+        else:
+            moves = [move]
+
+        for move in moves:
+            self.toolhead.kin.scale_segmented_move(move)
+            self.queue.append(move)
+            if apply_junction or len(moves > 1):
+                self.junction_flush -= move.min_move_t
+                if self.junction_flush <= 0.0:
+                    # Enough moves have been queued to reach the target flush time.
+                    print("Flushing!")
+                    self.flush(lazy=True)
 
 
 BUFFER_TIME_LOW = 1.0

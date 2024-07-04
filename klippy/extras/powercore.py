@@ -3,9 +3,10 @@ import math
 from typing import TYPE_CHECKING
 from simple_pid import PID
 import logging
+from ..toolhead import Move
 
 if TYPE_CHECKING:
-    from ..toolhead import ToolHead, Move
+    from ..toolhead import ToolHead
     from ..configfile import ConfigWrapper
     from ..klippy import Printer
     from ..gcode import GCodeDispatch
@@ -76,6 +77,9 @@ class PowerCore:
             sample_time=self._pwm_reader.sample_interval,
             time_fn=self.reactor.monotonic,
         )
+        self.move_split_dist = config.getfloat(
+            "move_split_dist", 0.1, above=0.0
+        )  # in mm
 
     def pwm_in_callback(self, duty_cycle):
         if not self.scaling_enabled:
@@ -129,7 +133,49 @@ class PowerCore:
         else:
             self.scale_move(move)
 
+    def segment_move(self, move: "Move") -> list["Move"]:
+        if self.scaling_enabled:
+            return self._segment_move(move)
+        else:
+            return [move]
+
+    def _segment_move(self, move: "Move") -> list["Move"]:
+        # split move into segments based on time
+        # time is in seconds
+        target_move_length = self.move_split_dist  # in mm
+        move_dist = move.move_d
+        total_num_segments = math.ceil(move_dist / target_move_length)
+        actual_move_length = move_dist / total_num_segments
+        move_vector = move.axes_r  # normalized vector, list
+        first_move_end_pos = move.start_pos + [
+            actual_move_length * i for i in move_vector
+        ]
+
+        first_move: "Move" = Move(
+            move.toolhead,
+            move.start_pos,
+            first_move_end_pos,
+            move.velocity,
+        )
+
+        split_moves = [first_move]
+        for _ in range(total_num_segments - 1):
+            start_pos = split_moves[-1].end_pos
+            end_pos = start_pos + [actual_move_length * i for i in move_vector]
+            split_moves.append(
+                Move(move.toolhead, start_pos, end_pos, move.velocity)
+            )
+        last_move = split_moves[-1]
+        if last_move.end_pos != move.end_pos:
+            logging.info(f"last move end pos: {last_move.end_pos}")
+            logging.info(f"move end pos: {move.end_pos}")
+        return split_moves
+
+        # rough move tim
+
     def scale_move(self, move: "Move"):
+        if not self.scaling_enabled:
+            return
         logging.info("scale_move")
         current_duty_cycle = self._pwm_reader.get_current_duty_cycle()
         # output = self.pid_controller(current_duty_cycle)
