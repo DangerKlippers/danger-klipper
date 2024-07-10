@@ -92,9 +92,11 @@ class HomingMove:
         probe_pos=False,
         triggered=True,
         check_triggered=True,
+        new_way=False
     ):
         # Notify start of homing/probing move
-        self.printer.send_event("homing:homing_move_begin", self)
+        if not new_way:
+            self.printer.send_event("homing:homing_move_begin", self)
         # Note start location
         self.toolhead.flush_step_generation()
         kin = self.toolhead.get_kinematics()
@@ -176,13 +178,21 @@ class HomingMove:
             }
             self.distance_elapsed = kin.calc_position(filled_steps_moved)
             if any(over_steps.values()):
-                self.toolhead.set_position(movepos)
+                if not new_way:
+                    self.toolhead.set_position(movepos)
                 halt_kin_spos = {
                     s.get_name(): s.get_commanded_position()
                     for s in kin.get_steppers()
                 }
                 haltpos = self.calc_toolhead_pos(halt_kin_spos, over_steps)
-        self.toolhead.set_position(haltpos)
+
+        if not new_way:
+            logging.info(f"set_position(): {haltpos}, {trigpos}")
+            self.toolhead.set_position(haltpos)
+        else:
+            logging.info(f"new pos haltpos trigpos distance_elapsed: {haltpos}, {trigpos}, {self.distance_elapsed}")
+            logging.info(f"got here homing_move")
+
         # Signal homing/probing move complete
         try:
             self.printer.send_event("homing:homing_move_end", self)
@@ -274,6 +284,8 @@ class Homing:
         if dwell_time:
             self.toolhead.dwell(dwell_time)
 
+    # forcepos is where to move, movepos is the final home position
+    # called from kinematic
     def home_rails(self, rails, forcepos, movepos):
         # Notify of upcoming homing operation
         self.printer.send_event("homing:home_rails_begin", self, rails)
@@ -354,7 +366,6 @@ class Homing:
                     ]
                     self.toolhead.move(retractpos, hi.retract_speed)
 
-        self._set_current_homing(homing_axes, pre_homing=False)
         # Signal home operation complete
         self.toolhead.flush_step_generation()
         self.trigger_mcu_pos = {
@@ -362,6 +373,7 @@ class Homing:
         }
         self.adjust_pos = {}
         self.printer.send_event("homing:home_rails_end", self, rails)
+        logging.info(f"after home_rails_end: {self.adjust_pos}")
         if any(self.adjust_pos.values()):
             # Apply any homing offsets
             kin = self.toolhead.get_kinematics()
@@ -378,6 +390,44 @@ class Homing:
                 homepos[axis] = newpos[axis]
             self.toolhead.set_position(homepos)
 
+        # home the oposite side
+        if hi.use_sensorless_homing:
+            print_time = self.toolhead.get_last_move_time()
+            for endstop in endstops:
+                endstop[0].query_endstop(print_time)
+
+            #position_min = 0
+            #position_endstop = 120
+            #position_max = 120
+
+            kin = self.toolhead.get_kinematics()
+            logging.info(f"kin limits {kin.limits}")
+
+            hmove_max = HomingMove(self.printer, endstops)
+            logging.info(f"new_way: {homepos}")
+            for axis in homing_axes:
+                if hi.positive_dir:
+                    homepos[axis] -= 1.5 * (hi.position_endstop - 0)
+                    kin.set_axis_limits(axis, (homepos[axis], kin.limits[axis][1])) # temp set new limit
+                else:
+                    homepos[axis] += 1.5 * (120 - hi.position_endstop)
+                    #kin.set_axis_limit(axis, (homepos[axis], kin.limits[axis][1])) # test this first, but touple should probably be inverted here
+            logging.info(f"new kin limits {kin.limits}")
+            logging.info(f"new_way after 1.5: {homepos}")
+            hmove_max.homing_move(homepos, hi.second_homing_speed, new_way=True)
+            for axis in homing_axes:
+                if hi.positive_dir:
+                    logging.info(f"elapsed, retract: {hmove_max.distance_elapsed} {hi.retract_dist}")
+                    kin.set_axis_limits(axis, (0.0, kin.limits[axis][1])) # restore limit
+                    logging.info(f"new limits restored: {kin.limits}")
+                #else:
+                    # something something
+
+            # compare elapsed distance and position_min - position_max
+            # fail if bla
+
+        # finish homing
+        self._set_current_homing(homing_axes, pre_homing=False)
 
 class PrinterHoming:
     def __init__(self, config):
