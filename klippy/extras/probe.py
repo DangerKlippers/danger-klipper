@@ -5,6 +5,7 @@
 # This file may be distributed under the terms of the GNU GPLv3 license.
 import logging
 import pins
+import math
 from . import manual_probe
 
 HINT_TIMEOUT = """
@@ -493,6 +494,12 @@ class ProbePointsHelper:
             )
         def_move_z = config.getfloat("horizontal_move_z", 5.0)
         self.default_horizontal_move_z = def_move_z
+        self.adaptive_horizontal_move_z = config.getboolean(
+            "adaptive_horizontal_move_z", False
+        )
+        self.adaptive_horizontal_move_z_clearance = config.getfloat(
+            "adaptive_horizontal_move_z_clearance", 1.0
+        )
         self.speed = config.getfloat("speed", 50.0, above=0.0)
         self.use_offsets = False
         # Internal probing state
@@ -531,7 +538,16 @@ class ProbePointsHelper:
         if len(self.results) >= len(self.probe_points):
             toolhead.get_last_move_time()
             res = self.finalize_callback(self.probe_offsets, self.results)
-            if res != "retry":
+            if isinstance(res, [int, float]):
+                if res == 0:
+                    return True
+                if self.adaptive_horizontal_move_z:
+                    # then res is error
+                    error = math.ceil(res)
+                    self.horizontal_move_z = (
+                        error + self.adaptive_horizontal_move_z_clearance
+                    )
+            elif res != "retry":
                 return True
             self.results = []
         # Move to next XY probe point
@@ -548,8 +564,10 @@ class ProbePointsHelper:
         probe = self.printer.lookup_object("probe", None)
         method = gcmd.get("METHOD", "automatic").lower()
         self.results = []
+
         def_move_z = self.default_horizontal_move_z
         self.horizontal_move_z = gcmd.get_float("HORIZONTAL_MOVE_Z", def_move_z)
+
         if probe is None or method != "automatic":
             # Manual probe
             self.lift_speed = self.speed
