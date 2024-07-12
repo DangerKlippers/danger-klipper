@@ -80,6 +80,8 @@ class PowerCore:
         self.move_split_dist = config.getfloat(
             "move_split_dist", 0.1, above=0.0
         )  # in mm
+        gcode_move = self.printer.load_object(config, "gcode_move")
+        self.move_with_transform = gcode_move.set_move_transform(self)
 
     def pwm_in_callback(self, duty_cycle):
         if not self.scaling_enabled:
@@ -133,9 +135,6 @@ class PowerCore:
         else:
             self.scale_move(move)
 
-
-        # rough move tim
-
     def scale_move(self, move: "Move"):
         if not self.scaling_enabled:
             return
@@ -156,34 +155,47 @@ class PowerCore:
         self.gcode.respond_info(
             f"Current duty cycle: {current_duty_cycle}, output: {output}, feedrate: {feedrate}"
         )
-    def segment_move(self, move: "Move") -> list["Move"]:
-        if self.scaling_enabled:
-            return self._segment_move(move)
-        else:
-            return None
 
-    def _segment_move(self, move: "Move") -> list["Move"]:
+    def move(self, newpos, speed):
+        if self.scaling_enabled:
+            pass
+        else:
+            self.toolhead.move(newpos, speed)
+
+    def get_position(self):
+        x, y, z, e = self.toolhead.get_position()
+        return [x, y, z, e]
+
+    def split_move(
+        self, newpos, speed
+    ) -> list[tuple[tuple[float], tuple[float]]]:
         # split move into segments based on time
         # time is in seconds
+        move = Move(self.toolhead, self.get_position(), newpos, speed)
         target_move_length = self.move_split_dist  # in mm
         move_dist = move.move_d
         total_num_segments = math.ceil(move_dist / target_move_length)
         actual_move_length = move_dist / total_num_segments
         move_vector = move.axes_r  # normalized vector, list
-        first_move_end_pos = [move.start_pos[i] + (actual_move_length * v) for i, v in enumerate(move_vector)]
-        
+        first_move_end_pos = [
+            move.start_pos[i] + (actual_move_length * v)
+            for i, v in enumerate(move_vector)
+        ]
+
         first_pos = (move.start_pos, first_move_end_pos)
 
         split_positions = [first_pos]
         for _ in range(total_num_segments - 1):
             start_pos = split_positions[-1][1]
-            end_pos = [start_pos[i] + (actual_move_length * v) for i, v in enumerate(move_vector)]
-            split_positions.append(
-                (start_pos, end_pos)
-            )
+            end_pos = [
+                start_pos[i] + (actual_move_length * v)
+                for i, v in enumerate(move_vector)
+            ]
+            split_positions.append((start_pos, end_pos))
         last_move = split_positions[-1]
         last_move[1] = move.end_pos
         return split_positions
+
 
 class PowerCorePWMReader:
     def __init__(self, config):
