@@ -84,14 +84,15 @@ class PowerCore:
         self.move_overlap_time = config.getfloat(
             "move_overlap_time", 0.1, above=0.0
         )
-        gcode_move = self.printer.load_object(config, "gcode_move")
-        self.move_with_transform = gcode_move.set_move_transform(self)
+        
+        self.move_with_transform = None
         self.move_queue = []
         self.move_timings = []
         self.move_timer = self.reactor.register_timer(
             self.queue_next_move_callback
         )
         self.pending_timer = False
+        self.next_wake_time = None
 
     def pwm_in_callback(self, duty_cycle):
         if not self.scaling_enabled:
@@ -102,6 +103,8 @@ class PowerCore:
 
     def _handle_connect(self):
         self.toolhead = self.printer.lookup_object("toolhead")
+        gcode_move = self.printer.lookup_object("gcode_move")
+        self.move_with_transform = gcode_move.set_move_transform(self, force=True)
 
     def cmd_reset_pid(self, gcmd):
         self.pid_controller.reset()
@@ -167,27 +170,31 @@ class PowerCore:
         )
 
     def move_timing_callback(self, next_move_time):
-        if self.pending_timer:
-            self.gcode.respond_info(
-                "pending timer when move callback happened!!"
-            )
-        self.pending_timer = True
-        self.reactor.update_timer(
-            self.move_timer, next_move_time - self.move_overlap_time
-        )
+        self.next_wake_time = next_move_time
 
-    def queue_next_move_callback(self):
-        self.pending_timer = False
+    def queue_next_move_callback(self, eventtime):
+        if not len(self.move_queue):
+            return self.reactor.NEVER
         move = self.move_queue.pop(0)
-        self.toolhead.move(move[1], move[2])
-        self.toolhead.register_lookahead_callback(self.move_timing_callback)
-        self.toolhead.lookahead.flush()  # process move immediately
-
+        try:
+            self.toolhead.move(move[1], move[2])
+            self.toolhead.register_lookahead_callback(self.move_timing_callback)
+            self.toolhead.lookahead.flush()  # process move immediately
+            wake_time = self.next_wake_time
+            self.next_wake_time = None
+            return wake_time if wake_time else self.reactor.NEVER
+        except self.gcode.error as e:
+            self.gcode._respond_error(str(e))
+            self.printer.send_event("gcode:command_error")
+            self.move_queue = []
+            return self.reactor.NEVER
+        
     def move(self, newpos, speed):
         if self.scaling_enabled:
             split_positions = self.split_move(newpos, speed)
             self.move_queue += split_positions
-            self.reactor.update_timer(self.move_timer, self.reactor.NOW)
+            if not self.next_wake_time:
+                self.reactor.update_timer(self.move_timer, self.reactor.NOW)
         else:
             self.toolhead.move(newpos, speed)
 
@@ -200,7 +207,11 @@ class PowerCore:
     ) -> list[tuple[tuple[float], tuple[float]]]:
         # split move into segments based on time
         # time is in seconds
-        move = Move(self.toolhead, self.get_position(), newpos, speed)
+        if len(self.move_queue):
+            pos = list(self.move_queue[-1][1][:2]) + [0,0]
+        else:
+            pos = self.get_position()
+        move = Move(self.toolhead, pos, newpos, speed)
         target_move_length = self.move_split_dist  # in mm
         move_dist = move.move_d
         total_num_segments = math.ceil(move_dist / target_move_length)
@@ -211,7 +222,7 @@ class PowerCore:
             for i, v in enumerate(move_vector)
         ]
 
-        first_pos = (move.start_pos, first_move_end_pos)
+        first_pos = [move.start_pos, first_move_end_pos, speed]
 
         split_positions = [first_pos]
         for _ in range(total_num_segments - 1):
@@ -220,10 +231,10 @@ class PowerCore:
                 start_pos[i] + (actual_move_length * v)
                 for i, v in enumerate(move_vector)
             ]
-            split_positions.append((start_pos, end_pos, speed))
+            split_positions.append([start_pos, end_pos, speed])
         last_move = split_positions[-1]
         last_move[1] = move.end_pos
-        return split_positions
+        return [tuple(pos) for pos in split_positions]
 
 
 class PowerCorePWMReader:
