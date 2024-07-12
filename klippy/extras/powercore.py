@@ -3,9 +3,10 @@ import math
 from typing import TYPE_CHECKING
 from simple_pid import PID
 import logging
+from toolhead import Move
+
 
 if TYPE_CHECKING:
-    from ..toolhead import Move
     from ..toolhead import ToolHead
     from ..configfile import ConfigWrapper
     from ..klippy import Printer
@@ -80,8 +81,17 @@ class PowerCore:
         self.move_split_dist = config.getfloat(
             "move_split_dist", 0.1, above=0.0
         )  # in mm
+        self.move_overlap_time = config.getfloat(
+            "move_overlap_time", 0.1, above=0.0
+        )
         gcode_move = self.printer.load_object(config, "gcode_move")
         self.move_with_transform = gcode_move.set_move_transform(self)
+        self.move_queue = []
+        self.move_timings = []
+        self.move_timer = self.reactor.register_timer(
+            self.queue_next_move_callback
+        )
+        self.pending_timer = False
 
     def pwm_in_callback(self, duty_cycle):
         if not self.scaling_enabled:
@@ -156,9 +166,28 @@ class PowerCore:
             f"Current duty cycle: {current_duty_cycle}, output: {output}, feedrate: {feedrate}"
         )
 
+    def move_timing_callback(self, next_move_time):
+        if self.pending_timer:
+            self.gcode.respond_info(
+                "pending timer when move callback happened!!"
+            )
+        self.pending_timer = True
+        self.reactor.update_timer(
+            self.move_timer, next_move_time - self.move_overlap_time
+        )
+
+    def queue_next_move_callback(self):
+        self.pending_timer = False
+        move = self.move_queue.pop(0)
+        self.toolhead.move(move[1], move[2])
+        self.toolhead.register_lookahead_callback(self.move_timing_callback)
+        self.toolhead.lookahead.flush()  # process move immediately
+
     def move(self, newpos, speed):
         if self.scaling_enabled:
-            pass
+            split_positions = self.split_move(newpos, speed)
+            self.move_queue += split_positions
+            self.reactor.update_timer(self.move_timer, self.reactor.NOW)
         else:
             self.toolhead.move(newpos, speed)
 
@@ -191,7 +220,7 @@ class PowerCore:
                 start_pos[i] + (actual_move_length * v)
                 for i, v in enumerate(move_vector)
             ]
-            split_positions.append((start_pos, end_pos))
+            split_positions.append((start_pos, end_pos, speed))
         last_move = split_positions[-1]
         last_move[1] = move.end_pos
         return split_positions
