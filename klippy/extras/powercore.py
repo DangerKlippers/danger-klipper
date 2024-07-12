@@ -3,9 +3,9 @@ import math
 from typing import TYPE_CHECKING
 from simple_pid import PID
 import logging
-from ..toolhead import Move
 
 if TYPE_CHECKING:
+    from ..toolhead import Move
     from ..toolhead import ToolHead
     from ..configfile import ConfigWrapper
     from ..klippy import Printer
@@ -67,7 +67,7 @@ class PowerCore:
             "powercore_adjustment_accel", 500.0, above=0.0
         )
         self.verbose_pid_output = config.getboolean("verbose_pid_output", False)
-        self.scaling_enabled = False
+        self.scaling_enabled = True
         self.pid_controller = PID(
             Kp=config.getfloat("pid_kp", 0.1),
             Ki=config.getfloat("pid_ki", 0.7),
@@ -133,43 +133,6 @@ class PowerCore:
         else:
             self.scale_move(move)
 
-    def segment_move(self, move: "Move") -> list["Move"]:
-        if self.scaling_enabled:
-            return self._segment_move(move)
-        else:
-            return [move]
-
-    def _segment_move(self, move: "Move") -> list["Move"]:
-        # split move into segments based on time
-        # time is in seconds
-        target_move_length = self.move_split_dist  # in mm
-        move_dist = move.move_d
-        total_num_segments = math.ceil(move_dist / target_move_length)
-        actual_move_length = move_dist / total_num_segments
-        move_vector = move.axes_r  # normalized vector, list
-        first_move_end_pos = move.start_pos + [
-            actual_move_length * i for i in move_vector
-        ]
-
-        first_move: "Move" = Move(
-            move.toolhead,
-            move.start_pos,
-            first_move_end_pos,
-            move.velocity,
-        )
-
-        split_moves = [first_move]
-        for _ in range(total_num_segments - 1):
-            start_pos = split_moves[-1].end_pos
-            end_pos = start_pos + [actual_move_length * i for i in move_vector]
-            split_moves.append(
-                Move(move.toolhead, start_pos, end_pos, move.velocity)
-            )
-        last_move = split_moves[-1]
-        if last_move.end_pos != move.end_pos:
-            logging.info(f"last move end pos: {last_move.end_pos}")
-            logging.info(f"move end pos: {move.end_pos}")
-        return split_moves
 
         # rough move tim
 
@@ -184,16 +147,43 @@ class PowerCore:
         feedrate = self.min_feedrate + output * (
             self.max_feedrate - self.min_feedrate
         )
-        logging.info(f"orig move feedrate: {math.sqrt(move.max_cruise_v2)}")
-        logging.info(f"new move feedrate: {feedrate}")
-        logging.info(f"current duty cycle: {current_duty_cycle}")
-        logging.info(f"pid output: {output}")
+        # logging.info(f"orig move feedrate: {math.sqrt(move.max_cruise_v2)}")
+        # logging.info(f"new move feedrate: {feedrate}")
+        # logging.info(f"current duty cycle: {current_duty_cycle}")
+        # logging.info(f"pid output: {output}")
         # feedrate is in mm/min, set_speed expects mm/sec
         move.set_speed(feedrate * 60, self.adjustment_accel)
         self.gcode.respond_info(
             f"Current duty cycle: {current_duty_cycle}, output: {output}, feedrate: {feedrate}"
         )
+    def segment_move(self, move: "Move") -> list["Move"]:
+        if self.scaling_enabled:
+            return self._segment_move(move)
+        else:
+            return None
 
+    def _segment_move(self, move: "Move") -> list["Move"]:
+        # split move into segments based on time
+        # time is in seconds
+        target_move_length = self.move_split_dist  # in mm
+        move_dist = move.move_d
+        total_num_segments = math.ceil(move_dist / target_move_length)
+        actual_move_length = move_dist / total_num_segments
+        move_vector = move.axes_r  # normalized vector, list
+        first_move_end_pos = [move.start_pos[i] + (actual_move_length * v) for i, v in enumerate(move_vector)]
+        
+        first_pos = (move.start_pos, first_move_end_pos)
+
+        split_positions = [first_pos]
+        for _ in range(total_num_segments - 1):
+            start_pos = split_positions[-1][1]
+            end_pos = [start_pos[i] + (actual_move_length * v) for i, v in enumerate(move_vector)]
+            split_positions.append(
+                (start_pos, end_pos)
+            )
+        last_move = split_positions[-1]
+        last_move[1] = move.end_pos
+        return split_positions
 
 class PowerCorePWMReader:
     def __init__(self, config):

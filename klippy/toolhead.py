@@ -225,25 +225,15 @@ class LookAheadQueue:
         # Remove processed moves from the queue
         del queue[:flush_count]
 
-    def add_move(self, move: Move):
-        apply_junction = len(self.queue) > 0
-        if apply_junction:
-            move.calc_junction(self.queue[-1])
-
-        if hasattr(self.toolhead.kin, "segment_move"):
-            moves = self.toolhead.kin.segment_move(move)
-        else:
-            moves = [move]
-
-        for move in moves:
-            self.toolhead.kin.scale_segmented_move(move)
-            self.queue.append(move)
-            if apply_junction or len(moves > 1):
-                self.junction_flush -= move.min_move_t
-                if self.junction_flush <= 0.0:
-                    # Enough moves have been queued to reach the target flush time.
-                    print("Flushing!")
-                    self.flush(lazy=True)
+    def add_move(self, move):
+        self.queue.append(move)
+        if len(self.queue) == 1:
+            return
+        move.calc_junction(self.queue[-2])
+        self.junction_flush -= move.min_move_t
+        if self.junction_flush <= 0.0:
+            # Enough moves have been queued to reach the target flush time.
+            self.flush(lazy=True)
 
 
 BUFFER_TIME_LOW = 1.0
