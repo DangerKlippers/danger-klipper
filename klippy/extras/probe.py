@@ -544,9 +544,7 @@ class ProbePointsHelper:
                 if self.adaptive_horizontal_move_z:
                     # then res is error
                     error = math.ceil(res)
-                    self.horizontal_move_z = (
-                        error + self.adaptive_horizontal_move_z_clearance
-                    )
+                    self.horizontal_move_z = error + self.probe_offsets[2]
             elif res != "retry":
                 return True
             self.results = []
