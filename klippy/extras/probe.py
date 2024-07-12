@@ -538,7 +538,7 @@ class ProbePointsHelper:
         if len(self.results) >= len(self.probe_points):
             toolhead.get_last_move_time()
             res = self.finalize_callback(self.probe_offsets, self.results)
-            if isinstance(res, [int, float]):
+            if isinstance(res, (int, float)):
                 if res == 0:
                     return True
                 if self.adaptive_horizontal_move_z:
