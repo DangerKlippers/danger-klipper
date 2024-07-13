@@ -582,6 +582,7 @@ class ToolHead:
             self.kin.check_move(move)
         if move.axes_d[3]:
             self.extruder.check_move(move)
+        logging.info(f"move. start_pos: {move.start_pos}, end_pos: {move.end_pos}")
         self.commanded_pos[:] = move.end_pos
         self.lookahead.add_move(move)
         if self.print_time > self.need_check_pause:
@@ -650,6 +651,7 @@ class ToolHead:
         self.drip_completion = drip_completion
         # Submit move
         try:
+            logging.info(f"drip, newpos: {newpos}, commanded_pos: {self.commanded_pos}")
             self.move(newpos, speed)
         except self.printer.command_error as e:
             self.reactor.update_timer(self.flush_timer, self.reactor.NOW)

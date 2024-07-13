@@ -141,7 +141,7 @@ class HomingMove:
             if trigger_time > 0.0:
                 trigger_times[name] = trigger_time
             elif check_triggered and error is None:
-                error = "No trigger on %s after full movement" % (name,)
+                error = "No trigger on %s after full movement, trigger_time: %s" % (name,trigger_time)
         # Determine stepper halt positions
         self.toolhead.flush_step_generation()
         for sp in self.stepper_positions:
