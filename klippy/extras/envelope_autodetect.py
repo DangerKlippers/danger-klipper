@@ -69,9 +69,13 @@ class EnvelopeAutoDetect:
         else:
             start_pos = max_pos
             home_pos = min_pos
+        home_pos[axis_index] = home_pos[axis_index] * 1.2
         rail = self.kin.rails[axis_index]
         hi = rail.get_homing_info()
         self.toolhead.set_position(start_pos, homing_axes=[axis_index])
+        self.kin.set_axis_limits(
+            axis_index, (min_pos[axis_index] * 1.3, max_pos[axis_index] * 1.3)
+        )
         endstops = rail.get_endstops()
         hmove = HomingMove(self.printer, endstops)
         if set_current:

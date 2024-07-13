@@ -50,7 +50,9 @@ class CoreXYKinematics:
 
     def set_position(self, newpos, homing_axes):
         for i, rail in enumerate(self.rails):
-            logging.info(f"set position i newpos homing_axes, range: {i}, {newpos}, {homing_axes}, {rail.get_range()}")
+            logging.info(
+                f"set position i newpos homing_axes, range: {i}, {newpos}, {homing_axes}, {rail.get_range()}"
+            )
             rail.set_position(newpos)
             if i in homing_axes:
                 self.limits[i] = rail.get_range()
@@ -119,6 +121,7 @@ class CoreXYKinematics:
 
     def set_axis_limits(self, axis, new_limit):
         self.limits[axis] = new_limit
+
 
 def load_kinematics(toolhead, config):
     return CoreXYKinematics(toolhead, config)
