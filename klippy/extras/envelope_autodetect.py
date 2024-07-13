@@ -16,17 +16,24 @@ class Direction(Enum):
 class EnvelopeAutoDetect:
     def __init__(self, config):
         self.printer = config.get_printer()
+        self.printer.register_event_handler(
+            "klippy:connect", self.handle_connect
+        )
         self.gcode: GCodeDispatch = self.printer.lookup_object("gcode")
         self.gcode.register_command(
             "AUTODETECT_ENVELOPE",
             self.cmd_AUTODETECT_ENVELOPE,
             desc="Autodetect envelope",
         )
-        self.toolhead: ToolHead = self.printer.lookup_object("toolhead")
+        self.toolhead: ToolHead = None
+        self.kin: CoreXYKinematics = None  # placeholder type for easy dev
+        self.homing_state = Homing(self.printer)
+
+    def handle_connect(self):
+        self.toolhead = self.printer.lookup_object("toolhead")
         self.kin: CoreXYKinematics = (
             self.toolhead.get_kinematics()
         )  # placeholder type for easy dev
-        self.homing_state = Homing(self.printer)
 
     def cmd_AUTODETECT_ENVELOPE(self, gcmd):
         self.do_autodetect()
