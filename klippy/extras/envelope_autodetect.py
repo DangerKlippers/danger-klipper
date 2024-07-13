@@ -27,13 +27,14 @@ class EnvelopeAutoDetect:
         )
         self.toolhead: ToolHead = None
         self.kin: CoreXYKinematics = None  # placeholder type for easy dev
-        self.homing_state = Homing(self.printer)
+        self.homing_state = None
 
     def handle_connect(self):
         self.toolhead = self.printer.lookup_object("toolhead")
         self.kin: CoreXYKinematics = (
             self.toolhead.get_kinematics()
         )  # placeholder type for easy dev
+        self.homing_state = Homing(self.printer)
 
     def cmd_AUTODETECT_ENVELOPE(self, gcmd):
         self.do_autodetect()
