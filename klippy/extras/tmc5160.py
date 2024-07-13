@@ -3,6 +3,10 @@
 # Copyright (C) 2018-2019  Kevin O'Connor <kevin@koconnor.net>
 #
 # This file may be distributed under the terms of the GNU GPLv3 license.
+#
+# Modified by Honest Brothers to correct CS calcs (c) 2024
+#
+
 import math
 from . import tmc
 from . import tmc2130
