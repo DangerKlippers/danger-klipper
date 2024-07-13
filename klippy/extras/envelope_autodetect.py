@@ -84,3 +84,7 @@ class EnvelopeAutoDetect:
             # this seems to be an adequate substitute for a 2 second dwell.
             endstop[0].query_endstop(print_time)
         return dist_from_start_to_endstop
+
+
+def load_config(config):
+    return EnvelopeAutoDetect(config)
