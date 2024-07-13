@@ -22,8 +22,11 @@ class EnvelopeAutoDetect:
         )
         self.gcode.register_command("DETECT_RACKING", self.cmd_DETECT_RACKING, desc="detect racking")
         self.speed = config.getfloat("speed", 100.0, above=0.0)
-        self.iterations = config.getint("iterations", 4, minval=1)
-        self.clearance = config.getfloat("clearance", 20, above=0.0)
+        self.iterations = config.getint("iterations", 3, minval=1)
+        self.y_max_clearance = config.getfloat("y_max_clearance", 5, above=0.0)
+        self.y_min_clearance = config.getfloat("y_min_clearance", 5, above=0.0)
+        self.x_min_clearance = config.getfloat("x_min_clearance", 5, above=0.0)
+        self.x_max_clearance = config.getfloat("x_max_clearance", 5, above=0.0)
         self.toolhead: ToolHead = None
         self.kin: CoreXYKinematics = None  # placeholder type for easy dev
         self.homing_state = None
@@ -45,28 +48,31 @@ class EnvelopeAutoDetect:
         self.move_to_middle_of_axis('y')
         gcmd.respond_info(f"y travel: {y_length}")
 
+    def home_axes_normally(self, axes: list[str]):
+        self.gcode.run_script_from_command(f"G28 {' '.join([axis.upper() for axis in axes])}")
+
     def cmd_DETECT_RACKING(self, gcmd):
-        self.do_single_home(
-            "y", positive=True
-        )
-        self.relative_move(
-            "y", -self.clearance
-        )
+        self.home_axes_normally(["x", "y"])
+        self.move_to_middle_of_axis('y')
+        self.move_to_middle_of_axis('x')
+        
+        self.move_to_axis_max("y", clearance=self.y_max_clearance)
         y_max_x_travel = self.do_autodetect_travel_for_axis('x')
         self.move_to_middle_of_axis('x')
-        self.do_single_home("y", positive=False)
-        self.relative_move("y", self.clearance)
+
+        self.move_to_axis_min("y", clearance=self.y_min_clearance)
         y_min_x_travel = self.do_autodetect_travel_for_axis('x')
-        self.move_to_middle_of_axis('x')
-        self.do_single_home("x", positive=True)
-        self.relative_move("x", -self.clearance)
+
+        self.move_to_axis_max("x", clearance=self.x_max_clearance)
         x_max_y_travel = self.do_autodetect_travel_for_axis("y")
         self.move_to_middle_of_axis('y')
-        self.do_single_home("x", positive=False)
-        self.relative_move("x", self.clearance)
+
+        self.move_to_axis_min("x", clearance=self.x_min_clearance)
         x_min_y_travel = self.do_autodetect_travel_for_axis("y")
+        
         self.move_to_middle_of_axis('y')
         self.move_to_middle_of_axis('x')
+
         gcmd.respond_info(f"racking raw data:")
         gcmd.respond_info(f"x_travel_at_y_max: {y_max_x_travel}")
         gcmd.respond_info(f"x_travel_at_y_min: {y_min_x_travel}")
@@ -74,10 +80,15 @@ class EnvelopeAutoDetect:
         gcmd.respond_info(f"y_travel_at_x_min: {x_min_y_travel}")
         
     def relative_move(self, axis, distance):
+        if not distance:
+            return
         axis_index = 'xyz'.index(axis.lower())
         position = self.toolhead.get_position()
         position[axis_index] += distance
         self.toolhead.manual_move(position, self.speed)
+        gcode_move = self.printer.lookup_object("gcode_move")
+        gcode_move.reset_last_position()
+        self.toolhead.wait_moves()
 
     def move_to_middle_of_axis(self, axis):
         axis_index = 'xyz'.index(axis.lower())
@@ -86,9 +97,41 @@ class EnvelopeAutoDetect:
         _, rail_max = rail.get_range()
         middle = rail_max / 2
         position[axis_index] = middle
-        self.toolhead.move(position, self.speed)
+        self.toolhead.manual_move(position, self.speed)
+        self.toolhead.wait_moves()
 
-    def do_autodetect_travel_for_axis(self, axis):
+    def move_axis_to_position(self, axis, position):
+        axis_index = 'xyz'.index(axis.lower())
+        cur_position = self.toolhead.get_position()
+        cur_position[axis_index] = position
+        self.toolhead.manual_move(position, self.speed)
+        self.toolhead.wait_moves()
+
+    def fill_coord(self, coord):
+        # Fill in any None entries in 'coord' with current toolhead position
+        thcoord = list(self.toolhead.get_position())
+        for i in range(len(coord)):
+            if coord[i] is None:
+                coord[i] = thcoord[i]
+    
+    def move_to_axis_max(self, axis, clearance=0):
+        axis_index = 'xyz'.index(axis.lower())
+        position = self.toolhead.get_position()
+        rail = self.kin.rails[axis_index]
+        _, rail_max = rail.get_range()
+        position[axis_index] = rail_max - clearance
+        self.toolhead.manual_move(position, self.speed)
+
+    def move_to_axis_min(self, axis, clearance=0):
+        axis_index = 'xyz'.index(axis.lower())
+        position = self.toolhead.get_position()
+        rail = self.kin.rails[axis_index]
+        rail_min, _ = rail.get_range()
+        position[axis_index] = rail_min + clearance
+        self.toolhead.manual_move(position, self.speed)
+        self.toolhead.wait_moves()
+
+    def do_autodetect_travel_for_axis(self, axis, update_limits=True):
         self.gcode.respond_info(f"Autodetecting envelope {axis}")
         axis_index = 'xyz'.index(axis.lower())
         homing_positive_dir = self.homing_infos[axis].positive_dir
@@ -114,9 +157,13 @@ class EnvelopeAutoDetect:
         mode = math.floor(mode * 10) / 10
 
         position = self.toolhead.get_position()
-        position[axis_index] = mode
+        if update_limits:
+            position[axis_index] = mode
+            self.kin.set_axis_limits(axis_index, (0, mode))
+        else:
+            position[axis_index] = self.kin.limits[axis_index][1]
+
         self.toolhead.set_position(position, homing_axes=[axis_index])
-        self.kin.set_axis_limits(axis_index, (0, mode))
         return mode
     
     def set_current_pre_home(self, axis):
@@ -138,11 +185,12 @@ class EnvelopeAutoDetect:
         rail_range = rail_max - rail_min
         buffer = rail_range * 0.25
         
-        max_pos = [0.0, 0.0, 0.0, 0.0]
+        max_pos = [None, None, None, None]
         max_pos[axis_index] = self.kin.axes_max[axis_index]
-        min_pos = [0.0, 0.0, 0.0, 0.0]
+        self.fill_coord(max_pos)
+        min_pos = [None, None, None, None]
         min_pos[axis_index] = self.kin.axes_min[axis_index]
-
+        self.fill_coord(min_pos)
         if positive:
             start_pos = min_pos
             home_pos = max_pos
@@ -167,6 +215,8 @@ class EnvelopeAutoDetect:
         
         pos[axis_index] = old_limits[int(positive)]
         self.toolhead.set_position(pos, homing_axes = [axis_index])
+        gcode_move = self.printer.lookup_object("gcode_move")
+        gcode_move.reset_last_position()
         self.kin.set_axis_limits(
             axis_index, old_limits
         )

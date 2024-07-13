@@ -429,6 +429,9 @@ class ToolHead:
         next_move_time = self.print_time
         for move in moves:
             if move.is_kinematic_move:
+                logging.info(f"trapq append. start_pos: {move.start_pos}, end_pos: {move.end_pos}")
+                logging.info(f"axes_r: {move.axes_r}")
+                logging.info(f"start_v: {move.start_v}, cruise_v: {move.cruise_v}")
                 self.trapq_append(
                     self.trapq,
                     next_move_time,

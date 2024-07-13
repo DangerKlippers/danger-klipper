@@ -101,11 +101,13 @@ class HomingMove:
         kin_spos = {
             s.get_name(): s.get_commanded_position() for s in kin.get_steppers()
         }
+        logging.info(f"kin_spos: {kin_spos}")
         self.stepper_positions = [
             StepperPosition(s, name)
             for es, name in self.endstops
             for s in es.get_steppers()
         ]
+        logging.info(f"stepper_positions: {[pos.start_pos for pos in self.stepper_positions]}")
         # Start endstop checking
         print_time = self.toolhead.get_last_move_time()
         endstop_triggers = []
