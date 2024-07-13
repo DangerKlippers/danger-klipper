@@ -59,9 +59,9 @@ class EnvelopeAutoDetect:
         revert_current: bool = False,
     ):
         axis_index = "xyz".index(axis.lower())
-        max_pos = [0, 0, 0]
+        max_pos = [0, 0, 0, 0]
         max_pos[axis_index] = self.kin.axes_max[axis_index]
-        min_pos = [0, 0, 0]
+        min_pos = [0, 0, 0, 0]
         min_pos[axis_index] = self.kin.axes_min[axis_index]
         if positive:
             start_pos = min_pos
