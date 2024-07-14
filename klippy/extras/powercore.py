@@ -82,7 +82,7 @@ class PowerCore:
             "move_split_dist", 0.1, above=0.0
         )  # in mm
         self.move_overlap_time = config.getfloat(
-            "move_overlap_time", 0.1, above=0.0
+            "move_overlap_time", 0.01, above=0.0
         )
         
         self.move_with_transform = None
@@ -151,7 +151,6 @@ class PowerCore:
     def scale_move(self, move: "Move"):
         if not self.scaling_enabled:
             return
-        logging.info("scale_move")
         current_duty_cycle = self._pwm_reader.get_current_duty_cycle()
         # output = self.pid_controller(current_duty_cycle)
         output = self.output
@@ -165,12 +164,13 @@ class PowerCore:
         # logging.info(f"pid output: {output}")
         # feedrate is in mm/min, set_speed expects mm/sec
         move.set_speed(feedrate * 60, self.adjustment_accel)
-        self.gcode.respond_info(
-            f"Current duty cycle: {current_duty_cycle}, output: {output}, feedrate: {feedrate}"
-        )
+        if self.verbose_pid_output:
+            self.gcode.respond_info(
+                f"Current duty cycle: {current_duty_cycle}, output: {output}, feedrate: {feedrate}"
+            )
 
     def move_timing_callback(self, next_move_time):
-        self.next_wake_time = next_move_time
+        self.next_wake_time = next_move_time - self.move_overlap_time
 
     def queue_next_move_callback(self, eventtime):
         if not len(self.move_queue):
@@ -218,23 +218,24 @@ class PowerCore:
         actual_move_length = move_dist / total_num_segments
         move_vector = move.axes_r  # normalized vector, list
         first_move_end_pos = [
-            move.start_pos[i] + (actual_move_length * v)
+            round(move.start_pos[i] + (actual_move_length * v), 3)
             for i, v in enumerate(move_vector)
         ]
-
         first_pos = [move.start_pos, first_move_end_pos, speed]
 
         split_positions = [first_pos]
         for _ in range(total_num_segments - 1):
             start_pos = split_positions[-1][1]
             end_pos = [
-                start_pos[i] + (actual_move_length * v)
+                round(start_pos[i] + (actual_move_length * v), 3)
                 for i, v in enumerate(move_vector)
             ]
             split_positions.append([start_pos, end_pos, speed])
         last_move = split_positions[-1]
         last_move[1] = move.end_pos
-        return [tuple(pos) for pos in split_positions]
+        result = [tuple(pos) for pos in split_positions]
+        logging.info(f"move {newpos} split into: {[tup[0] for tup in result]}")
+        return result
 
 
 class PowerCorePWMReader:
