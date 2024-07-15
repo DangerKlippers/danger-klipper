@@ -208,7 +208,7 @@ class PowerCore:
         # split move into segments based on time
         # time is in seconds
         if len(self.move_queue):
-            pos = list(self.move_queue[-1][1][:2]) + [0,0]
+            pos = list(self.move_queue[-1][1][:3]) + [0]
         else:
             pos = self.get_position()
         move = Move(self.toolhead, pos, newpos, speed)
