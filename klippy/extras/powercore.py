@@ -82,7 +82,7 @@ class PowerCore:
             "move_split_dist", 0.1, above=0.0
         )  # in mm
         self.move_overlap_time = config.getfloat(
-            "move_overlap_time", 0.01, above=0.0
+            "move_overlap_time", 0.01
         )
         
         self.move_with_transform = None
@@ -98,8 +98,8 @@ class PowerCore:
         if not self.scaling_enabled:
             return
         self.output = self.pid_controller(duty_cycle)
-        if self.verbose_pid_output:
-            self.gcode.respond_info(f"PowerCore PID-loop output: {self.output}")
+        # if self.verbose_pid_output:
+        #     self.gcode.respond_info(f"PowerCore PID-loop output: {self.output}")
 
     def _handle_connect(self):
         self.toolhead = self.printer.lookup_object("toolhead")
@@ -166,7 +166,8 @@ class PowerCore:
         feedrate = feedrate / 60
         move.set_speed(feedrate, self.adjustment_accel)
         if self.verbose_pid_output:
-            self.gcode.respond_info(
+            logging.info(f"move_delta: {move.move_d}")
+            logging.info(
                 f"Current duty cycle: {current_duty_cycle}, output: {output}, feedrate: {feedrate}mm/s"
             )
 
