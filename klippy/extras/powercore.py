@@ -234,7 +234,7 @@ class PowerCore:
         last_move = split_positions[-1]
         last_move[1] = move.end_pos
         result = [tuple(pos) for pos in split_positions]
-        logging.info(f"move {newpos} split into: {[tup[0] for tup in result]}")
+        # logging.info(f"move {newpos} split into: {[tup[0] for tup in result]}")
         return result
 
 
