@@ -214,7 +214,7 @@ class PowerCore:
             pos = list(self.move_queue[-1][1])
         else:
             pos = self.get_position()
-        move = Move(self.toolhead, pos, newpos, speed)
+        move = Move(self.toolhead, pos, newpos, speed, skip_junction=True)
         target_move_length = self.move_split_dist  # in mm
         move_dist = move.move_d
         total_num_segments = math.ceil(move_dist / target_move_length)

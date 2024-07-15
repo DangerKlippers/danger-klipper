@@ -15,7 +15,8 @@ from extras.danger_options import get_danger_options
 
 # Class to track each move request
 class Move:
-    def __init__(self, toolhead, start_pos, end_pos, speed):
+    def __init__(self, toolhead, start_pos, end_pos, speed, skip_junction=False):
+        self.skip_junction = skip_junction
         self.toolhead = toolhead
         self.start_pos = tuple(start_pos)
         self.end_pos = tuple(end_pos)
@@ -69,10 +70,10 @@ class Move:
         speed2 = speed**2
         self.max_cruise_v2 = speed2
         self.min_move_t = self.move_d / speed
-        self.accel = min(self.accel, accel)
+        self.accel = accel
         self.delta_v2 = 2.0 * self.move_d * self.accel
         self.velocity = speed
-        self.smooth_delta_v2 = min(self.smooth_delta_v2, self.delta_v2)
+        self.smooth_delta_v2 = self.delta_v2
 
     def move_error(self, msg="Move out of range"):
         ep = self.end_pos
@@ -227,7 +228,7 @@ class LookAheadQueue:
 
     def add_move(self, move):
         self.queue.append(move)
-        if len(self.queue) == 1:
+        if len(self.queue) == 1 or move.skip_junction:
             return
         move.calc_junction(self.queue[-2])
         self.junction_flush -= move.min_move_t
