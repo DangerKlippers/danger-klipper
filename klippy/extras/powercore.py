@@ -59,7 +59,7 @@ class PowerCore:
             "target_duty_cycle", 0.75, minval=0.0, maxval=1.0
         )
         self.min_feedrate: float = config.getfloat(
-            "min_feedrate", 0.1, minval=0.0
+            "min_feedrate", 6.0, minval=0.0
         )  # mm/min
         self.max_feedrate: float = config.getfloat(
             "max_feedrate", 64.0, minval=0.0
@@ -163,10 +163,11 @@ class PowerCore:
         # logging.info(f"current duty cycle: {current_duty_cycle}")
         # logging.info(f"pid output: {output}")
         # feedrate is in mm/min, set_speed expects mm/sec
-        move.set_speed(feedrate * 60, self.adjustment_accel)
+        feedrate = feedrate / 60
+        move.set_speed(feedrate, self.adjustment_accel)
         if self.verbose_pid_output:
             self.gcode.respond_info(
-                f"Current duty cycle: {current_duty_cycle}, output: {output}, feedrate: {feedrate}"
+                f"Current duty cycle: {current_duty_cycle}, output: {output}, feedrate: {feedrate}mm/s"
             )
 
     def move_timing_callback(self, next_move_time):
