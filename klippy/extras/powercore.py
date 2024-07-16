@@ -59,13 +59,13 @@ class PowerCore:
             "target_duty_cycle", 0.75, minval=0.0, maxval=1.0
         )
         self.min_feedrate: float = config.getfloat(
-            "min_feedrate", 6.0, minval=0.0
+            "min_feedrate", 6.0, minval=1.0
         )  # mm/min
         self.max_feedrate: float = config.getfloat(
-            "max_feedrate", 64.0, minval=0.0
+            "max_feedrate", 120.0, minval=0.0
         )  # mm/min
         self.adjustment_accel = config.getfloat(
-            "powercore_adjustment_accel", 500.0, above=0.0
+            "powercore_adjustment_accel", 5000.0, above=0.0
         )
         self.verbose_pid_output = config.getboolean("verbose_pid_output", False)
         self.verbose_move_scaling_output = config.getboolean("verbose_move_scaling_output", False)
@@ -83,17 +83,10 @@ class PowerCore:
             "move_split_dist", 0.1, above=0.0
         )  # in mm
         self.move_overlap_time = config.getfloat(
-            "move_overlap_time", 0.01
+            "move_overlap_time", 0.001
         )
         
         self.move_with_transform = None
-        self.move_queue = []
-        self.move_timings = []
-        self.move_timer = self.reactor.register_timer(
-            self.queue_next_move_callback
-        )
-        self.pending_timer = False
-        self.next_wake_time = None
 
     def pwm_in_callback(self, duty_cycle):
         if not self.scaling_enabled:
@@ -152,52 +145,48 @@ class PowerCore:
     def scale_move(self, move: "Move"):
         if not self.scaling_enabled:
             return
-        current_duty_cycle = self._pwm_reader.get_current_duty_cycle()
-        # output = self.pid_controller(current_duty_cycle)
         output = self.output
         # output it 0-1, scale it to min_feedrate-max_feedrate
         feedrate = self.min_feedrate + output * (
             self.max_feedrate - self.min_feedrate
         )
-        # logging.info(f"orig move feedrate: {math.sqrt(move.max_cruise_v2)}")
-        # logging.info(f"new move feedrate: {feedrate}")
-        # logging.info(f"current duty cycle: {current_duty_cycle}")
-        # logging.info(f"pid output: {output}")
         # feedrate is in mm/min, set_speed expects mm/sec
         feedrate = feedrate / 60
         move.set_speed(feedrate, self.adjustment_accel)
         if self.verbose_move_scaling_output:
-            logging.info(f"move_delta: {move.move_d}")
+            logging.info(f"move time: {move.min_move_t}")
             logging.info(
-                f"Current duty cycle: {current_duty_cycle}, output: {output}, feedrate: {feedrate}mm/s"
+                f"output: {output}, feedrate: {feedrate}mm/s"
             )
 
-    def move_timing_callback(self, next_move_time):
-        self.next_wake_time = next_move_time - self.move_overlap_time
+    # def move_timing_callback(self, next_move_time):
+    #     self.wake_time = next_move_time - self.move_overlap_time
+    #     # logging.info(f"current time: {self.toolhead.print_time}")
 
-    def queue_next_move_callback(self, eventtime):
-        if not len(self.move_queue):
-            return self.reactor.NEVER
-        move = self.move_queue.pop(0)
-        try:
-            self.toolhead.move(move[1], move[2])
-            self.toolhead.register_lookahead_callback(self.move_timing_callback)
-            self.toolhead.lookahead.flush()  # process move immediately
-            wake_time = self.next_wake_time
-            self.next_wake_time = None
-            return wake_time if wake_time else self.reactor.NEVER
-        except self.gcode.error as e:
-            self.gcode._respond_error(str(e))
-            self.printer.send_event("gcode:command_error")
-            self.move_queue = []
-            return self.reactor.NEVER
+    def execute_moves(self, moves):
+        while len(moves):
+            self.processing_moves = True
+            move = moves.pop(0)
+            try:
+                self.toolhead.move(move[1], move[2])
+                wake_time = None
+                def move_timing_callback(next_move_time):
+                    nonlocal wake_time
+                    wake_time = next_move_time - self.move_overlap_time
+                self.toolhead.register_lookahead_callback(move_timing_callback)
+                self.toolhead.lookahead.flush()  # process move immediately
+                logging.info(f"wake_time: {wake_time}")
+                if wake_time:
+                    self.reactor.pause(wake_time)
+            except self.gcode.error as e:
+                self.gcode._respond_error(str(e))
+                self.printer.send_event("gcode:command_error")
+                return
         
     def move(self, newpos, speed):
         if self.scaling_enabled:
             split_positions = self.split_move(newpos, speed)
-            self.move_queue += split_positions
-            if not self.next_wake_time:
-                self.reactor.update_timer(self.move_timer, self.reactor.NOW)
+            self.execute_moves(split_positions)
         else:
             self.toolhead.move(newpos, speed)
 
@@ -210,10 +199,7 @@ class PowerCore:
     ) -> list[tuple[tuple[float], tuple[float]]]:
         # split move into segments based on time
         # time is in seconds
-        if len(self.move_queue):
-            pos = list(self.move_queue[-1][1])
-        else:
-            pos = self.get_position()
+        pos = self.get_position()
         move = Move(self.toolhead, pos, newpos, speed, skip_junction=True)
         target_move_length = self.move_split_dist  # in mm
         move_dist = move.move_d
