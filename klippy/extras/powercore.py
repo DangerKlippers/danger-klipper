@@ -159,9 +159,6 @@ class PowerCore:
                 f"output: {output}, feedrate: {feedrate}mm/s"
             )
 
-    # def move_timing_callback(self, next_move_time):
-    #     self.wake_time = next_move_time - self.move_overlap_time
-    #     # logging.info(f"current time: {self.toolhead.print_time}")
 
     def execute_moves(self, moves):
         while len(moves):
