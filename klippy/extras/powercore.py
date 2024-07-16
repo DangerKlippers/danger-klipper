@@ -26,7 +26,7 @@ class PowerCore:
         )
         self.gcode: "GCodeDispatch" = self.printer.lookup_object("gcode")
         self.gcode.register_command(
-            "GET_DUTY_CYCLE",
+            "GET_POWERCORE_DUTY_CYCLE",
             self.cmd_get_duty_cycle,
             desc="Get the current duty cycle",
         )
@@ -55,6 +55,11 @@ class PowerCore:
             self.cmd_set_target_duty_cycle,
             desc="set the target powercore target duty cycle",
         )
+        self.gcode.register_command(
+            "SET_POWERCORE_FEEDRATES",
+            self.cmd_set_powercore_feedrates,
+            desc="set powercore feedrates"
+        )
         self.target_duty_cycle: float = config.getfloat(
             "target_duty_cycle", 0.75, minval=0.0, maxval=1.0
         )
@@ -62,7 +67,7 @@ class PowerCore:
             "min_feedrate", 6.0, minval=1.0
         )  # mm/min
         self.max_feedrate: float = config.getfloat(
-            "max_feedrate", 120.0, minval=0.0
+            "max_feedrate", 120.0, minval=self.min_feedrate
         )  # mm/min
         self.adjustment_accel = config.getfloat(
             "powercore_adjustment_accel", 5000.0, above=0.0
@@ -72,7 +77,7 @@ class PowerCore:
         self.scaling_enabled = True
         self.pid_controller = PID(
             Kp=config.getfloat("pid_kp", 0.1),
-            Ki=config.getfloat("pid_ki", 0.7),
+            Ki=config.getfloat("pid_ki", 0.0),
             Kd=config.getfloat("pid_kd", 0.0),
             setpoint=self.target_duty_cycle,
             output_limits=(0, 1),
@@ -94,11 +99,21 @@ class PowerCore:
         self.output = self.pid_controller(duty_cycle)
         if self.verbose_pid_output:
             logging.info(f"PowerCore PID-loop output: {self.output}")
-
+    
     def _handle_connect(self):
         self.toolhead = self.printer.lookup_object("toolhead")
         gcode_move = self.printer.lookup_object("gcode_move")
         self.move_with_transform = gcode_move.set_move_transform(self, force=True)
+
+    def cmd_set_powercore_feedrates(self, gcmd):
+        min_feedrate = gcmd.get_float("MIN", self.min_feedrate)
+        max_feedrate = gcmd.get_float("MAX", self.max_feedrate)
+        if min_feedrate > max_feedrate:
+            gcmd.respond_error(f"Min feedrate must be greater than max feedrate! ({min_feedrate} > {max_feedrate})")
+        else:
+            self.min_feedrate = min_feedrate
+            self.max_feedrate = max_feedrate
+            gcmd.respond_info(f"Min feedrate: {min_feedrate}, max_feedrate: {max_feedrate}")
 
     def cmd_reset_pid(self, gcmd):
         self.pid_controller.reset()
