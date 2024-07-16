@@ -175,7 +175,6 @@ class PowerCore:
                     wake_time = next_move_time - self.move_overlap_time
                 self.toolhead.register_lookahead_callback(move_timing_callback)
                 self.toolhead.lookahead.flush()  # process move immediately
-                logging.info(f"wake_time: {wake_time}")
                 if wake_time:
                     self.reactor.pause(wake_time)
             except self.gcode.error as e:
