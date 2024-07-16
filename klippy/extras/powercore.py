@@ -56,7 +56,7 @@ class PowerCore:
             desc="set the target powercore target duty cycle",
         )
         self.gcode.register_command(
-            "SET_POWERCORE_FEEDRATES",
+            "SET_POWERCORE_FEED_RANGE",
             self.cmd_set_powercore_feedrates,
             desc="set powercore feedrates"
         )
