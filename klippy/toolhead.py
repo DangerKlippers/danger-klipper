@@ -15,7 +15,9 @@ from extras.danger_options import get_danger_options
 
 # Class to track each move request
 class Move:
-    def __init__(self, toolhead, start_pos, end_pos, speed, skip_junction=False):
+    def __init__(
+        self, toolhead, start_pos, end_pos, speed, skip_junction=False
+    ):
         self.skip_junction = skip_junction
         self.toolhead = toolhead
         self.start_pos = tuple(start_pos)
@@ -139,7 +141,7 @@ class Move:
         self.decel_t = decel_d / ((end_v + cruise_v) * 0.5)
 
 
-LOOKAHEAD_FLUSH_TIME = 0.05
+LOOKAHEAD_FLUSH_TIME = 0.250
 
 
 # Class to track a list of pending move requests and to facilitate
