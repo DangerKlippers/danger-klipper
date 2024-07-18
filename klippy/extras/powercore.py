@@ -48,7 +48,7 @@ class PowerCore:
         self.gcode.register_command(
             "RESET_POWERCORE_PID",
             self.cmd_reset_pid,
-            desc="resets pid controller",
+            desc="resets pid controller, recommended to do at the start of a cut",
         )
         self.gcode.register_command(
             "SET_POWERCORE_TARGET_DUTY_CYCLE",
@@ -58,7 +58,7 @@ class PowerCore:
         self.gcode.register_command(
             "SET_POWERCORE_FEED_RANGE",
             self.cmd_set_powercore_feedrates,
-            desc="set powercore feedrates"
+            desc="set powercore feedrates",
         )
         self.target_duty_cycle: float = config.getfloat(
             "target_duty_cycle", 0.75, minval=0.0, maxval=1.0
@@ -72,9 +72,13 @@ class PowerCore:
         self.adjustment_accel = config.getfloat(
             "powercore_adjustment_accel", 5000.0, above=0.0
         )
+
+        # debug verbosity, helpful for tuning the pid controller
         self.verbose_pid_output = config.getboolean("verbose_pid_output", False)
-        self.verbose_move_scaling_output = config.getboolean("verbose_move_scaling_output", False)
-        self.scaling_enabled = True
+        self.verbose_move_scaling_output = config.getboolean(
+            "verbose_move_scaling_output", False
+        )
+
         self.pid_controller = PID(
             Kp=config.getfloat("pid_kp", 0.1),
             Ki=config.getfloat("pid_ki", 0.0),
@@ -86,11 +90,12 @@ class PowerCore:
         )
         self.move_split_dist = config.getfloat(
             "move_split_dist", 0.1, above=0.0
-        )  # in mm
-        self.move_overlap_time = config.getfloat(
-            "move_overlap_time", 0.001
-        )
-        
+        )  # segment size for move splitting
+        self.move_overlap_time = config.getfloat("move_overlap_time", 0.001)
+        # 0 would mean we finish one move segment completely before starting the next
+        # this is likely coupled tightly with move_split_dist and the feedrate being used
+
+        self.scaling_enabled = False
         self.move_with_transform = None
 
     def pwm_in_callback(self, duty_cycle):
@@ -99,21 +104,34 @@ class PowerCore:
         self.output = self.pid_controller(duty_cycle)
         if self.verbose_pid_output:
             logging.info(f"PowerCore PID-loop output: {self.output}")
-    
+
+    def patch_kinematics_module(self):
+        kin = self.toolhead.kin
+        kin.old_check_move = kin.check_move
+        self.kin_check_move = kin.old_check_move
+        kin.check_move = self.check_move
+
     def _handle_connect(self):
         self.toolhead = self.printer.lookup_object("toolhead")
         gcode_move = self.printer.lookup_object("gcode_move")
-        self.move_with_transform = gcode_move.set_move_transform(self, force=True)
+        self.move_with_transform = gcode_move.set_move_transform(
+            self, force=True
+        )
+        self.patch_kinematics_module()
 
     def cmd_set_powercore_feedrates(self, gcmd):
         min_feedrate = gcmd.get_float("MIN", self.min_feedrate)
         max_feedrate = gcmd.get_float("MAX", self.max_feedrate)
         if min_feedrate > max_feedrate:
-            gcmd.respond_error(f"Min feedrate must be greater than max feedrate! ({min_feedrate} > {max_feedrate})")
+            gcmd.respond_error(
+                f"Min feedrate must be greater than max feedrate! ({min_feedrate} > {max_feedrate})"
+            )
         else:
             self.min_feedrate = min_feedrate
             self.max_feedrate = max_feedrate
-            gcmd.respond_info(f"Min feedrate: {min_feedrate}, max_feedrate: {max_feedrate}")
+            gcmd.respond_info(
+                f"Min feedrate: {min_feedrate}, max_feedrate: {max_feedrate}"
+            )
 
     def cmd_reset_pid(self, gcmd):
         self.pid_controller.reset()
@@ -152,14 +170,13 @@ class PowerCore:
         self.scaling_enabled = False
 
     def check_move(self, move: "Move"):
+        self.kin_check_move(move)
         if not self.scaling_enabled:
             return
         else:
             self.scale_move(move)
 
     def scale_move(self, move: "Move"):
-        if not self.scaling_enabled:
-            return
         output = self.output
         # output it 0-1, scale it to min_feedrate-max_feedrate
         feedrate = self.min_feedrate + output * (
@@ -170,10 +187,7 @@ class PowerCore:
         move.set_speed(feedrate, self.adjustment_accel)
         if self.verbose_move_scaling_output:
             logging.info(f"move time: {move.min_move_t}")
-            logging.info(
-                f"output: {output}, feedrate: {feedrate}mm/s"
-            )
-
+            logging.info(f"output: {output}, feedrate: {feedrate}mm/s")
 
     def execute_moves(self, moves):
         while len(moves):
@@ -182,9 +196,11 @@ class PowerCore:
             try:
                 self.toolhead.move(move[1], move[2])
                 wake_time = None
+
                 def move_timing_callback(next_move_time):
                     nonlocal wake_time
                     wake_time = next_move_time - self.move_overlap_time
+
                 self.toolhead.register_lookahead_callback(move_timing_callback)
                 self.toolhead.lookahead.flush()  # process move immediately
                 if wake_time:
@@ -193,7 +209,7 @@ class PowerCore:
                 self.gcode._respond_error(str(e))
                 self.printer.send_event("gcode:command_error")
                 return
-        
+
     def move(self, newpos, speed):
         if self.scaling_enabled:
             split_positions = self.split_move(newpos, speed)
