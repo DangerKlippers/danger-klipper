@@ -5255,16 +5255,15 @@ scale.
 ```
 [load_cell]
 sensor_type:
-#   This must be one of the supported Sensor types, see `Load Cell Sensors`
+#   This must be one of the supported sensor types, see below.
 ```
-### Load Cell Sensors
-Load Cell supports dedicated Analog to Digital Converter (ADC) chips that sample
-at a high data rate.
+
 #### XH711
 Has conversation started by @naikymen. Original line has conversation started by @naikymen.
 This is a 24 bit low sample rate chip using "bit-bang" communications. It is
 suitable for filament scales.
 ```
+[load_cell]
 sensor_type: hx711
 sclk_pin:
 #   The pin connected to the HX711 clock line. This parameter must be provided.
@@ -5281,9 +5280,11 @@ dout_pin:
 #   This must match the wiring of the chip. The sample rate cannot be changed
 #   in software.
 ```
-### HX717
+
+#### HX717
 This is the 4x higher sample rate version of the HX711, suitable for probing.
 ```
+[load_cell]
 sensor_type: hx717
 sclk_pin:
 #   The pin connected to the HX717 clock line. This parameter must be provided.
@@ -5301,10 +5302,11 @@ dout_pin:
 #   in software.
 ```
 
-### ADS1220
+#### ADS1220
 The ADS1220 is a 24 bit ADC supporting up to a 2Khz sample rate configurable in
 software.
 ```
+[load_cell]
 sensor_type: ads1220
 cs_pin:
 #   The pin connected to the ADS1220 chip select line. This parameter must
