@@ -18,7 +18,7 @@ much as possible:
 More important than listed above, **PID how you print**. If your part fans are on when printing, PID tune with them on.
 
 ### Choosing the right PID Algorithm
-Klipper offers two different PID algorithms: Positional and Velocity
+Danger Klipper offers two different PID algorithms: Positional and Velocity
 
 * Positional (`pid`)
     * The standard algorithm
@@ -31,8 +31,17 @@ Klipper offers two different PID algorithms: Positional and Velocity
     * More susceptible to noisy sensors
     * Might require larger smoothing time constants
 
+Additionally, Danger Klipper currently offers an additional implementation of
+the positional PID algorithm configurable with `pid_p`. This aims to correct
+some implementation errors present in the `pid` loop inherited from mainline
+Klipper. In particular, heater systems with high thermal mass, high heater
+output, and/or high sensor dead time may see improved performance with `pid_p`.
+While overall behavior will be very similar to `pid` in most cases, `pid_p` is
+currently offered as an additional optional algorithm in order to gather
+user feedback and minimize any potential disruption from an algorithm change.
+
 Refer to the [control statement](Config_Reference.md#extruder) in the
-Configuration Reference.
+Configuration Reference to select your preferred algorithm.
 
 ### Running the PID Calibration
 The PID calibration is invoked via the [PID_CALIBRATE](G-Codes.md#pid_calibrate) command.
