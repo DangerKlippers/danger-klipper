@@ -116,14 +116,15 @@ See the [Danger Features document](https://dangerklipper.io/Danger_Features.html
 
 - [mcu: support for AT32F403](https://github.com/DangerKlippers/danger-klipper/pull/284)
 
+- [core: non-critical-mcus](https://github.com/DangerKlippers/danger-klipper/pull/339)
+
+
 If you're feeling adventurous, take a peek at the extra features in the bleeding-edge-v2 branch [feature documentation](docs/Bleeding_Edge.md)
 and [feature configuration reference](docs/Config_Reference_Bleeding_Edge.md):
 
 - [heaters: mpc temperature control](https://github.com/DangerKlippers/danger-klipper/pull/268)
 
 - [extruder/pa: do not smooth base extruder position, only advance](https://github.com/DangerKlippers/danger-klipper/pull/266)
-
-- [core: non-critical-mcus](https://github.com/DangerKlippers/danger-klipper/pull/265)
 
 - [dmbutyugin's advanced-features branch - Pull Request #262](https://github.com/DangerKlippers/danger-klipper/pull/262)
   - stepper: high precision stepping protocol
