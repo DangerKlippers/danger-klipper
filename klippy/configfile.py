@@ -132,10 +132,18 @@ class ConfigWrapper:
             note_valid=note_valid,
         )
         substituted_value = self._substitute_variables(value)
-        substituted_value = self._handle_none_value(
-            substituted_value, option, default
-        )
-        return int(substituted_value)
+        if substituted_value is None:
+            if default is sentinel:
+                raise error(
+                    f"Option '{option}' in section '{self.section}' must be specified"
+                )
+            return default
+        try:
+            return int(substituted_value)
+        except ValueError:
+            raise error(
+                f"Unable to convert '{substituted_value}' to int for option '{option}' in section '{self.section}'"
+            )
 
     def getfloat(
         self,
