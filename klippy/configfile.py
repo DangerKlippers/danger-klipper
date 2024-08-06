@@ -158,10 +158,18 @@ class ConfigWrapper:
             note_valid=note_valid,
         )
         substituted_value = self._substitute_variables(value)
-        substituted_value = self._handle_none_value(
-            substituted_value, option, default
-        )
-        return float(substituted_value)
+        if substituted_value is None:
+            if default is sentinel:
+                raise error(
+                    f"Option '{option}' in section '{self.section}' must be specified"
+                )
+            return default
+        try:
+            return float(substituted_value)
+        except ValueError:
+            raise error(
+                f"Unable to convert '{substituted_value}' to float for option '{option}' in section '{self.section}'"
+            )
 
     def getboolean(self, option, default=sentinel, note_valid=True):
         value = self._get_wrapper(
