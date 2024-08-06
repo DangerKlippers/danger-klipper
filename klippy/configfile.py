@@ -22,6 +22,15 @@ class ConfigWrapper:
         self.access_tracking = access_tracking
         self.section = section
 
+    def _get_config_object(self):
+        return self.printer.lookup_object("configfile", None)
+
+    def _substitute_variables(self, value):
+        config_object = self._get_config_object()
+        if config_object is not None:
+            return config_object._substitute_variables(value)
+        return value
+
     def get_printer(self):
         return self.printer
 
@@ -83,9 +92,10 @@ class ConfigWrapper:
         return v
 
     def get(self, option, default=sentinel, note_valid=True):
-        return self._get_wrapper(
+        value = self._get_wrapper(
             self.fileconfig.get, option, default, note_valid=note_valid
         )
+        return self._substitute_variables(value)
 
     def getint(
         self,
@@ -95,7 +105,7 @@ class ConfigWrapper:
         maxval=None,
         note_valid=True,
     ):
-        return self._get_wrapper(
+        value = self._get_wrapper(
             self.fileconfig.getint,
             option,
             default,
@@ -103,6 +113,14 @@ class ConfigWrapper:
             maxval,
             note_valid=note_valid,
         )
+        substituted_value = self._substitute_variables(value)
+        if substituted_value is None:
+            if default is sentinel:
+                raise error(
+                    f"Option '{option}' in section '{self.section}' must be specified"
+                )
+            return default
+        return int(substituted_value)
 
     def getfloat(
         self,
@@ -114,7 +132,7 @@ class ConfigWrapper:
         below=None,
         note_valid=True,
     ):
-        return self._get_wrapper(
+        value = self._get_wrapper(
             self.fileconfig.getfloat,
             option,
             default,
@@ -124,25 +142,68 @@ class ConfigWrapper:
             below,
             note_valid=note_valid,
         )
+        substituted_value = self._substitute_variables(value)
+        if substituted_value is None:
+            if default is sentinel:
+                raise error(
+                    f"Option '{option}' in section '{self.section}' must be specified"
+                )
+            return default
+        return float(substituted_value)
 
     def getboolean(self, option, default=sentinel, note_valid=True):
-        return self._get_wrapper(
-            self.fileconfig.getboolean, option, default, note_valid=note_valid
+        value = self._get_wrapper(
+            self.fileconfig.get, option, default, note_valid=note_valid
         )
+        substituted_value = self._substitute_variables(value)
+        if substituted_value is None:
+            return False
+        if isinstance(substituted_value, bool):
+            return substituted_value
+        return str(substituted_value).lower() in ("true", "yes", "on", "1")
 
     def getchoice(self, option, choices, default=sentinel, note_valid=True):
+        c = self._get_wrapper(
+            self.fileconfig.get, option, default, note_valid=note_valid
+        )
+        logging.warning(f"getchoice: Original value for {option}: {c}")
+        c = self._substitute_variables(c)
+        logging.warning(f"getchoice: After substitution: {c}")
+
+        c = str(c)
+        logging.warning(f"getchoice: As string: {c}")
+
         if isinstance(choices, list):
-            choices = {i: i for i in choices}
-        if choices and isinstance(list(choices.keys())[0], int):
-            c = self.getint(option, default, note_valid=note_valid)
+            logging.warning(f"getchoice: Choices (list): {choices}")
+            str_choices = [str(choice) for choice in choices]
+            logging.warning(f"getchoice: String choices: {str_choices}")
+            if c not in str_choices:
+                raise error(
+                    "Choice '%s' for option '%s' in section '%s'"
+                    " is not a valid choice. Valid choices are: %s"
+                    % (c, option, self.section, ", ".join(str_choices))
+                )
+            return choices[str_choices.index(c)]
+        elif isinstance(choices, dict):
+            logging.warning(f"getchoice: Choices (dict): {choices}")
+            str_choices = {str(k): v for k, v in choices.items()}
+            if c not in str_choices:
+                raise error(
+                    "Choice '%s' for option '%s' in section '%s'"
+                    " is not a valid choice. Valid choices are: %s"
+                    % (
+                        c,
+                        option,
+                        self.section,
+                        ", ".join(map(str, choices.keys())),
+                    )
+                )
+            return str_choices[c]
         else:
-            c = self.get(option, default, note_valid=note_valid)
-        if c not in choices:
             raise error(
-                "Choice '%s' for option '%s' in section '%s'"
-                " is not a valid choice" % (c, option, self.section)
+                "Invalid choices type for option '%s' in section '%s'"
+                % (option, self.section)
             )
-        return choices[c]
 
     def getlists(
         self,
@@ -153,15 +214,13 @@ class ConfigWrapper:
         parser=str,
         note_valid=True,
     ):
-        def lparser(value, pos):
+        def list_parser(value, pos):
+            value = self._substitute_variables(value)
             if len(value.strip()) == 0:
-                # Return an empty list instead of [''] for empty string
-                parts = []
-            else:
-                parts = [p.strip() for p in value.split(seps[pos])]
+                return []
+            parts = [p.strip() for p in value.split(seps[pos])]
             if pos:
-                # Nested list
-                return tuple([lparser(p, pos - 1) for p in parts if p])
+                return tuple([list_parser(p, pos - 1) for p in parts if p])
             res = [parser(p) for p in parts]
             if count is not None and len(res) != count:
                 raise error(
@@ -171,7 +230,9 @@ class ConfigWrapper:
             return tuple(res)
 
         def fcparser(section, option):
-            return lparser(self.fileconfig.get(section, option), len(seps) - 1)
+            return list_parser(
+                self.fileconfig.get(section, option), len(seps) - 1
+            )
 
         return self._get_wrapper(
             fcparser, option, default, note_valid=note_valid
@@ -273,6 +334,7 @@ class PrinterConfig:
         self.status_warnings = []
         self.unused_sections = []
         self.unused_options = []
+        self.config_variables = {}
         self.save_config_pending = False
         gcode = self.printer.lookup_object("gcode")
         if "SAVE_CONFIG" not in gcode.ready_gcode_handlers:
@@ -409,6 +471,13 @@ class PrinterConfig:
             else:
                 buffer.append(line)
         self._parse_config_buffer(buffer, filename, fileconfig)
+        self._parse_config_variables(fileconfig)
+        for section in fileconfig.sections():
+            for option in fileconfig.options(section):
+                if section != "config_variables":
+                    value = fileconfig.get(section, option)
+                    new_value = self._substitute_variables(value)
+                    fileconfig.set(section, option, new_value)
         visited.remove(path)
 
     def _build_config_wrapper(self, data, filename):
@@ -451,6 +520,9 @@ class PrinterConfig:
                 access_tracking[(section.lower(), option.lower())] = 1
         # Validate that there are no undefined parameters in the config file
         valid_sections = {s: 1 for s, o in access_tracking}
+        valid_sections["config_variables"] = (
+            1  # Consider 'config_variables' as a valid section
+        )
         for section_name in fileconfig.sections():
             section = section_name.lower()
             if section not in valid_sections and section not in objects:
@@ -463,7 +535,10 @@ class PrinterConfig:
                     self.unused_sections.append(section)
             for option in fileconfig.options(section_name):
                 option = option.lower()
-                if (section, option) not in access_tracking:
+                if (
+                    section != "config_variables"
+                    and (section, option) not in access_tracking
+                ):  # Skip checking options in 'config_variables'
                     if error_on_unused:
                         raise error(
                             "Option '%s' is not valid in section '%s'"
@@ -471,7 +546,6 @@ class PrinterConfig:
                         )
                     else:
                         self.unused_options.append((section, option))
-        # Setup get_status()
         self._build_status(config)
 
     def log_config(self, config):
@@ -669,6 +743,19 @@ class PrinterConfig:
                         self._write_backup(
                             include_filename, include_postdata, gcode
                         )
+
+    def _parse_config_variables(self, config):
+        if config.has_section("config_variables"):
+            for option in config.options("config_variables"):
+                value = config.get("config_variables", option)
+                self.config_variables[option] = value
+
+    def _substitute_variables(self, value):
+        if value is None or not isinstance(value, str):
+            return value
+        for var, var_value in self.config_variables.items():
+            value = value.replace("${" + var + "}", str(var_value))
+        return value
 
     def cmd_SAVE_CONFIG(self, gcmd):
         if not self.autosave.fileconfig.sections():
