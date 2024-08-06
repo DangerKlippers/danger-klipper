@@ -37,6 +37,24 @@ class ConfigWrapper:
     def get_name(self):
         return self.section
 
+    def _handle_none_value(self, value, option, default):
+        if value is None:
+            if default is sentinel:
+                raise error(
+                    f"Option '{option}' in section '{self.section}' must be specified"
+                )
+            return default
+        return value
+
+    def _get_choice_error_msg(self, c, option, choices):
+        valid_choices = ", ".join(
+            map(str, choices.keys() if isinstance(choices, dict) else choices)
+        )
+        return (
+            f"Choice '{c}' for option '{option}' in section '{self.section}'"
+            f" is not a valid choice. Valid choices are: {valid_choices}"
+        )
+
     def _get_wrapper(
         self,
         parser,
@@ -114,12 +132,9 @@ class ConfigWrapper:
             note_valid=note_valid,
         )
         substituted_value = self._substitute_variables(value)
-        if substituted_value is None:
-            if default is sentinel:
-                raise error(
-                    f"Option '{option}' in section '{self.section}' must be specified"
-                )
-            return default
+        substituted_value = self._handle_none_value(
+            substituted_value, option, default
+        )
         return int(substituted_value)
 
     def getfloat(
@@ -143,12 +158,9 @@ class ConfigWrapper:
             note_valid=note_valid,
         )
         substituted_value = self._substitute_variables(value)
-        if substituted_value is None:
-            if default is sentinel:
-                raise error(
-                    f"Option '{option}' in section '{self.section}' must be specified"
-                )
-            return default
+        substituted_value = self._handle_none_value(
+            substituted_value, option, default
+        )
         return float(substituted_value)
 
     def getboolean(self, option, default=sentinel, note_valid=True):
@@ -166,38 +178,19 @@ class ConfigWrapper:
         c = self._get_wrapper(
             self.fileconfig.get, option, default, note_valid=note_valid
         )
-        logging.warning(f"getchoice: Original value for {option}: {c}")
         c = self._substitute_variables(c)
-        logging.warning(f"getchoice: After substitution: {c}")
 
         c = str(c)
-        logging.warning(f"getchoice: As string: {c}")
 
         if isinstance(choices, list):
-            logging.warning(f"getchoice: Choices (list): {choices}")
             str_choices = [str(choice) for choice in choices]
-            logging.warning(f"getchoice: String choices: {str_choices}")
             if c not in str_choices:
-                raise error(
-                    "Choice '%s' for option '%s' in section '%s'"
-                    " is not a valid choice. Valid choices are: %s"
-                    % (c, option, self.section, ", ".join(str_choices))
-                )
+                raise error(self._get_choice_error_msg(c, option, choices))
             return choices[str_choices.index(c)]
         elif isinstance(choices, dict):
-            logging.warning(f"getchoice: Choices (dict): {choices}")
             str_choices = {str(k): v for k, v in choices.items()}
             if c not in str_choices:
-                raise error(
-                    "Choice '%s' for option '%s' in section '%s'"
-                    " is not a valid choice. Valid choices are: %s"
-                    % (
-                        c,
-                        option,
-                        self.section,
-                        ", ".join(map(str, choices.keys())),
-                    )
-                )
+                raise error(self._get_choice_error_msg(c, option, choices))
             return str_choices[c]
         else:
             raise error(
