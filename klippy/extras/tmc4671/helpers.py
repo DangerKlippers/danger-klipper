@@ -3,7 +3,7 @@ from collections import OrderedDict
 from .register_bank import Fields4671, Registers4671, FieldEnum, RegisterEnum
 from .utils import FormatUtils, BitUtils
 from .. import bus
-
+from enum import Enum
 ######################################################################
 # Field manipulation helpers
 ######################################################################
@@ -272,7 +272,7 @@ class FieldHelper:
             reg_name = register.name
         else:
             register = self.lookup_register_info(reg_name)
-
+    
         if reg_value is None:
             if reg_name not in self.register_cache:
                 logging.info(f"no value for {reg_name} in cache, using 0...")
@@ -295,6 +295,7 @@ class FieldHelper:
         return field_value
 
     def set_field(self, field, field_value, reg_value=None, reg=None):
+        field_name = self.resolve_reg_or_field_name(field)
         if reg is None:
             reg = self.lookup_register_info(field)
         else:
@@ -308,7 +309,7 @@ class FieldHelper:
             else:
                 reg_value = self.register_cache.get(reg)
 
-        if self.name_is_register(field):
+        if self.name_is_register(field_name):
             mask = 0xFFFFFFFF
         else:
             mask = self.lookup_field_info(field).value.mask
@@ -334,10 +335,11 @@ class FieldHelper:
             signed = register.value.signed
             parser = FIELD_PARSERS.get(register)
         else:
-            field = self.lookup_field_info(field_name).value
+            field_enum = self.lookup_field_info(field_name)
+            field = field_enum.value
             mask = field.mask
             signed = field.signed
-            parser = FIELD_PARSERS.get(field)
+            parser = FIELD_PARSERS.get(field_enum)
 
         maxval = mask >> BitUtils.ffs(mask)
         if maxval == 1:
@@ -362,7 +364,7 @@ class FieldHelper:
             else:
                 val = int(val)
 
-        return self.set_field(field_name, val, reg_name=reg_name)
+        return self.set_field(field_name, val, reg=register)
 
     def pretty_format(self, reg: RegisterEnum, reg_value):
         # Provide a string description of a register
@@ -401,10 +403,8 @@ class FieldHelper:
     def resolve_reg_or_field_name(self, item) -> str | None:
         if item is None:
             return None
-        if isinstance(item, RegisterEnum):
+        if isinstance(item, Enum):
             return item.name
-        if isinstance(item, FieldEnum):
-            return item.value.register.name
         return item
 
 

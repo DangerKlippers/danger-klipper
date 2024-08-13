@@ -58,9 +58,7 @@ class WebRequest:
         self.id = base_request.get("id", None)
         self.method = base_request.get("method")
         self.params = base_request.get("params", {})
-        if not isinstance(self.method, str) or not isinstance(
-            self.params, dict
-        ):
+        if not isinstance(self.method, str) or not isinstance(self.params, dict):
             raise ValueError("Invalid request type")
         self.response = None
         self.is_error = False
@@ -72,11 +70,7 @@ class WebRequest:
         value = self.params.get(item, default)
         if value is Sentinel:
             raise WebRequestError("Missing Argument [%s]" % (item,))
-        if (
-            types is not None
-            and type(value) not in types
-            and item in self.params
-        ):
+        if types is not None and type(value) not in types and item in self.params:
             raise WebRequestError("Invalid Argument Type [%s]" % (item,))
         return value
 
@@ -138,9 +132,7 @@ class ServerSocket:
         self.fd_handle = self.reactor.register_fd(
             self.sock.fileno(), self._handle_accept
         )
-        printer.register_event_handler(
-            "klippy:disconnect", self._handle_disconnect
-        )
+        printer.register_event_handler("klippy:disconnect", self._handle_disconnect)
         printer.register_event_handler("klippy:shutdown", self._handle_shutdown)
 
     def _handle_accept(self, eventtime):
@@ -268,9 +260,7 @@ class ClientConnection:
             try:
                 web_request = WebRequest(self, req)
             except Exception:
-                logging.exception(
-                    "webhooks: Error decoding Server Request %s" % (req)
-                )
+                logging.exception("webhooks: Error decoding Server Request %s" % (req))
                 continue
             self.reactor.register_callback(
                 lambda e, s=self, wr=web_request: s._process_request(wr)
@@ -283,9 +273,7 @@ class ClientConnection:
         except self.printer.command_error as e:
             web_request.set_error(WebRequestError(str(e)))
         except Exception as e:
-            msg = "Internal Error on WebRequest: %s" % (
-                web_request.get_method()
-            )
+            msg = "Internal Error on WebRequest: %s" % (web_request.get_method())
             logging.exception(msg)
             web_request.set_error(WebRequestError(str(e)))
             self.printer.invoke_shutdown(msg)
@@ -336,9 +324,7 @@ class WebHooks:
         self._mux_endpoints = {}
         self.register_endpoint("info", self._handle_info_request)
         self.register_endpoint("emergency_stop", self._handle_estop_request)
-        self.register_endpoint(
-            "register_remote_method", self._handle_rpc_registration
-        )
+        self.register_endpoint("register_remote_method", self._handle_rpc_registration)
         self.sconn = ServerSocket(self, printer)
 
     def register_endpoint(self, path, callback):
@@ -467,12 +453,8 @@ class GCodeHelper:
         wh.register_endpoint("gcode/help", self._handle_help)
         wh.register_endpoint("gcode/script", self._handle_script)
         wh.register_endpoint("gcode/restart", self._handle_restart)
-        wh.register_endpoint(
-            "gcode/firmware_restart", self._handle_firmware_restart
-        )
-        wh.register_endpoint(
-            "gcode/subscribe_output", self._handle_subscribe_output
-        )
+        wh.register_endpoint("gcode/firmware_restart", self._handle_firmware_restart)
+        wh.register_endpoint("gcode/subscribe_output", self._handle_subscribe_output)
 
     def _handle_help(self, web_request):
         web_request.send(self.gcode.get_command_help())
@@ -504,7 +486,9 @@ class GCodeHelper:
             self.is_output_registered = True
 
 
-SUBSCRIPTION_REFRESH_TIME = 0.25
+SUBSCRIPTION_REFRESH_TIME = 0.1
+FAST_SUB_REFRESH_TIME = 0.05
+FAST_OBJECTS = ["tmc4671 stepper_x", "tmc4671 stepper_y"]
 
 
 class QueryStatusHelper:
@@ -513,6 +497,7 @@ class QueryStatusHelper:
         self.clients = {}
         self.pending_queries = []
         self.query_timer = None
+        self.fast_query_timer = None
         self.last_query = {}
         # Register webhooks
         webhooks = printer.lookup_object("webhooks")
@@ -522,11 +507,55 @@ class QueryStatusHelper:
 
     def _handle_list(self, web_request):
         objects = [
-            n
-            for n, o in self.printer.lookup_objects()
-            if hasattr(o, "get_status")
+            n for n, o in self.printer.lookup_objects() if hasattr(o, "get_status")
         ]
         web_request.send({"objects": objects})
+
+    def _do_query_fast(self, eventtime):
+        query = {}
+        try:
+            for cconn, subscription, send_func, template in self.clients.values():
+                is_query = cconn is None
+                if not is_query and cconn.is_closed():
+                    continue
+                cquery = {}
+                for obj_name, req_items in subscription.items():
+                    if obj_name not in FAST_OBJECTS:
+                        continue
+                    res = query.get(obj_name, None)
+                    
+                    if res is None:
+                        po = self.printer.lookup_object(obj_name, None)
+                        if po is None or not hasattr(po, "get_status"):
+                            res = query[obj_name] = {}
+                        else:
+                            res = query[obj_name] = po.get_status(eventtime)
+                        
+                        if req_items is None:
+                            req_items = list(res.keys())
+                            if req_items:
+                                subscription[obj_name] = req_items
+                        cres = {}
+                        for ri in req_items:
+                            # logging.info(f"ri: {ri}")
+                            rd = res.get(ri, None)
+                            cres[ri] = rd
+                        if cres or is_query:
+                            cquery[obj_name] = cres
+                if cquery or is_query:
+                    tmp = dict(template)
+                    tmp["params"] = {"eventtime": eventtime, "status": cquery}
+                    send_func(tmp)
+            # if not len(self.clients):
+            #     # Unregister timer if there are no longer any subscriptions
+            #     reactor = self.printer.get_reactor()
+            #     reactor.unregister_timer(self.fast_query_timer)
+            #     self.fast_query_timer = None
+            #     return reactor.NEVER
+        except RuntimeError:
+            logging.info(f"runtime error")
+            pass
+        return eventtime + FAST_SUB_REFRESH_TIME
 
     def _do_query(self, eventtime):
         last_query = self.last_query
@@ -543,6 +572,8 @@ class QueryStatusHelper:
             # Query each requested printer object
             cquery = {}
             for obj_name, req_items in subscription.items():
+                # if obj_name in FAST_OBJECTS:
+                #     continue
                 res = query.get(obj_name, None)
                 if res is None:
                     po = self.printer.lookup_object(obj_name, None)
@@ -579,9 +610,7 @@ class QueryStatusHelper:
         objects = web_request.get_dict("objects")
         # Validate subscription format
         for k, v in objects.items():
-            if not isinstance(k, str) or (
-                v is not None and not isinstance(v, list)
-            ):
+            if not isinstance(k, str) or (v is not None and not isinstance(v, list)):
                 raise web_request.error("Invalid argument")
             if v is not None:
                 for ri in v:
@@ -598,7 +627,9 @@ class QueryStatusHelper:
         # Start timer if needed
         if self.query_timer is None:
             qt = reactor.register_timer(self._do_query, reactor.NOW)
+            # fast_qt = reactor.register_timer(self._do_query_fast, reactor.NOW)
             self.query_timer = qt
+            # self.fast_query_timer = fast_qt
         # Wait for data to be queried
         msg = complete.wait()
         web_request.send(msg["params"])

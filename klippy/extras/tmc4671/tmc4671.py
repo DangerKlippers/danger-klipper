@@ -29,7 +29,7 @@ from .register_bank import (
 )
 from .register_bank import DUMP_GROUPS_4671, DUMP_GROUPS_6100
 from .errorcheck import TMCErrorCheck
-from .utils import FormatUtils, BiquadUtils, PIDUtils
+from .utils import FormatUtils, BiquadUtils, PIUtils
 
 # The 4671 has a 25 MHz external clock
 TMC_FREQUENCY = 25000000.0
@@ -58,7 +58,7 @@ class TMC4671:
         # 6100 is optional for boards without one.
         gcode = self.printer.lookup_object("gcode")
         if config.get("drv_cs_pin", None) is not None:
-            self.field_helper_6100 = FieldHelper(Fields6100, prefix="drv_")
+            self.field_helper_6100 = FieldHelper(Fields6100, Registers6100, self.printer, prefix="drv_")
             self.mcu_tmc6100 = MCU_TMC_SPI(
                 config,
                 self.field_helper_6100,
@@ -78,6 +78,8 @@ class TMC4671:
 
         self.field_helper = FieldHelper(
             Fields4671,
+            Registers4671,
+            self.printer,
             prefix="foc_",
         )
         self.mcu_tmc = MCU_TMC_SPI(
@@ -409,7 +411,7 @@ class TMC4671:
         )
         # Now calibrate for brake chopper
         vml, vmh = self._sample_vm()
-        logging.info("TMC 4671 %s ADC VM %s", self.name, str(vml, vmh))
+        logging.info("TMC 4671 %s ADC VM %s", self.name, str((vml, vmh)))
         vmr = abs(vmh - vml)
         high = (vmh - 32768) // 20 + 2 * vmr + vmh
         if high < 65536:
@@ -429,7 +431,7 @@ class TMC4671:
         n = 100
         for i in range(n):
             v = self.field_helper.get_reg_fields(
-                reg, self.mcu_tmc.raw_reg_read(reg)
+                reg, self.mcu_tmc.raw_reg_read(reg_addr)
             )
             i1.append(v[Fields4671.ADC_I1_RAW.name])
             i0.append(v[Fields4671.ADC_I0_RAW.name])
@@ -585,7 +587,7 @@ class TMC4671:
                 tau1,
             )
         )
-        Kc, taui = PIDUtils.simc(k, theta, tau1, 0.001 * derate)
+        Kc, taui = PIUtils.simc(k, theta, tau1, 0.001 * derate)
         # Account for sampling frequency
         Ki = Kc / (taui * 0.5 * self.pwmfreq)
         logging.info(

@@ -8,14 +8,13 @@
 from enum import Enum
 from typing import Iterator, Self
 from dataclasses import dataclass
-
+import logging
 
 class EnumExt(Enum):
     @classmethod
     def get(cls, name, default=None) -> Self:
-        if name in cls.__members__:
-            return cls[name]
-        return default
+
+        return cls._member_map_.get(name, default)
 
     @classmethod
     def member_names(cls):
