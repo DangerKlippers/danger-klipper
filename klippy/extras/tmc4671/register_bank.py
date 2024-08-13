@@ -496,13 +496,13 @@ class Fields4671(FieldEnum):
     ABN_2_CLN = Field(Registers4671.ABN_2_DECODER_MODE, 0x1 << 8)
     ABN_2_DIRECTION = Field(Registers4671.ABN_2_DECODER_MODE, 0x1 << 12)
 
-    # ABN_2_DECODER_PHI_E_PHI_M_OFFSET
-    ABN_2_DECODER_PHI_M_OFFSET = Field(
-        Registers4671.ABN_2_DECODER_PHI_E_PHI_M_OFFSET, 0xFFFF << 0, True
-    )
-    ABN_2_DECODER_PHI_E_OFFSET = Field(
-        Registers4671.ABN_2_DECODER_PHI_E_PHI_M_OFFSET, 0xFFFF << 16, True
-    )
+    # # ABN_2_DECODER_PHI_E_PHI_M_OFFSET
+    # ABN_2_DECODER_PHI_M_OFFSET = Field(
+    #     Registers4671.ABN_2_DECODER_PHI_E_PHI_M_OFFSET, 0xFFFF << 0, True
+    # )
+    # ABN_2_DECODER_PHI_E_OFFSET = Field(
+    #     Registers4671.ABN_2_DECODER_PHI_E_PHI_M_OFFSET, 0xFFFF << 16, True
+    # )
 
     # ABN_2_DECODER_PHI_E_PHI_M
     ABN_2_DECODER_PHI_M = Field(
