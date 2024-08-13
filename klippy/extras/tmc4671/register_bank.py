@@ -505,12 +505,12 @@ class Fields4671(FieldEnum):
     # )
 
     # ABN_2_DECODER_PHI_E_PHI_M
-    ABN_2_DECODER_PHI_M = Field(
-        Registers4671.ABN_2_DECODER_PHI_E_PHI_M, 0xFFFF << 0
-    )
-    ABN_2_DECODER_PHI_E = Field(
-        Registers4671.ABN_2_DECODER_PHI_E_PHI_M, 0xFFFF << 16
-    )
+    # ABN_2_DECODER_PHI_M = Field(
+    #     Registers4671.ABN_2_DECODER_PHI_E_PHI_M, 0xFFFF << 0
+    # )
+    # ABN_2_DECODER_PHI_E = Field(
+    #     Registers4671.ABN_2_DECODER_PHI_E_PHI_M, 0xFFFF << 16
+    # )
 
     # HALL_MODE
     HALL_POLARITY = Field(Registers4671.HALL_MODE, 0x1 << 0)
