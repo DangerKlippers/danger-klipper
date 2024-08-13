@@ -279,13 +279,13 @@ class FieldHelper:
             else:
                 reg_value = self.register_cache.get(reg_name)
 
-        if self.name_is_register(field_name):
-            mask = 0xFFFFFFFF
-            signed = register.value.signed
-        else:
+        if self.name_is_field(field_name):
             field = self.lookup_field_info(field_name).value
             mask = field.mask
             signed = field.signed
+        else:
+            mask = 0xFFFFFFFF
+            signed = register.value.signed
 
         field_value = (reg_value & mask) >> BitUtils.ffs(mask)
 
@@ -307,10 +307,10 @@ class FieldHelper:
             else:
                 reg_value = self.register_cache.get(reg)
 
-        if self.name_is_register(field_name):
-            mask = 0xFFFFFFFF
-        else:
+        if self.name_is_field(field_name):
             mask = self.lookup_field_info(field).value.mask
+        else:
+            mask = 0xFFFFFFFF
 
         new_value = (reg_value & ~mask) | (
             (field_value << BitUtils.ffs(mask)) & mask
@@ -328,16 +328,16 @@ class FieldHelper:
                 f"invalid field name: '{field_name}'"
             )
         reg_name = register.name
-        if self.name_is_register(field_name):
-            mask = 0xFFFFFFFF
-            signed = register.value.signed
-            parser = FIELD_PARSERS.get(register)
-        else:
+        if self.name_is_field(field_name):
             field_enum = self.lookup_field_info(field_name)
             field = field_enum.value
             mask = field.mask
             signed = field.signed
             parser = FIELD_PARSERS.get(field_enum)
+        else:
+            mask = 0xFFFFFFFF
+            signed = register.value.signed
+            parser = FIELD_PARSERS.get(register)
         maxval = mask >> BitUtils.ffs(mask)
         if maxval == 1:
             val = config.getboolean(config_name, default)
@@ -362,7 +362,8 @@ class FieldHelper:
                 val = int(val)
         return self.set_field(field_name, val, reg=register)
 
-    def pretty_format(self, reg: RegisterEnum, reg_value):
+    def pretty_format(self, reg: RegisterEnum | str, reg_value):
+        reg = self.lookup_register_info(reg)
         # Provide a string description of a register
         field_val_ = self.get_reg_fields(reg, reg_value)
 
@@ -375,7 +376,7 @@ class FieldHelper:
         return "%-11s %08x%s" % (reg.name + ":", reg_value, "".join(fields))
 
     def pretty_format_field(
-        self, field, reg_val=None, reg: RegisterEnum = None
+        self, field, reg: RegisterEnum = None, reg_val=None, 
     ):
         field = self.lookup_field_info(field)
         # Provide a string description of a field
@@ -446,10 +447,10 @@ class CurrentHelper:
         return self.homing_current
 
     def get_current(self):
-        c = self.convert_adc_current(self._read_field("PID_TORQUE_FLUX_LIMITS"))
-        iux = self.convert_adc_current(self._read_field("ADC_IUX"))
-        iv = self.convert_adc_current(self._read_field("ADC_IV"))
-        iwy = self.convert_adc_current(self._read_field("ADC_IWY"))
+        c = self.convert_adc_current(self._read_field(Registers4671.PID_TORQUE_FLUX_LIMITS))
+        iux = self.convert_adc_current(self._read_field(Fields4671.ADC_IUX))
+        iv = self.convert_adc_current(self._read_field(Fields4671.ADC_IV))
+        iwy = self.convert_adc_current(self._read_field(Fields4671.ADC_IWY))
         return c, MAX_CURRENT, iux, iv, iwy
 
     def set_current(self, run_current):

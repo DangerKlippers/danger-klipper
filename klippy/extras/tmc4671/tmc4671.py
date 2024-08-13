@@ -897,7 +897,7 @@ class TMC4671:
             if reg.name != name:  # if we're dumping a field
                 response = field_helper.pretty_format_field(name, reg, reg_val)
             else:
-                response = field_helper.pretty_format(name, reg_val)
+                response = field_helper.pretty_format(reg, reg_val)
             gcmd.respond_info(response)
         else:
             group = gcmd.get("GROUP", "Default")
