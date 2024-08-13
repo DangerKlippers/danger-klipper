@@ -54,7 +54,6 @@ class TMCErrorCheck:
     def _make_mask(self, entries: list[FieldEnum]):
         mask = 0
         for f in entries:
-            logging.info(f"f: {f}")
             mask = self.field_helper.set_field(
                 f, 1, mask, Registers4671.STATUS_FLAGS
             )

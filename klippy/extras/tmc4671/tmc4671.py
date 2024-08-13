@@ -526,7 +526,9 @@ class TMC4671:
             self.pid_helpers[p_field].write_coefficient(Kc)
             self.pid_helpers[i_field].write_coefficient(0.0)
         else:
-            Kc0 = FormatUtils.from_q4_12(self._read_field(p_field))
+            p_field_val = self._read_field(p_field)
+            logging.info(f"p_val: {p_field_val}")
+            Kc0 = FormatUtils.from_q4_12(p_field_val)
         # Do a setpoint change experiment
         self._write_field(target_field, 0)
         logging.info(f"test_cur = {test_cur}")

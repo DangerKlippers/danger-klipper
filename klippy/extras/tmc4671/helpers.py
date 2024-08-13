@@ -167,7 +167,7 @@ class PIDHelper:
 
         self.field_helper.set_formatter(field, self.from_f)
         self.field_helper.set_parser(n_field, self.to_f)
-
+        logging.info(f"pid helper, field: {field_name} - default val: {field_val_def}, formatted: {self.to_f(field_val_def)}")
         self.field_helper.set_config_field(
             config, field, self.to_f(field_val_def)
         )
@@ -275,7 +275,6 @@ class FieldHelper:
     
         if reg_value is None:
             if reg_name not in self.register_cache:
-                logging.info(f"no value for {reg_name} in cache, using 0...")
                 reg_value = 0
             else:
                 reg_value = self.register_cache.get(reg_name)
@@ -304,7 +303,6 @@ class FieldHelper:
         # Returns register value with field bits filled with supplied value
         if reg_value is None:
             if reg not in self.register_cache:
-                logging.info(f"no value for {reg} in cache, using 0...")
                 reg_value = 0
             else:
                 reg_value = self.register_cache.get(reg)
@@ -340,7 +338,6 @@ class FieldHelper:
             mask = field.mask
             signed = field.signed
             parser = FIELD_PARSERS.get(field_enum)
-
         maxval = mask >> BitUtils.ffs(mask)
         if maxval == 1:
             val = config.getboolean(config_name, default)
@@ -349,13 +346,13 @@ class FieldHelper:
             config_minval = -(config_maxval + 1)
             val = config.getfloat(
                 config_name,
-                float(default),
+                default,
                 minval=config_minval,
                 maxval=config_maxval,
             )
         else:
             val = config.getfloat(
-                config_name, float(default), minval=0, maxval=maxval
+                config_name, default, minval=0, maxval=maxval
             )
 
         if isinstance(val, float):
@@ -363,7 +360,6 @@ class FieldHelper:
                 val = parser(val)
             else:
                 val = int(val)
-
         return self.set_field(field_name, val, reg=register)
 
     def pretty_format(self, reg: RegisterEnum, reg_value):
