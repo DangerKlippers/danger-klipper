@@ -5,11 +5,9 @@
 ######################################################################
 # Register map for the 6100 companion chip
 ######################################################################
-from enum import Enum, auto
-from collections import namedtuple
+from enum import Enum
 from typing import Iterator, Self
 from dataclasses import dataclass
-from typing import Callable
 
 
 class EnumExt(Enum):
@@ -31,8 +29,8 @@ class EnumExt(Enum):
 
 @dataclass
 class Register:
-    address: int
-    slotval: int
+    reg_addr: int
+    sub_addr: int
     signed: bool = False
 
 
@@ -66,7 +64,6 @@ class Registers6100(EnumExt):
 
 
 class Fields6100(FieldEnum):
-
     # GCONF
     DISABLE = Field(Registers6100.GCONF, 0x1 << 0)
     SINGLELINE = Field(Registers6100.GCONF, 0x1 << 1)
@@ -110,7 +107,7 @@ class Fields6100(FieldEnum):
     # TODO: SHORT_CONF (defaults are reasonable)
 
 
-DumpGroups6100 = {
+DUMP_GROUPS_6100 = {
     "Default": [
         Registers6100.GCONF,
         Registers6100.GSTAT,
@@ -286,14 +283,18 @@ class Registers4671(EnumExt):
     INTERIM_PWM_WY_UX = Register(0x6E, 17, True)
     INTERIM_PWM_UV = Register(0x6E, 18, True)
     INTERIM_ADC_I1_I0 = Register(0x6E, 19, True)
-    INTERIM_PID_TORQUE_TARGET_FLUX_TARGET_TORQUE_ACTUAL_FLUX_ACTUAL_DIV256 = Register(
-        0x6E, 20, True
+    INTERIM_PID_TORQUE_TARGET_FLUX_TARGET_TORQUE_ACTUAL_FLUX_ACTUAL_DIV256 = (
+        Register(0x6E, 20, True)
     )
     INTERIM_PID_TORQUE_TARGET_TORQUE_ACTUAL = Register(0x6E, 21, True)
     INTERIM_PID_FLUX_TARGET_FLUX_ACTUAL = Register(0x6E, 22, True)
-    INTERIM_PID_VELOCITY_TARGET_VELOCITY_ACTUAL_DIV256 = Register(0x6E, 23, True)
+    INTERIM_PID_VELOCITY_TARGET_VELOCITY_ACTUAL_DIV256 = Register(
+        0x6E, 23, True
+    )
     INTERIM_PID_VELOCITY_TARGET_VELOCITY_ACTUAL = Register(0x6E, 24, True)
-    INTERIM_PID_POSITION_TARGET_POSITION_ACTUAL_DIV256 = Register(0x6E, 25, True)
+    INTERIM_PID_POSITION_TARGET_POSITION_ACTUAL_DIV256 = Register(
+        0x6E, 25, True
+    )
     INTERIM_PID_POSITION_TARGET_POSITION_ACTUAL = Register(0x6E, 26, True)
     INTERIM_FF_VELOCITY = Register(0x6E, 27, True)
     INTERIM_FF_TORQUE = Register(0x6E, 28, True)
@@ -302,7 +303,9 @@ class Registers4671(EnumExt):
     INTERIM_HOME_POSITION = Register(0x6E, 31, True)
     INTERIM_LEFT_POSITION = Register(0x6E, 32, True)
     INTERIM_RIGHT_POSITION = Register(0x6E, 33, True)
-    INTERIM_SINGLE_PIN_IF_PWM_DUTY_CYCLE_TORQUE_TARGET = Register(0x6E, 42, True)
+    INTERIM_SINGLE_PIN_IF_PWM_DUTY_CYCLE_TORQUE_TARGET = Register(
+        0x6E, 42, True
+    )
     INTERIM_SINGLE_PIN_IF_VELOCITY_TARGET = Register(0x6E, 43, True)
     INTERIM_SINGLE_PIN_IF_POSITION_TARGET = Register(0x6E, 44, True)
     ADC_VM_LIMITS = Register(0x75, None)  # RW,Init
@@ -349,12 +352,20 @@ class Fields4671(FieldEnum):
     ADC_VM_RAW = Field(Registers4671.ADC_AGPI_A_RAW_ADC_VM_RAW, 0xFFFF << 16)
 
     # ADC_AENC_UX_RAW_ADC_AGPI_B_RAW
-    ADC_AENC_UX_RAW = Field(Registers4671.ADC_AENC_UX_RAW_ADC_AGPI_B_RAW, 0xFFFF << 0)
-    ADC_AGPI_B_RAW = Field(Registers4671.ADC_AENC_UX_RAW_ADC_AGPI_B_RAW, 0xFFFF << 16)
+    ADC_AENC_UX_RAW = Field(
+        Registers4671.ADC_AENC_UX_RAW_ADC_AGPI_B_RAW, 0xFFFF << 0
+    )
+    ADC_AGPI_B_RAW = Field(
+        Registers4671.ADC_AENC_UX_RAW_ADC_AGPI_B_RAW, 0xFFFF << 16
+    )
 
     # ADC_AENC_WY_RAW_ADC_AENC_VN_RAW
-    ADC_AENC_WY_RAW = Field(Registers4671.ADC_AENC_WY_RAW_ADC_AENC_VN_RAW, 0xFFFF << 0)
-    ADC_AENC_VN_RAW = Field(Registers4671.ADC_AENC_WY_RAW_ADC_AENC_VN_RAW, 0xFFFF << 16)
+    ADC_AENC_WY_RAW = Field(
+        Registers4671.ADC_AENC_WY_RAW_ADC_AENC_VN_RAW, 0xFFFF << 0
+    )
+    ADC_AENC_VN_RAW = Field(
+        Registers4671.ADC_AENC_WY_RAW_ADC_AENC_VN_RAW, 0xFFFF << 16
+    )
 
     # DSADC_MCFG_B_MCFG_A
     CFG_DSMODULATOR_A = Field(Registers4671.DSADC_MCFG_B_MCFG_A, 0x3 << 0)
@@ -470,8 +481,12 @@ class Fields4671(FieldEnum):
     )
 
     # ABN_DECODER_PHI_E_PHI_M
-    ABN_DECODER_PHI_M = Field(Registers4671.ABN_DECODER_PHI_E_PHI_M, 0xFFFF << 0, True)
-    ABN_DECODER_PHI_E = Field(Registers4671.ABN_DECODER_PHI_E_PHI_M, 0xFFFF << 16, True)
+    ABN_DECODER_PHI_M = Field(
+        Registers4671.ABN_DECODER_PHI_E_PHI_M, 0xFFFF << 0, True
+    )
+    ABN_DECODER_PHI_E = Field(
+        Registers4671.ABN_DECODER_PHI_E_PHI_M, 0xFFFF << 16, True
+    )
 
     # ABN_2_DECODER_MODE
     ABN_2_APOL = Field(Registers4671.ABN_2_DECODER_MODE, 0x1 << 0)
@@ -490,8 +505,12 @@ class Fields4671(FieldEnum):
     )
 
     # ABN_2_DECODER_PHI_E_PHI_M
-    ABN_2_DECODER_PHI_M = Field(Registers4671.ABN_2_DECODER_PHI_E_PHI_M, 0xFFFF << 0)
-    ABN_2_DECODER_PHI_E = Field(Registers4671.ABN_2_DECODER_PHI_E_PHI_M, 0xFFFF << 16)
+    ABN_2_DECODER_PHI_M = Field(
+        Registers4671.ABN_2_DECODER_PHI_E_PHI_M, 0xFFFF << 0
+    )
+    ABN_2_DECODER_PHI_E = Field(
+        Registers4671.ABN_2_DECODER_PHI_E_PHI_M, 0xFFFF << 16
+    )
 
     # HALL_MODE
     HALL_POLARITY = Field(Registers4671.HALL_MODE, 0x1 << 0)
@@ -501,23 +520,41 @@ class Fields4671(FieldEnum):
     HALL_BLANK = Field(Registers4671.HALL_MODE, 0xFFF << 16)
 
     # HALL_POSITION_060_000
-    HALL_POSITION_000 = Field(Registers4671.HALL_POSITION_060_000, 0xFFFF << 0, True)
-    HALL_POSITION_060 = Field(Registers4671.HALL_POSITION_060_000, 0xFFFF << 16, True)
+    HALL_POSITION_000 = Field(
+        Registers4671.HALL_POSITION_060_000, 0xFFFF << 0, True
+    )
+    HALL_POSITION_060 = Field(
+        Registers4671.HALL_POSITION_060_000, 0xFFFF << 16, True
+    )
 
     # HALL_POSITION_180_120
-    HALL_POSITION_120 = Field(Registers4671.HALL_POSITION_180_120, 0xFFFF << 0, True)
-    HALL_POSITION_180 = Field(Registers4671.HALL_POSITION_180_120, 0xFFFF << 16, True)
+    HALL_POSITION_120 = Field(
+        Registers4671.HALL_POSITION_180_120, 0xFFFF << 0, True
+    )
+    HALL_POSITION_180 = Field(
+        Registers4671.HALL_POSITION_180_120, 0xFFFF << 16, True
+    )
 
     # HALL_POSITION_300_240
-    HALL_POSITION_240 = Field(Registers4671.HALL_POSITION_300_240, 0xFFFF << 0, True)
-    HALL_POSITION_300 = Field(Registers4671.HALL_POSITION_300_240, 0xFFFF << 16, True)
+    HALL_POSITION_240 = Field(
+        Registers4671.HALL_POSITION_300_240, 0xFFFF << 0, True
+    )
+    HALL_POSITION_300 = Field(
+        Registers4671.HALL_POSITION_300_240, 0xFFFF << 16, True
+    )
 
     # HALL_PHI_E_PHI_M_OFFSET
-    HALL_PHI_M_OFFSET = Field(Registers4671.HALL_PHI_E_PHI_M_OFFSET, 0xFFFF << 0, True)
-    HALL_PHI_E_OFFSET = Field(Registers4671.HALL_PHI_E_PHI_M_OFFSET, 0xFFFF << 16, True)
+    HALL_PHI_M_OFFSET = Field(
+        Registers4671.HALL_PHI_E_PHI_M_OFFSET, 0xFFFF << 0, True
+    )
+    HALL_PHI_E_OFFSET = Field(
+        Registers4671.HALL_PHI_E_PHI_M_OFFSET, 0xFFFF << 16, True
+    )
 
     # HALL_PHI_E_INTERPOLATED_PHI_E
-    HALL_PHI_E = Field(Registers4671.HALL_PHI_E_INTERPOLATED_PHI_E, 0xFFFF << 0, True)
+    HALL_PHI_E = Field(
+        Registers4671.HALL_PHI_E_INTERPOLATED_PHI_E, 0xFFFF << 0, True
+    )
     HALL_PHI_E_INTERPOLATED = Field(
         Registers4671.HALL_PHI_E_INTERPOLATED_PHI_E, 0xFFFF << 16, True
     )
@@ -555,7 +592,9 @@ class Fields4671(FieldEnum):
 
     # VELOCITY_SELECTION
     VELOCITY_SELECTION = Field(Registers4671.VELOCITY_SELECTION, 0xFF << 0)
-    VELOCITY_METER_SELECTION = Field(Registers4671.VELOCITY_SELECTION, 0xFF << 8)
+    VELOCITY_METER_SELECTION = Field(
+        Registers4671.VELOCITY_SELECTION, 0xFF << 8
+    )
 
     # PID_FLUX_P_FLUX_I
     PID_FLUX_I = Field(Registers4671.PID_FLUX_P_FLUX_I, 0xFFFF << 0, True)
@@ -563,15 +602,25 @@ class Fields4671(FieldEnum):
 
     # PID_TORQUE_P_TORQUE_I
     PID_TORQUE_I = Field(Registers4671.PID_TORQUE_P_TORQUE_I, 0xFFFF << 0, True)
-    PID_TORQUE_P = Field(Registers4671.PID_TORQUE_P_TORQUE_I, 0xFFFF << 16, True)
+    PID_TORQUE_P = Field(
+        Registers4671.PID_TORQUE_P_TORQUE_I, 0xFFFF << 16, True
+    )
 
     # PID_VELOCITY_P_VELOCITY_I
-    PID_VELOCITY_I = Field(Registers4671.PID_VELOCITY_P_VELOCITY_I, 0xFFFF << 0, True)
-    PID_VELOCITY_P = Field(Registers4671.PID_VELOCITY_P_VELOCITY_I, 0xFFFF << 16, True)
+    PID_VELOCITY_I = Field(
+        Registers4671.PID_VELOCITY_P_VELOCITY_I, 0xFFFF << 0, True
+    )
+    PID_VELOCITY_P = Field(
+        Registers4671.PID_VELOCITY_P_VELOCITY_I, 0xFFFF << 16, True
+    )
 
     # PID_POSITION_P_POSITION_I
-    PID_POSITION_I = Field(Registers4671.PID_POSITION_P_POSITION_I, 0xFFFF << 0, True)
-    PID_POSITION_P = Field(Registers4671.PID_POSITION_P_POSITION_I, 0xFFFF << 16, True)
+    PID_POSITION_I = Field(
+        Registers4671.PID_POSITION_P_POSITION_I, 0xFFFF << 0, True
+    )
+    PID_POSITION_P = Field(
+        Registers4671.PID_POSITION_P_POSITION_I, 0xFFFF << 16, True
+    )
 
     # MODE_RAMP_MODE_MOTION
     MODE_MOTION = Field(Registers4671.MODE_RAMP_MODE_MOTION, 0xFF << 0)
@@ -579,16 +628,28 @@ class Fields4671(FieldEnum):
     MODE_PID_TYPE = Field(Registers4671.MODE_RAMP_MODE_MOTION, 1 << 31)
 
     # PID_TORQUE_FLUX_TARGET
-    PID_FLUX_TARGET = Field(Registers4671.PID_TORQUE_FLUX_TARGET, 0xFFFF << 0, True)
-    PID_TORQUE_TARGET = Field(Registers4671.PID_TORQUE_FLUX_TARGET, 0xFFFF << 16, True)
+    PID_FLUX_TARGET = Field(
+        Registers4671.PID_TORQUE_FLUX_TARGET, 0xFFFF << 0, True
+    )
+    PID_TORQUE_TARGET = Field(
+        Registers4671.PID_TORQUE_FLUX_TARGET, 0xFFFF << 16, True
+    )
 
     # PID_TORQUE_FLUX_OFFSET
-    PID_FLUX_OFFSET = Field(Registers4671.PID_TORQUE_FLUX_OFFSET, 0xFFFF << 0, True)
-    PID_TORQUE_OFFSET = Field(Registers4671.PID_TORQUE_FLUX_OFFSET, 0xFFFF << 16, True)
+    PID_FLUX_OFFSET = Field(
+        Registers4671.PID_TORQUE_FLUX_OFFSET, 0xFFFF << 0, True
+    )
+    PID_TORQUE_OFFSET = Field(
+        Registers4671.PID_TORQUE_FLUX_OFFSET, 0xFFFF << 16, True
+    )
 
     # PID_TORQUE_FLUX_ACTUAL
-    PID_FLUX_ACTUAL = Field(Registers4671.PID_TORQUE_FLUX_ACTUAL, 0xFFFF << 0, True)
-    PID_TORQUE_ACTUAL = Field(Registers4671.PID_TORQUE_FLUX_ACTUAL, 0xFFFF << 16, True)
+    PID_FLUX_ACTUAL = Field(
+        Registers4671.PID_TORQUE_FLUX_ACTUAL, 0xFFFF << 0, True
+    )
+    PID_TORQUE_ACTUAL = Field(
+        Registers4671.PID_TORQUE_FLUX_ACTUAL, 0xFFFF << 16, True
+    )
 
     # INTERIM_PWM_WY_UX
     INTERIM_PWM_UX = Field(Registers4671.INTERIM_PWM_WY_UX, 0xFFFF << 0)
@@ -632,7 +693,124 @@ ADC_GPIO_FIELDS = {
     None: None,
 }
 
-REG_TO_FIELDS = {
-    reg: [field for field in Fields4671 if field.value.register == reg]
-    for reg in Registers4671
+
+DUMP_GROUPS_4671 = {
+    "Default": [
+        Registers4671.CHIPINFO_SI_TYPE,
+        Registers4671.CHIPINFO_SI_VERSION,
+        Registers4671.STATUS_FLAGS,
+        Registers4671.PHI_E,
+    ],
+    "HALL": [
+        Registers4671.HALL_MODE,
+        Registers4671.HALL_POSITION_060_000,
+        Registers4671.HALL_POSITION_180_120,
+        Registers4671.HALL_POSITION_300_240,
+        Registers4671.HALL_PHI_E_INTERPOLATED_PHI_E,
+        Registers4671.HALL_PHI_E_PHI_M_OFFSET,
+        Registers4671.HALL_PHI_M,
+    ],
+    "ABN": [
+        Registers4671.ABN_DECODER_COUNT,
+        Registers4671.ABN_DECODER_MODE,
+        Registers4671.ABN_DECODER_PPR,
+        Registers4671.ABN_DECODER_PHI_E_PHI_M_OFFSET,
+        Registers4671.ABN_DECODER_PHI_E_PHI_M,
+    ],
+    "ADC": [
+        Registers4671.ADC_I1_RAW_ADC_I0_RAW,
+        Registers4671.ADC_IWY_IUX,
+        Registers4671.ADC_IV,
+        Registers4671.ADC_I0_SCALE_OFFSET,
+        Registers4671.ADC_I1_SCALE_OFFSET,
+    ],
+    "AENC": [
+        Registers4671.AENC_DECODER_MODE,
+        Registers4671.AENC_DECODER_PPR,
+        Registers4671.ADC_I1_RAW_ADC_I0_RAW,
+        Registers4671.ADC_AGPI_A_RAW_ADC_VM_RAW,
+        Registers4671.ADC_AENC_UX_RAW_ADC_AGPI_B_RAW,
+        Registers4671.ADC_AENC_WY_RAW_ADC_AENC_VN_RAW,
+        Registers4671.AENC_DECODER_PHI_A_RAW,
+    ],
+    "PWM": [
+        Registers4671.PWM_POLARITIES,
+        Registers4671.PWM_MAXCNT,
+        Registers4671.PWM_BBM_H_BBM_L,
+        Registers4671.PWM_SV_CHOP,
+        Registers4671.MOTOR_TYPE_N_POLE_PAIRS,
+    ],
+    "PIDCONF": [
+        Registers4671.PID_FLUX_P_FLUX_I,
+        Registers4671.PID_TORQUE_P_TORQUE_I,
+        Registers4671.PID_VELOCITY_P_VELOCITY_I,
+        Registers4671.PID_POSITION_P_POSITION_I,
+    ],
+    "MONITOR": [
+        Registers4671.ADC_IWY_IUX,
+        Registers4671.ADC_IV,
+        Registers4671.PID_TORQUE_FLUX_ACTUAL,
+        Registers4671.INTERIM_PIDIN_TARGET_TORQUE,
+        Registers4671.PID_VELOCITY_ACTUAL,
+        Registers4671.INTERIM_PIDIN_TARGET_VELOCITY,
+        Registers4671.PID_POSITION_ACTUAL,
+    ],
+    "PID": [
+        Registers4671.PID_FLUX_P_FLUX_I,
+        Registers4671.PID_TORQUE_P_TORQUE_I,
+        Registers4671.PID_VELOCITY_P_VELOCITY_I,
+        Registers4671.PID_POSITION_P_POSITION_I,
+        Registers4671.PID_TORQUE_FLUX_TARGET,
+        Registers4671.PID_TORQUE_FLUX_OFFSET,
+        Registers4671.PID_VELOCITY_TARGET,
+        Registers4671.PID_POSITION_TARGET,
+        Registers4671.PID_TORQUE_FLUX_ACTUAL,
+        Registers4671.INTERIM_PIDIN_TARGET_FLUX,
+        Registers4671.PID_ERROR_PID_FLUX_ERROR,
+        Registers4671.PID_ERROR_PID_FLUX_ERROR_SUM,
+        Registers4671.INTERIM_PIDIN_TARGET_TORQUE,
+        Registers4671.PID_ERROR_PID_TORQUE_ERROR,
+        Registers4671.PID_ERROR_PID_TORQUE_ERROR_SUM,
+        Registers4671.PID_VELOCITY_ACTUAL,
+        Registers4671.INTERIM_PIDIN_TARGET_VELOCITY,
+        Registers4671.PID_ERROR_PID_VELOCITY_ERROR,
+        Registers4671.PID_ERROR_PID_VELOCITY_ERROR_SUM,
+        Registers4671.PID_POSITION_ACTUAL,
+        Registers4671.INTERIM_PIDIN_TARGET_POSITION,
+        Registers4671.PID_ERROR_PID_POSITION_ERROR,
+        Registers4671.PID_ERROR_PID_POSITION_ERROR_SUM,
+    ],
+    "STEP": [
+        Registers4671.STEP_WIDTH,
+        Registers4671.PHI_E,
+        Registers4671.MODE_RAMP_MODE_MOTION,
+        Registers4671.STATUS_FLAGS,
+        Registers4671.PID_POSITION_TARGET,
+    ],
+    "FILTERS": [
+        Registers4671.CONFIG_BIQUAD_X_A_1,
+        Registers4671.CONFIG_BIQUAD_X_A_2,
+        Registers4671.CONFIG_BIQUAD_X_B_0,
+        Registers4671.CONFIG_BIQUAD_X_B_1,
+        Registers4671.CONFIG_BIQUAD_X_B_2,
+        Registers4671.CONFIG_BIQUAD_X_ENABLE,
+        Registers4671.CONFIG_BIQUAD_V_A_1,
+        Registers4671.CONFIG_BIQUAD_V_A_2,
+        Registers4671.CONFIG_BIQUAD_V_B_0,
+        Registers4671.CONFIG_BIQUAD_V_B_1,
+        Registers4671.CONFIG_BIQUAD_V_B_2,
+        Registers4671.CONFIG_BIQUAD_V_ENABLE,
+        Registers4671.CONFIG_BIQUAD_T_A_1,
+        Registers4671.CONFIG_BIQUAD_T_A_2,
+        Registers4671.CONFIG_BIQUAD_T_B_0,
+        Registers4671.CONFIG_BIQUAD_T_B_1,
+        Registers4671.CONFIG_BIQUAD_T_B_2,
+        Registers4671.CONFIG_BIQUAD_T_ENABLE,
+        Registers4671.CONFIG_BIQUAD_F_A_1,
+        Registers4671.CONFIG_BIQUAD_F_A_2,
+        Registers4671.CONFIG_BIQUAD_F_B_0,
+        Registers4671.CONFIG_BIQUAD_F_B_1,
+        Registers4671.CONFIG_BIQUAD_F_B_2,
+        Registers4671.CONFIG_BIQUAD_F_ENABLE,
+    ],
 }
