@@ -1315,6 +1315,15 @@ persisted in the config by issuing `SAVE_CONFIG` command, and if
 `[input_shaper]` was already enabled previously, these parameters
 take effect immediately.
 
+### [resonance_holder]
+
+This command is only available when 
+[resonance_holder](Config_reference.md#resonance_holder) is enabled in 
+the config. The values 'axis', 'frequency', and 'seconds' are required values. If 
+accel_per_hz is not defined the value under 'resonance_holder' will be used.
+
+- `HOLD_RESONANCE AXIS=<axis> FREQ=<freq> SECONDS=<seconds> [ACCEL_PER_HZ=<accel_per_hz>]`
+
 ### [respond]
 
 The following standard G-Code commands are available when the

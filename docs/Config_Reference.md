@@ -2106,6 +2106,22 @@ section of the measuring resonances guide for more information on
 #   (Hz/sec == sec^-2).
 ```
 
+### [resonance_holder]
+
+The 'Resonance Holder' module is used to hold your machine at
+a particular frequency to try and isolate vibrations that 
+may negatively affect the results of a resonance test.
+[command reference](G-Codes.md#resonance_holder) for more
+information.
+
+```
+[resonance_holder]
+#accel_per_hz: 75
+#   See 'accel_per_hz' in 'resonance_tester' above. If value is 
+#   not set, default of 75 will be used unless overridden by
+#   the gcode command.
+```
+
 ## Config file helpers
 
 ### [board_pins]
