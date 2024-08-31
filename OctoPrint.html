@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="Multi_MCU_Homing.html">
+        <link rel="prev" href="Installation.html">
       
       
-        <link rel="next" href="Skew_Correction.html">
+        <link rel="next" href="Config_Reference.html">
       
       
       <link rel="icon" href="img/favicon.ico">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Slicers - Danger Klipper documentation</title>
+        <title>OctoPrint for Klipper - Danger Klipper documentation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#slicers" class="md-skip">
+        <a href="#octoprint-for-klipper" class="md-skip">
           Skip to content
         </a>
       
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Slicers
+              OctoPrint for Klipper
             
           </span>
         </div>
@@ -462,17 +462,19 @@
                 
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" checked>
         
           
           <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
@@ -486,7 +488,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_8_1">
             <span class="md-nav__icon md-icon"></span>
             Installation
@@ -518,10 +520,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="OctoPrint.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    OctoPrint for Klipper
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="OctoPrint.html" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -530,6 +552,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-with-octopi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install with OctoPi
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-with-kiauh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing with KIAUH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-octoprint-to-use-klipper" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring OctoPrint to use Klipper
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1118,30 +1187,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Slicers
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="Slicers.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="Slicers.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1150,98 +1199,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#set-the-g-code-flavor-to-marlin" class="md-nav__link">
-    <span class="md-ellipsis">
-      Set the G-Code flavor to Marlin
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#klipper-gcode_macro" class="md-nav__link">
-    <span class="md-ellipsis">
-      Klipper gcode_macro
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#large-retraction-settings-may-require-tuning-klipper" class="md-nav__link">
-    <span class="md-ellipsis">
-      Large retraction settings may require tuning Klipper
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#do-not-enable-coasting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Do not enable "coasting"
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#do-not-use-extra-restart-distance-on-simplify3d" class="md-nav__link">
-    <span class="md-ellipsis">
-      Do not use "extra restart distance" on Simplify3d
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#disable-preloadve-on-kisslicer" class="md-nav__link">
-    <span class="md-ellipsis">
-      Disable "PreloadVE" on KISSlicer
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#disable-any-advanced-extruder-pressure-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Disable any "advanced extruder pressure" settings
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#start_print-macros" class="md-nav__link">
-    <span class="md-ellipsis">
-      START_PRINT macros
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1889,72 +1846,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#set-the-g-code-flavor-to-marlin" class="md-nav__link">
+  <a href="#install-with-octopi" class="md-nav__link">
     <span class="md-ellipsis">
-      Set the G-Code flavor to Marlin
+      Install with OctoPi
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#klipper-gcode_macro" class="md-nav__link">
+  <a href="#installing-with-kiauh" class="md-nav__link">
     <span class="md-ellipsis">
-      Klipper gcode_macro
+      Installing with KIAUH
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#large-retraction-settings-may-require-tuning-klipper" class="md-nav__link">
+  <a href="#configuring-octoprint-to-use-klipper" class="md-nav__link">
     <span class="md-ellipsis">
-      Large retraction settings may require tuning Klipper
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#do-not-enable-coasting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Do not enable "coasting"
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#do-not-use-extra-restart-distance-on-simplify3d" class="md-nav__link">
-    <span class="md-ellipsis">
-      Do not use "extra restart distance" on Simplify3d
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#disable-preloadve-on-kisslicer" class="md-nav__link">
-    <span class="md-ellipsis">
-      Disable "PreloadVE" on KISSlicer
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#disable-any-advanced-extruder-pressure-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Disable any "advanced extruder pressure" settings
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#start_print-macros" class="md-nav__link">
-    <span class="md-ellipsis">
-      START_PRINT macros
+      Configuring OctoPrint to use Klipper
     </span>
   </a>
   
@@ -1978,99 +1890,64 @@
   
 
 
-<h1 id="slicers">Slicers<a class="headerlink" href="#slicers" title="Permanent link">&para;</a></h1>
-<p>This document provides some tips for configuring a "slicer"
-application for use with Klipper. Common slicers used with Klipper are
-Slic3r, Cura, Simplify3D, etc.</p>
-<h2 id="set-the-g-code-flavor-to-marlin">Set the G-Code flavor to Marlin<a class="headerlink" href="#set-the-g-code-flavor-to-marlin" title="Permanent link">&para;</a></h2>
-<p>Many slicers have an option to configure the "G-Code flavor". The
-default is frequently "Marlin" and that works well with Klipper. The
-"Smoothieware" setting also works well with Klipper.</p>
-<h2 id="klipper-gcode_macro">Klipper gcode_macro<a class="headerlink" href="#klipper-gcode_macro" title="Permanent link">&para;</a></h2>
-<p>Slicers will often allow one to configure "Start G-Code" and "End
-G-Code" sequences. It is often convenient to define custom macros in
-the Klipper config file instead - such as: <code>[gcode_macro START_PRINT]</code>
-and <code>[gcode_macro END_PRINT]</code>. Then one can just run START_PRINT and
-END_PRINT in the slicer's configuration. Defining these actions in the
-Klipper configuration may make it easier to tweak the printer's start
-and end steps as changes do not require re-slicing.</p>
-<p>See <a href="https://github.com/DangerKlippers/danger-klipperblob/master/config/sample-macros.cfg">sample-macros.cfg</a> for example
-START_PRINT and END_PRINT macros.</p>
-<p>See the <a href="Config_Reference.html#gcode_macro">config reference</a> for
-details on defining a gcode_macro.</p>
-<h2 id="large-retraction-settings-may-require-tuning-klipper">Large retraction settings may require tuning Klipper<a class="headerlink" href="#large-retraction-settings-may-require-tuning-klipper" title="Permanent link">&para;</a></h2>
-<p>The maximum speed and acceleration of retraction moves are controlled
-in Klipper by the <code>max_extrude_only_velocity</code> and
-<code>max_extrude_only_accel</code> config settings. These settings have a
-default value that should work well on many printers. However, if one
-has configured a large retraction in the slicer (eg, 5mm or greater)
-then one may find they limit the desired speed of retractions.</p>
-<p>If using a large retraction, consider tuning Klipper's
-<a href="Pressure_Advance.html">pressure advance</a> instead. Otherwise, if one
-finds the toolhead seems to "pause" during retraction and priming,
-then consider explicitly defining <code>max_extrude_only_velocity</code> and
-<code>max_extrude_only_accel</code> in the Klipper config file.</p>
-<h2 id="do-not-enable-coasting">Do not enable "coasting"<a class="headerlink" href="#do-not-enable-coasting" title="Permanent link">&para;</a></h2>
-<p>The "coasting" feature is likely to result in poor quality prints with
-Klipper. Consider using Klipper's
-<a href="Pressure_Advance.html">pressure advance</a> instead.</p>
-<p>Specifically, if the slicer dramatically changes the extrusion rate
-between moves then Klipper will perform deceleration and acceleration
-between moves. This is likely to make blobbing worse, not better.</p>
-<p>In contrast, it is okay (and often helpful) to use a slicer's
-"retract" setting, "wipe" setting, and/or "wipe on retract" setting.</p>
-<h2 id="do-not-use-extra-restart-distance-on-simplify3d">Do not use "extra restart distance" on Simplify3d<a class="headerlink" href="#do-not-use-extra-restart-distance-on-simplify3d" title="Permanent link">&para;</a></h2>
-<p>This setting can cause dramatic changes to extrusion rates which can
-trigger Klipper's maximum extrusion cross-section check. Consider
-using Klipper's <a href="Pressure_Advance.html">pressure advance</a> or the regular
-Simplify3d retract setting instead.</p>
-<h2 id="disable-preloadve-on-kisslicer">Disable "PreloadVE" on KISSlicer<a class="headerlink" href="#disable-preloadve-on-kisslicer" title="Permanent link">&para;</a></h2>
-<p>If using KISSlicer slicing software then set "PreloadVE" to
-zero. Consider using Klipper's <a href="Pressure_Advance.html">pressure advance</a>
-instead.</p>
-<h2 id="disable-any-advanced-extruder-pressure-settings">Disable any "advanced extruder pressure" settings<a class="headerlink" href="#disable-any-advanced-extruder-pressure-settings" title="Permanent link">&para;</a></h2>
-<p>Some slicers advertise an "advanced extruder pressure" capability. It
-is recommended to keep these options disabled when using Klipper as
-they are likely to result in poor quality prints. Consider using
-Klipper's <a href="Pressure_Advance.html">pressure advance</a> instead.</p>
-<p>Specifically, these slicer settings can instruct the firmware to make
-wild changes to the extrusion rate in the hope that the firmware will
-approximate those requests and the printer will roughly obtain a
-desirable extruder pressure. Klipper, however, utilizes precise
-kinematic calculations and timing. When Klipper is commanded to make
-significant changes to the extrusion rate it will plan out the
-corresponding changes to velocity, acceleration, and extruder
-movement - which is not the slicer's intent. The slicer may even
-command excessive extrusion rates to the point that it triggers
-Klipper's maximum extrusion cross-section check.</p>
-<p>In contrast, it is okay (and often helpful) to use a slicer's
-"retract" setting, "wipe" setting, and/or "wipe on retract" setting.</p>
-<h2 id="start_print-macros">START_PRINT macros<a class="headerlink" href="#start_print-macros" title="Permanent link">&para;</a></h2>
-<p>When using a START_PRINT macro or similar, it is useful to sometimes
-pass through parameters from the slicer variables to the macro.</p>
-<p>In Cura, to pass through temperatures, the following start gcode
-would be used:</p>
-<div class="highlight"><pre><span></span><code>START_PRINT BED_TEMP={material_bed_temperature_layer_0} EXTRUDER_TEMP={material_print_temperature_layer_0}
+<h1 id="octoprint-for-klipper">OctoPrint for Klipper<a class="headerlink" href="#octoprint-for-klipper" title="Permanent link">&para;</a></h1>
+<p>Klipper has a few options for its front ends, Octoprint was the first
+and original front end for Klipper. This document will give
+a brief overview of installing with this option.</p>
+<h2 id="install-with-octopi">Install with OctoPi<a class="headerlink" href="#install-with-octopi" title="Permanent link">&para;</a></h2>
+<p>Start by installing <a href="https://github.com/guysoft/OctoPi">OctoPi</a> on the
+Raspberry Pi computer. Use OctoPi v0.17.0 or later - see the
+<a href="https://github.com/guysoft/OctoPi/releases">OctoPi releases</a> for
+release information.</p>
+<p>One should verify that OctoPi boots and that the
+OctoPrint web server works. After connecting to the OctoPrint web
+page, follow the prompt to upgrade OctoPrint if needed.</p>
+<p>After installing OctoPi and upgrading OctoPrint, it will be necessary
+to ssh into the target machine to run a handful of system commands.</p>
+<p>Start by running these commands on your host device:</p>
+<p><strong>If you do not have git installed, please do so with:</strong></p>
+<div class="highlight"><pre><span></span><code>sudo apt install git
 </code></pre></div>
 
-<p>In slic3r derivatives such as PrusaSlicer and SuperSlicer, the
-following would be used:</p>
-<div class="highlight"><pre><span></span><code>START_PRINT EXTRUDER_TEMP=[first_layer_temperature] BED_TEMP=[first_layer_bed_temperature]
+<p>then proceed:</p>
+<div class="highlight"><pre><span></span><code>cd ~
+git clone https://github.com/Klipper3d/klipper
+./klipper/scripts/install-octopi.sh
 </code></pre></div>
 
-<p>Also note that these slicers will insert their own heating codes when
-certain conditions are not met. In Cura, the existence of the
-<code>{material_bed_temperature_layer_0}</code> and <code>{material_print_temperature_layer_0}</code>
-variables is enough to mitigate this. In slic3r derivatives,
-you would use:</p>
-<div class="highlight"><pre><span></span><code>M140 S0
-M104 S0
+<p>The above will download Klipper, install the needed system dependencies,
+setup Klipper to run at system startup, and start the Klipper host
+software. It will require an internet connection and it may take a few
+minutes to complete.</p>
+<h2 id="installing-with-kiauh">Installing with KIAUH<a class="headerlink" href="#installing-with-kiauh" title="Permanent link">&para;</a></h2>
+<p>KIAUH can be used to install OctoPrint on a variety of Linux based systems
+that run a form of Debian. More information can be found
+at <a href="https://github.com/dw-0/kiauh">https://github.com/dw-0/kiauh</a></p>
+<h2 id="configuring-octoprint-to-use-klipper">Configuring OctoPrint to use Klipper<a class="headerlink" href="#configuring-octoprint-to-use-klipper" title="Permanent link">&para;</a></h2>
+<p>The OctoPrint web server needs to be configured to communicate with the Klipper
+host software. Using a web browser, login to the OctoPrint web page and then
+configure the following items:</p>
+<p>Navigate to the Settings tab (the wrench icon at the top of the page).
+Under "Serial Connection" in "Additional serial ports" add:</p>
+<div class="highlight"><pre><span></span><code>~/printer_data/comms/klippy.sock
 </code></pre></div>
 
-<p>before the macro call. Also note that SuperSlicer has a
-"custom gcode only" button option, which achieves the same outcome.</p>
-<p>An example of a START_PRINT macro using these paramaters can
-be found in config/sample-macros.cfg</p>
+<p>Then click "Save".</p>
+<p><em>In some older setups this address may be <code>/tmp/printer</code></em></p>
+<p>Enter the Settings tab again and under "Serial Connection" change the "Serial Port"
+setting to the one added above.</p>
+<p>In the Settings tab, navigate to the "Behavior" sub-tab and select the
+"Cancel any ongoing prints but stay connected to the printer" option. Click "Save".</p>
+<p>From the main page, under the "Connection" section (at the top left of the page)
+make sure the "Serial Port" is set to the new additional one added
+and click "Connect". (If it is not in the available selection then
+try reloading the page.)</p>
+<p>Once connected, navigate to the "Terminal" tab and type "status" (without the quotes)
+into the command entry box and click "Send". The terminal window will likely report
+there is an error opening the config file - that means OctoPrint is successfully
+communicating with Klipper.</p>
+<p>Please proceed to <a href="Installation.html">Installation.md</a> and the
+<em>Building and flashing the micro-controller</em> section</p>
 
 
 
