@@ -37,7 +37,7 @@ class SerialReader:
         # Sent message notification tracking
         self.last_notify_id = 0
         self.pending_notifications = {}
-        if self.mcu is not None
+        if self.mcu is not None:
             self.danger_options = self.mcu.get_printer().lookup_object(
                 "danger_options"
             )
