@@ -122,6 +122,8 @@ See the [Danger Features document](https://dangerklipper.io/Danger_Features.html
 
 - [core: non-critical-mcus](https://github.com/DangerKlippers/danger-klipper/pull/339)
 
+- [gcode_macros: !python templates](https://github.com/DangerKlippers/danger-klipper/pull/360)
+
 If you're feeling adventurous, take a peek at the extra features in the bleeding-edge-v2 branch [feature documentation](docs/Bleeding_Edge.md)
 and [feature configuration reference](docs/Config_Reference_Bleeding_Edge.md):
 
