@@ -504,7 +504,7 @@ class GCodeHelper:
             self.is_output_registered = True
 
 
-SUBSCRIPTION_REFRESH_TIME = 0.25
+SUBSCRIPTION_REFRESH_TIME = 0.1
 
 
 class QueryStatusHelper:
