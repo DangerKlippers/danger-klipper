@@ -2236,6 +2236,7 @@ amount of time before the generated g-code commands are executed.</p>
 <li><code>action_respond_info(msg)</code>: Write the given <code>msg</code> to the
   /tmp/printer pseudo-terminal. Each line of <code>msg</code> will be sent with a
   "// " prefix.</li>
+<li><code>action_log(msg)</code>: Write the given msg to the klippy.log</li>
 <li><code>action_raise_error(msg)</code>: Abort the current macro (and any calling
   macros) and write the given <code>msg</code> to the /tmp/printer
   pseudo-terminal. The first line of <code>msg</code> will be sent with a "!! "
