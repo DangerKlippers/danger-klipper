@@ -777,6 +777,8 @@ class BaseTMCCurrentHelper:
         self.mcu_tmc = mcu_tmc
         self.fields = mcu_tmc.get_fields()
 
+        self.sense_resistor = config.getfloat("sense_resistor", above=0.0)
+
         # config_{run|hold|home}_current
         # represents an initial value set via config file
         self.config_run_current = config.getfloat(
