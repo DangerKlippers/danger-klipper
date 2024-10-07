@@ -110,6 +110,8 @@ See the [Danger Features document](https://dangerklipper.io/Danger_Features.html
 
 - [configfile: recursive globs](https://github.com/DangerKlippers/danger-klipper/pull/200) / ([klipper#6375](https://github.com/Klipper3d/klipper/pull/6375))
 
+- [controller_temperature_fan: hybrid of a controller_fan and a temperature_fan](https://github.com/DangerKlippers/danger-klipper/pull/194)
+
 - [temperature_fan: curve control algorithm](https://github.com/DangerKlippers/danger-klipper/pull/193)
 
 - [shaper_calibrate: store and expose accel_per_hz](https://github.com/DangerKlippers/danger-klipper/pull/224)
