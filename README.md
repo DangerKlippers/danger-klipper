@@ -22,6 +22,8 @@ See the [Danger Features document](https://dangerklipper.io/Danger_Features.html
 
 - [core: rotate log file at every restart](https://github.com/DangerKlippers/danger-klipper/pull/181)
 
+- [core: STM32 H5 support](https://github.com/DangerKlippers/danger-klipper/pull/348)
+
 - [fan: normalising Fan PWM power](https://github.com/DangerKlippers/danger-klipper/pull/44) ([klipper#6307](https://github.com/Klipper3d/klipper/pull/6307))
 
 - [fan: reverse FAN](https://github.com/DangerKlippers/danger-klipper/pull/51) ([klipper#4983](https://github.com/Klipper3d/klipper/pull/4983))
