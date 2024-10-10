@@ -126,6 +126,8 @@ See the [Danger Features document](https://dangerklipper.io/Danger_Features.html
 
 - [danger_options: configurable homing constants](https://github.com/DangerKlippers/danger-klipper/pull/378)
 
+- [Homing: autodetect if beacon is used for z-homing and set the retract_dist to 0](https://github.com/DangerKlippers/danger-klipper/pull/383)
+
 If you're feeling adventurous, take a peek at the extra features in the bleeding-edge-v2 branch [feature documentation](docs/Bleeding_Edge.md)
 and [feature configuration reference](docs/Config_Reference_Bleeding_Edge.md):
 
