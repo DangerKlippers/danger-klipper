@@ -4,12 +4,12 @@
 #
 # This file may be distributed under the terms of the GNU GPLv3 license.
 import collections
-import importlib
 import math
 import multiprocessing
+import numpy as np
 import traceback
 
-shaper_defs = importlib.import_module(".shaper_defs", "extras")
+from . import shaper_defs
 
 MIN_FREQ = 5.0
 MAX_FREQ = 200.0
@@ -42,7 +42,6 @@ class CalibrationData:
         self.data_sets = 1
 
     def add_data(self, other):
-        np = self.numpy
         joined_data_sets = self.data_sets + other.data_sets
         for psd, other_psd in zip(self._psd_list, other._psd_list):
             # `other` data may be defined at different frequency bins,
@@ -53,9 +52,6 @@ class CalibrationData:
             psd *= self.data_sets
             psd[:] = (psd + other_normalized) * (1.0 / joined_data_sets)
         self.data_sets = joined_data_sets
-
-    def set_numpy(self, numpy):
-        self.numpy = numpy
 
     def normalize_to_frequencies(self):
         for psd in self._psd_list:
@@ -78,14 +74,6 @@ class ShaperCalibrate:
     def __init__(self, printer):
         self.printer = printer
         self.error = printer.command_error if printer else Exception
-        try:
-            self.numpy = importlib.import_module("numpy")
-        except ImportError:
-            raise self.error(
-                "Failed to import `numpy` module, make sure it was "
-                "installed via `~/klippy-env/bin/pip install` (refer to "
-                "docs/Measuring_Resonances.md for more details)."
-            )
 
     def background_process_exec(self, method, args):
         if self.printer is None:
@@ -133,13 +121,12 @@ class ShaperCalibrate:
         n_windows = (x.shape[-1] - overlap) // step_between_windows
         shape = (window_size, n_windows)
         strides = (x.strides[-1], step_between_windows * x.strides[-1])
-        return self.numpy.lib.stride_tricks.as_strided(
+        return np.lib.stride_tricks.as_strided(
             x, shape=shape, strides=strides, writeable=False
         )
 
     def _psd(self, x, fs, nfft):
         # Calculate power spectral density (PSD) using Welch's algorithm
-        np = self.numpy
         window = np.kaiser(nfft, 6.0)
         # Compensation for windowing loss
         scale = 1.0 / (window**2).sum()
@@ -168,7 +155,6 @@ class ShaperCalibrate:
         return freqs, psd
 
     def calc_freq_response(self, raw_values):
-        np = self.numpy
         if raw_values is None:
             return None
         if isinstance(raw_values, np.ndarray):
@@ -202,12 +188,9 @@ class ShaperCalibrate:
             raise self.error(
                 "Internal error processing accelerometer data %s" % (data,)
             )
-        calibration_data.set_numpy(self.numpy)
         return calibration_data
 
     def _estimate_shaper(self, shaper, test_damping_ratio, test_freqs):
-        np = self.numpy
-
         A, T = np.array(shaper[0]), np.array(shaper[1])
         inv_D = 1.0 / A.sum()
 
@@ -227,10 +210,8 @@ class ShaperCalibrate:
         # SHAPER_VIBRATION_REDUCTION times, so all vibrations below that
         # threshold can be igonred
         vibr_threshold = psd.max() / shaper_defs.SHAPER_VIBRATION_REDUCTION
-        remaining_vibrations = self.numpy.maximum(
-            vals * psd - vibr_threshold, 0
-        ).sum()
-        all_vibrations = self.numpy.maximum(psd - vibr_threshold, 0).sum()
+        remaining_vibrations = np.maximum(vals * psd - vibr_threshold, 0).sum()
+        all_vibrations = np.maximum(psd - vibr_threshold, 0).sum()
         return (remaining_vibrations / all_vibrations, vals)
 
     def _get_shaper_smoothing(self, shaper, accel=5000, scv=5.0):
@@ -266,8 +247,6 @@ class ShaperCalibrate:
         test_damping_ratios,
         max_freq,
     ):
-        np = self.numpy
-
         damping_ratio = damping_ratio or shaper_defs.DEFAULT_DAMPING_RATIO
         test_damping_ratios = test_damping_ratios or TEST_DAMPING_RATIOS
 
