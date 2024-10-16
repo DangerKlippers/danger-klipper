@@ -18,6 +18,7 @@
 ## New Klipper Modules
 
 - [gcode_shell_command](./G-Code_Shell_Command.md) - Execute linux commands and scripts from within Klipper
+- [shaketune](./shaketune/index.md) - Advanced resonance testing and visualization from [Frix-X/klippain-shaketune](https://github.com/Frix-X/klippain-shaketune)
 
 ## Sensorless Homing
 

@@ -21,6 +21,9 @@ markdown_extensions:
   - mdx_partial_gfm
   - mdx_truly_sane_lists
   - mdx_breakless_lists
+  - pymdownx.arithmatex:
+      generic: true
+
 plugins:
   search:
     lang: en
@@ -63,6 +66,10 @@ theme:
       - search.highlight
       - search.share
   language: en
+
+extra_javascript:
+    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+
 extra_css:
   - _klipper3d/css/extra.css
 
@@ -108,6 +115,7 @@ nav:
     - Resonance Compensation:
       - Resonance_Compensation.md
       - Measuring_Resonances.md
+      - shaketune/index.md
     - Pressure_Advance.md
     - G-Codes.md
     - Command templates:

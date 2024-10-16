@@ -546,6 +546,7 @@ def main():
     extra_git_desc += "\nRemote: %s" % (git_info["remote"])
     extra_git_desc += "\nTracked URL: %s" % (git_info["url"])
     start_args["software_version"] = git_vers
+    start_args["git_info"] = git_info
     start_args["cpu_info"] = util.get_cpu_info()
     if bglogger is not None:
         versions = "\n".join(

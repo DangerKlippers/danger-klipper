@@ -200,25 +200,6 @@ be designed such as to ensure the electrical isolation of the accelerometer
 from the printer frame. Failing to ensure that can create a ground loop in
 the system that may damage the electronics.
 
-### Software installation
-
-Note that resonance measurements and shaper auto-calibration require additional
-software dependencies not installed by default. First, run on your Raspberry Pi
-the following commands:
-```
-sudo apt update
-sudo apt install python3-numpy python3-matplotlib libatlas-base-dev libopenblas-dev
-```
-
-Next, in order to install NumPy in the Klipper environment, run the command:
-```
-~/klippy-env/bin/pip install -v numpy
-```
-Note that, depending on the performance of the CPU, it may take *a lot*
-of time, up to 10-20 minutes. Be patient and wait for the completion of
-the installation. On some occasions, if the board has too little RAM
-the installation may fail and you will need to enable swap.
-
 #### Configure ADXL345 With RPi
 
 First, check and follow the instructions in the
@@ -423,6 +404,9 @@ can be indicative of the sensor issues, problems with its power, or too
 noisy imbalanced fans on a 3D printer.
 
 ### Measuring the resonances
+
+⚠️ As an alternative to the standard input shaper process, Danger-Klipper also
+ includes the excellent [Shake&Tune module by @Frix-X](./shaketune/index.md).
 
 Now you can run some real-life tests. Run the following command:
 ```

@@ -1,0 +1,6 @@
+# Test case for input_stepper
+CONFIG shaketune.cfg
+DICTIONARY atmega2560.dict
+
+# Just make sure shaketune imports for now
+G4 P1
