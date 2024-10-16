@@ -10,8 +10,6 @@
 
 from pathlib import Path
 
-from .helpers.console_output import ConsoleOutput
-
 KLIPPER_FOLDER = Path.home() / "klipper"
 KLIPPER_LOG_FOLDER = Path.home() / "printer_data/logs"
 RESULTS_BASE_FOLDER = Path.home() / "printer_data/config/K-ShakeTune_results"
@@ -31,12 +29,14 @@ class ShakeTuneConfig:
         keep_n_results: int = 3,
         keep_csv: bool = False,
         dpi: int = 150,
+        git_info: dict = {},
     ) -> None:
         self._result_folder = result_folder
 
         self.keep_n_results = keep_n_results
         self.keep_csv = keep_csv
         self.dpi = dpi
+        self.version = f"Danger-Klipper {git_info['version']} ({git_info['branch']} on {git_info['remote']})"
 
         self.klipper_folder = KLIPPER_FOLDER
         self.klipper_log_folder = KLIPPER_LOG_FOLDER
@@ -53,26 +53,3 @@ class ShakeTuneConfig:
             for subfolder in RESULTS_SUBFOLDERS.values()
         ]
         return subfolders
-
-    @staticmethod
-    def get_git_version() -> str:
-        try:
-            from git import GitCommandError, Repo
-
-            # Get the absolute path of the script, resolving any symlinks
-            # Then get 1 times to parent dir to be at the git root folder
-            script_path = Path(__file__).resolve()
-            repo_path = script_path.parents[1]
-            repo = Repo(repo_path)
-            try:
-                version = repo.git.describe("--tags")
-            except GitCommandError:
-                version = repo.head.commit.hexsha[
-                    :7
-                ]  # If no tag is found, use the simplified commit SHA instead
-            return version
-        except Exception as e:
-            ConsoleOutput.print(
-                f"Warning: unable to retrieve Shake&Tune version number: {e}"
-            )
-            return "unknown"

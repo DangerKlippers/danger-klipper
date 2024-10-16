@@ -29,8 +29,6 @@ from .helpers.console_output import ConsoleOutput
 from .shaketune_config import ShakeTuneConfig
 from .shaketune_process import ShakeTuneProcess
 
-IN_DANGER = False
-
 
 class ShakeTune:
     def __init__(self, config) -> None:
@@ -59,7 +57,11 @@ class ShakeTune:
         dpi = config.getint("dpi", default=150, minval=100, maxval=500)
 
         self._config = ShakeTuneConfig(
-            result_folder_path, keep_n_results, keep_csv, dpi
+            result_folder_path,
+            keep_n_results,
+            keep_csv,
+            dpi,
+            self._printer.start_args["git_info"],
         )
         ConsoleOutput.register_output_callback(gcode.respond_info)
 
@@ -155,9 +157,7 @@ class ShakeTune:
                 self._printer.load_object(config, gcode_macro_name.lower())
 
     def cmd_EXCITATE_AXIS_AT_FREQ(self, gcmd) -> None:
-        ConsoleOutput.print(
-            f"Shake&Tune version: {ShakeTuneConfig.get_git_version()}"
-        )
+        ConsoleOutput.print(f"Shake&Tune version: {self._config.version}")
         static_freq_graph_creator = StaticGraphCreator(self._config)
         st_process = ShakeTuneProcess(
             self._config,
@@ -168,9 +168,7 @@ class ShakeTune:
         excitate_axis_at_freq(gcmd, self._pconfig, st_process)
 
     def cmd_AXES_MAP_CALIBRATION(self, gcmd) -> None:
-        ConsoleOutput.print(
-            f"Shake&Tune version: {ShakeTuneConfig.get_git_version()}"
-        )
+        ConsoleOutput.print(f"Shake&Tune version: {self._config.version}")
         axes_map_graph_creator = AxesMapGraphCreator(self._config)
         st_process = ShakeTuneProcess(
             self._config,
@@ -181,9 +179,7 @@ class ShakeTune:
         axes_map_calibration(gcmd, self._pconfig, st_process)
 
     def cmd_COMPARE_BELTS_RESPONSES(self, gcmd) -> None:
-        ConsoleOutput.print(
-            f"Shake&Tune version: {ShakeTuneConfig.get_git_version()}"
-        )
+        ConsoleOutput.print(f"Shake&Tune version: {self._config.version}")
         belt_graph_creator = BeltsGraphCreator(self._config)
         st_process = ShakeTuneProcess(
             self._config,
@@ -194,9 +190,7 @@ class ShakeTune:
         compare_belts_responses(gcmd, self._pconfig, st_process)
 
     def cmd_AXES_SHAPER_CALIBRATION(self, gcmd) -> None:
-        ConsoleOutput.print(
-            f"Shake&Tune version: {ShakeTuneConfig.get_git_version()}"
-        )
+        ConsoleOutput.print(f"Shake&Tune version: {self._config.version}")
         shaper_graph_creator = ShaperGraphCreator(self._config)
         st_process = ShakeTuneProcess(
             self._config,
@@ -207,9 +201,7 @@ class ShakeTune:
         axes_shaper_calibration(gcmd, self._pconfig, st_process)
 
     def cmd_CREATE_VIBRATIONS_PROFILE(self, gcmd) -> None:
-        ConsoleOutput.print(
-            f"Shake&Tune version: {ShakeTuneConfig.get_git_version()}"
-        )
+        ConsoleOutput.print(f"Shake&Tune version: {self._config.version}")
         vibration_profile_creator = VibrationsGraphCreator(self._config)
         st_process = ShakeTuneProcess(
             self._config,

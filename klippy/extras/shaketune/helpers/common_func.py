@@ -9,9 +9,6 @@
 
 
 import math
-import os
-import sys
-from importlib import import_module
 
 import numpy as np
 from scipy.signal import spectrogram
@@ -73,12 +70,6 @@ def parse_log(logname):
             f"Error while reading {logname}: {err}. It will be ignored by Shake&Tune!"
         )
         return None
-
-
-def setup_klipper_import(kdir):
-    kdir = os.path.expanduser(kdir)
-    sys.path.append(os.path.join(kdir, "klippy"))
-    return import_module(".shaper_calibrate", "extras")
 
 
 # This is Klipper's spectrogram generation function adapted to use Scipy

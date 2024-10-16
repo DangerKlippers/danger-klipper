@@ -32,12 +32,12 @@ import numpy as np
 
 matplotlib.use("Agg")
 
+from ... import shaper_calibrate
 from ..helpers.common_func import (
     compute_mechanical_parameters,
     compute_spectrogram,
     detect_peaks,
     parse_log,
-    setup_klipper_import,
 )
 from ..helpers.console_output import ConsoleOutput
 from ..shaketune_config import ShakeTuneConfig
@@ -420,9 +420,6 @@ def shaper_calibration(
     accel_per_hz: Optional[float] = None,
     st_version: str = "unknown",
 ) -> plt.Figure:
-    global shaper_calibrate
-    shaper_calibrate = setup_klipper_import(klipperdir)
-
     # Parse data from the log files while ignoring CSV in the wrong format
     datas = [
         data for data in (parse_log(fn) for fn in lognames) if data is not None

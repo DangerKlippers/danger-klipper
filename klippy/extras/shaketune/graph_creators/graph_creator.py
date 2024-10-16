@@ -25,7 +25,7 @@ class GraphCreator(abc.ABC):
     def __init__(self, config: ShakeTuneConfig, graph_type: str):
         self._config = config
         self._graph_date = datetime.now().strftime("%Y%m%d_%H%M%S")
-        self._version = ShakeTuneConfig.get_git_version()
+        self._version = config.version
         self._type = graph_type
         self._folder = self._config.get_results_folder(graph_type)
 

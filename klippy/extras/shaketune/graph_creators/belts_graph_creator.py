@@ -23,10 +23,11 @@ from scipy.stats import pearsonr
 
 matplotlib.use("Agg")
 
-from ..helpers.common_func import detect_peaks, parse_log, setup_klipper_import
+from ..helpers.common_func import detect_peaks, parse_log
 from ..helpers.console_output import ConsoleOutput
 from ..shaketune_config import ShakeTuneConfig
 from .graph_creator import GraphCreator
+from ... import shaper_calibrate
 
 ALPHABET = "αβγδεζηθικλμνξοπρστυφχψω"  # For paired peak names (using the Greek alphabet to avoid confusion with belt names)
 
@@ -604,9 +605,6 @@ def belts_calibration(
     accel_per_hz: Optional[float] = None,
     st_version: str = "unknown",
 ) -> plt.Figure:
-    global shaper_calibrate
-    shaper_calibrate = setup_klipper_import(klipperdir)
-
     # Parse data from the log files while ignoring CSV in the wrong format
     datas = [
         data for data in (parse_log(fn) for fn in lognames) if data is not None

@@ -27,12 +27,12 @@ import numpy as np
 
 matplotlib.use("Agg")
 
+from ... import shaper_calibrate
 from ..helpers.common_func import (
     compute_mechanical_parameters,
     detect_peaks,
     identify_low_energy_zones,
     parse_log,
-    setup_klipper_import,
 )
 from ..helpers.console_output import ConsoleOutput
 from ..helpers.motors_config_parser import Motor, MotorsConfigParser
@@ -935,9 +935,6 @@ def vibrations_profile(
     st_version: Optional[str] = None,
     motors: Optional[List[MotorsConfigParser]] = None,
 ) -> plt.Figure:
-    global shaper_calibrate
-    shaper_calibrate = setup_klipper_import(klipperdir)
-
     if kinematics == "cartesian" or kinematics == "corexz":
         main_angles = [0, 90]
     elif kinematics == "corexy":
