@@ -1188,6 +1188,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Menu templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#menu-dialogs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Menu Dialogs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2053,6 +2068,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Menu templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#menu-dialogs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Menu Dialogs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2348,6 +2378,17 @@ then it is possible to customize the menu with
 </ul>
 </li>
 </ul>
+<h3 id="menu-dialogs">Menu Dialogs<a class="headerlink" href="#menu-dialogs" title="Permanent link">&para;</a></h3>
+<p>When a menu dialog is used, and additional read-only attribute is
+availabe in templates.</p>
+<ul>
+<li><code>dialog</code> - a dictionary of values. Keys are the element <code>id</code>, the
+  last portion of it's identifier. Disabled elements have a <code>None</code>
+  value, otherwise the <code>input</code> template is used as a default.</li>
+</ul>
+<p><code>[menu __main __setup __tuning __hotend_mpc_dialog]</code> in the
+<a href="https://github.com/DangerKlippers/danger-klipperblob/master/klippy/extras/display/menu.cfg">default set of menus</a> can be used
+as reference for how to build more complex dialogs.</p>
 <h2 id="save-variables-to-disk">Save Variables to disk<a class="headerlink" href="#save-variables-to-disk" title="Permanent link">&para;</a></h2>
 <p>If a
 <a href="Config_Reference.html#save_variables">save_variables config section</a>
