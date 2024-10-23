@@ -3309,6 +3309,13 @@ on a cartesian, hybrid_corexy or hybrid_corexz robot</p>
 <ul>
 <li><code>curr_lane</code>: The lane the selector is currently positioned at.</li>
 <li><code>active_lane</code>: The lane currently loaded in the toolhead.</li>
+<li><code>next_lane</code>: The next lane to load to the toolhead if a toolchange
+  is in progress.</li>
+<li><code>next_tool</code>: The next tool to load to the toolhead if a toolchange
+  is in progress (if a tool number was specified for the toolchange).</li>
+<li><code>tool_map</code>: An array of integers listing the assigned tool for each
+  lane. The tool number for a specified lane can be accessed with
+  <code>tool_map[&lt;lane index&gt;]</code>.</li>
 <li><code>selector_homed</code>: Whether or not the selector axis is homed.</li>
 </ul>
 <h2 id="virtual_sdcard">virtual_sdcard<a class="headerlink" href="#virtual_sdcard" title="Permanent link">&para;</a></h2>
