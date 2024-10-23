@@ -5213,10 +5213,14 @@ adc2:
 #   Use the current diameter instead of the nominal diameter while
 #   the measurement delay has not run through.
 #pause_on_runout:
+#immediate_runout_gcode:
 #runout_gcode:
 #insert_gcode:
 #event_delay:
 #pause_delay:
+#smart:
+#always_fire_events:
+#check_on_print_start:
 #   See the "filament_switch_sensor" section for a description of the
 #   above parameters.
 ```

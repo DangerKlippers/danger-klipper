@@ -13,7 +13,9 @@ ADC_SAMPLE_COUNT = 15
 class HallFilamentWidthSensor:
     def __init__(self, config):
         self.printer = config.get_printer()
+        gcode_macro = self.printer.load_object(config, "gcode_macro")
         self.reactor = self.printer.get_reactor()
+        self.estimated_print_time = None
         self.pin1 = config.get("adc1")
         self.pin2 = config.get("adc2")
         self.dia1 = config.getfloat("Cal_dia1", 1.5)
@@ -26,12 +28,8 @@ class HallFilamentWidthSensor:
         )
         self.measurement_delay = config.getfloat("measurement_delay", above=0.0)
         self.measurement_max_difference = config.getfloat("max_difference", 0.2)
-        self.max_diameter = (
-            self.nominal_filament_dia + self.measurement_max_difference
-        )
-        self.min_diameter = (
-            self.nominal_filament_dia - self.measurement_max_difference
-        )
+        self.max_diameter = self.nominal_filament_dia + self.measurement_max_difference
+        self.min_diameter = self.nominal_filament_dia - self.measurement_max_difference
         self.diameter = self.nominal_filament_dia
         self.is_active = config.getboolean("enable", False)
         self.runout_dia_min = config.getfloat("min_diameter", 1.0)
@@ -42,6 +40,8 @@ class HallFilamentWidthSensor:
         self.use_current_dia_while_delay = config.getboolean(
             "use_current_dia_while_delay", False
         )
+        runout_distance = config.getfloat("runout_distance", 0.0, minval=0.0)
+        self.check_on_print_start = config.getboolean("check_on_print_start", False)
         # filament array [position, filamentWidth]
         self.filament_array = []
         self.lastFilamentWidthReading = 0
@@ -69,33 +69,66 @@ class HallFilamentWidthSensor:
         self.gcode.register_command(
             "RESET_FILAMENT_WIDTH_SENSOR", self.cmd_ClearFilamentArray
         )
-        self.gcode.register_command(
-            "DISABLE_FILAMENT_WIDTH_SENSOR", self.cmd_M406
+        self.gcode.register_command("DISABLE_FILAMENT_WIDTH_SENSOR", self.cmd_M406)
+        self.gcode.register_command("ENABLE_FILAMENT_WIDTH_SENSOR", self.cmd_M405)
+        self.gcode.register_command("QUERY_RAW_FILAMENT_WIDTH", self.cmd_Get_Raw_Values)
+        self.gcode.register_command("ENABLE_FILAMENT_WIDTH_LOG", self.cmd_log_enable)
+        self.gcode.register_command("DISABLE_FILAMENT_WIDTH_LOG", self.cmd_log_disable)
+
+        self.runout_helper = filament_switch_sensor.RunoutHelper(
+            config, self, runout_distance
         )
-        self.gcode.register_command(
-            "ENABLE_FILAMENT_WIDTH_SENSOR", self.cmd_M405
-        )
-        self.gcode.register_command(
-            "QUERY_RAW_FILAMENT_WIDTH", self.cmd_Get_Raw_Values
-        )
-        self.gcode.register_command(
-            "ENABLE_FILAMENT_WIDTH_LOG", self.cmd_log_enable
-        )
-        self.gcode.register_command(
-            "DISABLE_FILAMENT_WIDTH_LOG", self.cmd_log_disable
+        if config.get("immediate_runout_gcode", None) is not None:
+            self.runout_helper.immediate_runout_gcode = (
+                gcode_macro.load_template(config, "immediate_runout_gcode", "")
+            )
+
+        self.printer.register_event_handler(
+            "print_stats:start_printing", self._handle_printing_smart
         )
 
-        self.runout_helper = filament_switch_sensor.RunoutHelper(config)
+        self.printer.register_event_handler(
+            "idle_timeout:printing", self._handle_printing
+        )
 
     # Initialization
     def handle_ready(self):
         # Load printer objects
         self.toolhead = self.printer.lookup_object("toolhead")
 
+        self.estimated_print_time = self.printer.lookup_object(
+            "mcu"
+        ).estimated_print_time
+
         # Start extrude factor update timer
-        self.reactor.update_timer(
-            self.extrude_factor_update_timer, self.reactor.NOW
-        )
+        self.reactor.update_timer(self.extrude_factor_update_timer, self.reactor.NOW)
+
+    def _handle_printing(self, *args):
+        if not self.runout_helper.smart:
+            if self.check_on_print_start:
+                self.reset()
+                self.runout_helper.note_filament_present(
+                    self.runout_dia_min <= self.diameter <= self.runout_dia_max,
+                    True,
+                    True,
+                )
+
+    def _handle_printing_smart(self, *args):
+        if self.runout_helper.smart:
+            if self.check_on_print_start:
+                self.reset()
+                self.runout_helper.note_filament_present(
+                    self.runout_dia_min <= self.diameter <= self.runout_dia_max,
+                    True,
+                    True,
+                )
+
+    def get_extruder_pos(self, eventtime=None):
+        if eventtime is None:
+            eventtime = self.reactor.monotonic()
+        print_time = self.estimated_print_time(eventtime)
+        extruder = self.printer.lookup_object("toolhead").get_extruder()
+        return extruder.find_past_position(print_time)
 
     def adc_callback(self, read_time, read_value):
         # read sensor value
@@ -130,18 +163,14 @@ class HallFilamentWidthSensor:
                     [last_epos + self.measurement_delay, self.diameter]
                 )
                 if self.is_log:
-                    self.gcode.respond_info(
-                        "Filament width:%.3f" % (self.diameter)
-                    )
+                    self.gcode.respond_info("Filament width:%.3f" % (self.diameter))
 
         else:
             # add first item to array
             self.filament_array.append(
                 [self.measurement_delay + last_epos, self.diameter]
             )
-            self.firstExtruderUpdatePosition = (
-                self.measurement_delay + last_epos
-            )
+            self.firstExtruderUpdatePosition = self.measurement_delay + last_epos
 
     def extrude_factor_update_event(self, eventtime):
         # Update extrude factor
@@ -173,9 +202,7 @@ class HallFilamentWidthSensor:
                     self.filament_width >= self.min_diameter
                 ):
                     percentage = round(
-                        self.nominal_filament_dia**2
-                        / self.filament_width**2
-                        * 100
+                        self.nominal_filament_dia**2 / self.filament_width**2 * 100
                     )
                     self.gcode.run_script("M221 S" + str(percentage))
                 else:
@@ -240,13 +267,62 @@ class HallFilamentWidthSensor:
         )
         gcmd.respond_info(response)
 
-    def get_status(self, eventtime):
+    def get_info(self, gcmd):
+        check_on_print_start = gcmd.get_int(
+            "CHECK_ON_PRINT_START", None, minval=0, maxval=1
+        )
+        if check_on_print_start is None:
+            gcmd.respond_info(self.get_sensor_status())
+            return True
+        return False
+
+    def reset_needed(self, enable=None, always_fire_events=None):
+        if enable is not None and enable != self.runout_helper.sensor_enabled:
+            return True
+        if always_fire_events is not None and always_fire_events:
+            return True
+        return False
+
+    def set_filament_sensor(self, gcmd):
+        check_on_print_start = gcmd.get_int(
+            "CHECK_ON_PRINT_START", None, minval=0, maxval=1
+        )
+        if check_on_print_start is not None:
+            self.check_on_print_start = check_on_print_start
+        # No reset is needed when changing check_on_print_start, so we always
+        # return False
+        return False
+
+    def reset(self):
+        self.runout_helper.reset_runout_distance_info()
+        self.runout_helper.note_filament_present(
+            self.runout_helper.filament_present, True
+        )
+
+    def get_sensor_status(self):
+        return (
+            "Filament Width Sensor %s: %s\n"
+            "Filament Detected: %s\n"
+            "Smart: %s\n"
+            "Always Fire Events: %s"
+            % (
+                self.runout_helper.name,
+                ("enabled" if self.runout_helper.sensor_enabled else "disabled"),
+                "true" if self.runout_helper.filament_present else "false",
+                "true" if self.runout_helper.smart else "false",
+                "true" if self.runout_helper.always_fire_events else "false",
+            )
+        )
+
+    def sensor_get_status(self, eventtime=None):
+        return self.get_status()
+
+    def get_status(self, eventtime=None):
         return {
             "Diameter": self.diameter,
-            "Raw": (
-                self.lastFilamentWidthReading + self.lastFilamentWidthReading2
-            ),
+            "Raw": (self.lastFilamentWidthReading + self.lastFilamentWidthReading2),
             "is_active": self.is_active,
+            "check_on_print_start": bool(self.check_on_print_start),
         }
 
     def cmd_log_enable(self, gcmd):
