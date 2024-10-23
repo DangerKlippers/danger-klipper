@@ -4974,7 +4974,7 @@ thus they do not support the "menu" options or button configuration.
 # See the "display" section for available parameters.
 ```
 
-### [menu]
+### ⚠️ [menu]
 
 Customizable lcd display menus.
 
@@ -4996,15 +4996,21 @@ information on menu attributes available during template rendering.
 #[menu some_name]
 #type:
 #   One of command, input, list, text:
-#       command - basic menu element with various script triggers
-#       input   - same like 'command' but has value changing capabilities.
-#                 Press will start/stop edit mode.
-#       list    - it allows for menu items to be grouped together in a
-#                 scrollable list.  Add to the list by creating menu
-#                 configurations using "some_list" as a prefix - for
-#                 example: [menu some_list some_item_in_the_list]
-#       vsdlist - same as 'list' but will append files from virtual sdcard
-#                 (will be removed in the future)
+#       command      - basic menu element with various script triggers
+#       input        - same like 'command' but has value changing capabilities.
+#                      Press will start/stop edit mode.
+#       list         - it allows for menu items to be grouped together in a
+#                      scrollable list.  Add to the list by creating menu
+#                      configurations using "some_list" as a prefix - for
+#                      example: [menu some_list some_item_in_the_list]
+#       vsdlist      - same as 'list' but will append files from virtual sdcard
+#                      (deprecated, will be removed in the future)
+#    ⚠️ file_browser - Extended SD Card browser, supporting directories and
+#                      sorting. (replaces vsdlist)
+#    ⚠️ dialog       - Menu Dialogs, a list of inputs with a final choice to
+#                      confirm or cancel. Used for more complex scenarios like
+#                      PID/MPC calibration where you may want to set multiple
+#                      values for a single command
 #name:
 #   Name of menu item - evaluated as a template.
 #enable:
@@ -5016,6 +5022,14 @@ information on menu attributes available during template rendering.
 #[menu some_list]
 #type: list
 #name:
+#enable:
+#   See above for a description of these parameters.
+
+#[menu sdcard]
+#type: file_browser
+#name:
+#sort_by:
+#   `last_modified` (default) or `name`
 #enable:
 #   See above for a description of these parameters.
 
@@ -5052,6 +5066,22 @@ information on menu attributes available during template rendering.
 #   Script to run on button click, long click or value change.
 #   Evaluated as a template. The button click will trigger the edit
 #   mode start or end.
+
+#[menu neopixel]
+#type: dialog
+#name:
+#enable:
+#   See above for a description of these parameters.
+#title:
+#   An optional title to display at the top of the dialog. `name` will
+#   used if not set
+#confirm_text:
+#cancel_text
+#   Templates for the confirmation and cancel options
+#gcode:
+#   G-Code to run on confirmation. The dialog will be closed on
+#   confirmation. `{menu.exit()}` may be used to close the menu
+#   instead.
 ```
 
 ## Filament sensors
