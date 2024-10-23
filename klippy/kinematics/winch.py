@@ -30,6 +30,9 @@ class WinchKinematics:
         self.set_position([0.0, 0.0, 0.0], ())
         self.supports_dual_carriage = False
 
+    def get_rails(self):
+        return []
+
     def get_steppers(self):
         return list(self.steppers)
 

@@ -8,6 +8,7 @@ import stepper
 
 class CoreXZKinematics:
     def __init__(self, toolhead, config):
+        self.printer = config.get_printer()
         # Setup axis rails
         self.rails = [
             stepper.LookupMultiRail(config.getsection("stepper_" + n))
@@ -23,8 +24,13 @@ class CoreXZKinematics:
         for s in self.get_steppers():
             s.set_trapq(toolhead.get_trapq())
             toolhead.register_step_generator(s.generate_steps)
-        config.get_printer().register_event_handler(
-            "stepper_enable:motor_off", self._motor_off
+        self.printer.register_event_handler("stepper_enable:motor_off", self._motor_off)
+        self.printer.register_event_handler(
+            "stepper_enable:disable_x", self._disable_xz
+        )
+        self.printer.register_event_handler("stepper_enable:disable_y", self._disable_y)
+        self.printer.register_event_handler(
+            "stepper_enable:disable_z", self._disable_xz
         )
         # Setup boundary checks
         max_velocity, max_accel = toolhead.get_max_velocity()
@@ -39,6 +45,16 @@ class CoreXZKinematics:
         self.axes_min = toolhead.Coord(*[r[0] for r in ranges], e=0.0)
         self.axes_max = toolhead.Coord(*[r[1] for r in ranges], e=0.0)
         self.supports_dual_carriage = False
+
+    def get_rails(self):
+        return self.rails
+
+    def get_connected_rails(self, axis):
+        if axis == 0 or axis == 2:
+            return [self.rails[0], self.rails[2]]
+        elif axis == 1:
+            return [self.rails[1]]
+        raise IndexError("Rail does not exist")
 
     def get_steppers(self):
         return [s for rail in self.rails for s in rail.get_steppers()]
@@ -76,6 +92,13 @@ class CoreXZKinematics:
 
     def _motor_off(self, print_time):
         self.limits = [(1.0, -1.0)] * 3
+
+    def _disable_y(self, print_time):
+        self.limits[1] = (1.0, -1.0)
+
+    def _disable_xz(self, print_time):
+        self.limits[0] = (1.0, -1.0)
+        self.limits[2] = (1.0, -1.0)
 
     def _check_endstops(self, move):
         end_pos = move.end_pos
