@@ -1700,7 +1700,7 @@
         <li class="md-nav__item">
   <a href="#finding-the-canbus_uuid-for-new-micro-controllers" class="md-nav__link">
     <span class="md-ellipsis">
-      Finding the canbus_uuid for new micro-controllers
+      ⚠️ Finding the canbus_uuid for new micro-controllers
     </span>
   </a>
   
@@ -1909,7 +1909,7 @@
         <li class="md-nav__item">
   <a href="#finding-the-canbus_uuid-for-new-micro-controllers" class="md-nav__link">
     <span class="md-ellipsis">
-      Finding the canbus_uuid for new micro-controllers
+      ⚠️ Finding the canbus_uuid for new micro-controllers
     </span>
   </a>
   
@@ -2001,7 +2001,7 @@ Ohm resistors on the bus.</p>
 printer and use a multi-meter to check the resistance between the CANH
 and CANL wires - it should report ~60 ohms on a correctly wired CAN
 bus.</p>
-<h2 id="finding-the-canbus_uuid-for-new-micro-controllers">Finding the canbus_uuid for new micro-controllers<a class="headerlink" href="#finding-the-canbus_uuid-for-new-micro-controllers" title="Permanent link">&para;</a></h2>
+<h2 id="finding-the-canbus_uuid-for-new-micro-controllers">⚠️ Finding the canbus_uuid for new micro-controllers<a class="headerlink" href="#finding-the-canbus_uuid-for-new-micro-controllers" title="Permanent link">&para;</a></h2>
 <p>Each micro-controller on the CAN bus is assigned a unique id based on
 the factory chip identifier encoded into each micro-controller. To
 find each micro-controller device id, make sure the hardware is
@@ -2009,9 +2009,10 @@ powered and wired correctly, and then run:</p>
 <div class="highlight"><pre><span></span><code>~/klippy-env/bin/python ~/klipper/scripts/canbus_query.py can0
 </code></pre></div>
 
-<p>If uninitialized CAN devices are detected the above command will
+<p>If CAN devices are detected the above command will
 report lines like the following:</p>
-<div class="highlight"><pre><span></span><code>Found canbus_uuid=11aa22bb33cc, Application: Klipper
+<div class="highlight"><pre><span></span><code>Found canbus_uuid=11aa22bb33cc, Application: Klipper, Unassigned
+Found canbus_uuid=11aa22bb33cc, Application: Danger-Klipper, Assigned: 77
 </code></pre></div>
 
 <p>Each device will have a unique identifier. In the above example,
@@ -2019,6 +2020,9 @@ report lines like the following:</p>
 <p>Note that the <code>canbus_query.py</code> tool will only report uninitialized
 devices - if Klipper (or a similar tool) configures the device then it
 will no longer appear in the list.</p>
+<p>⚠️ Note that only devices flashed with a Danger-Klipper firmware will
+respond while assigned a device node ID. Devices using a Klipper firmware
+will no longer appear in the list once configured</p>
 <h2 id="configuring-klipper">Configuring Klipper<a class="headerlink" href="#configuring-klipper" title="Permanent link">&para;</a></h2>
 <p>Update the Klipper <a href="Config_Reference.html#mcu">mcu configuration</a> to use
 the CAN bus to communicate with the device - for example:</p>
