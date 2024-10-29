@@ -365,6 +365,7 @@ config_stepper oid=2 step_pin=PC28 dir_pin=PA4 invert_step=-1 step_pulse_ticks=0
 finalize_config crc=0
 ```
 
+
 The test was last run on commit `34e9ea55` with gcc version
 `arm-none-eabi-gcc (NixOS 10.3-2021.10) 10.3.1` on a SAME70Q20B
 micro-controller.
