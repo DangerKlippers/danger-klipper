@@ -1123,29 +1123,95 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#macro-parameters" class="md-nav__link">
+  <a href="#jinja2" class="md-nav__link">
     <span class="md-ellipsis">
-      Macro parameters
+      Jinja2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jinja2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jinja2-macro-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jinja2: Macro parameters
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-rawparams-variable" class="md-nav__link">
+  <a href="#jinja2-the-rawparams-variable" class="md-nav__link">
     <span class="md-ellipsis">
-      The "rawparams" variable
+      Jinja2: The "rawparams" variable
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-printer-variable" class="md-nav__link">
+  <a href="#jinja2-the-printer-variable" class="md-nav__link">
     <span class="md-ellipsis">
-      The "printer" Variable
+      Jinja2 The "printer" variable
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-rawparams" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python: Rawparams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python: Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-printer-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python: Printer objects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python: Helpers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2003,29 +2069,95 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#macro-parameters" class="md-nav__link">
+  <a href="#jinja2" class="md-nav__link">
     <span class="md-ellipsis">
-      Macro parameters
+      Jinja2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jinja2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jinja2-macro-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jinja2: Macro parameters
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-rawparams-variable" class="md-nav__link">
+  <a href="#jinja2-the-rawparams-variable" class="md-nav__link">
     <span class="md-ellipsis">
-      The "rawparams" variable
+      Jinja2: The "rawparams" variable
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-printer-variable" class="md-nav__link">
+  <a href="#jinja2-the-printer-variable" class="md-nav__link">
     <span class="md-ellipsis">
-      The "printer" Variable
+      Jinja2 The "printer" variable
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-rawparams" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python: Rawparams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python: Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-printer-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python: Printer objects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python: Helpers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2174,13 +2306,14 @@ mode" and the <code>RESTORE_GCODE_STATE</code> command restores the state to wha
 it was prior to entering the macro. Be sure to specify an explicit
 speed (via the <code>F</code> parameter) on the first <code>G1</code> command.</p>
 <h2 id="template-expansion">Template expansion<a class="headerlink" href="#template-expansion" title="Permanent link">&para;</a></h2>
-<p>The gcode_macro <code>gcode:</code> config section is evaluated using the Jinja2
-template language. One can evaluate expressions at run-time by
-wrapping them in <code>{ }</code> characters or use conditional statements
-wrapped in <code>{% %}</code>. See the
+<p>The gcode_macro <code>gcode:</code> config section is evaluated using either the Jinja2
+template language or Python.</p>
+<h3 id="jinja2">Jinja2<a class="headerlink" href="#jinja2" title="Permanent link">&para;</a></h3>
+<p>One can evaluate expressions at run-time by wrapping them in <code>{ }</code> characters
+or use conditional statements wrapped in <code>{% %}</code>. See the
 <a href="http://jinja.pocoo.org/docs/2.10/templates/">Jinja2 documentation</a>
 for further information on the syntax.</p>
-<p>An example of a complex macro:</p>
+<p>An example of a complex Jinja2 macro:</p>
 <div class="highlight"><pre><span></span><code>[gcode_macro clean_nozzle]
 gcode:
   {% set wipe_count = 8 %}
@@ -2195,7 +2328,7 @@ gcode:
   RESTORE_GCODE_STATE NAME=clean_nozzle_state
 </code></pre></div>
 
-<h3 id="macro-parameters">Macro parameters<a class="headerlink" href="#macro-parameters" title="Permanent link">&para;</a></h3>
+<h4 id="jinja2-macro-parameters">Jinja2: Macro parameters<a class="headerlink" href="#jinja2-macro-parameters" title="Permanent link">&para;</a></h4>
 <p>It is often useful to inspect parameters passed to the macro when
 it is called. These parameters are available via the <code>params</code>
 pseudo-variable. For example, if the macro:</p>
@@ -2216,13 +2349,13 @@ gcode:
   M140 S{bed_temp}
 </code></pre></div>
 
-<h3 id="the-rawparams-variable">The "rawparams" variable<a class="headerlink" href="#the-rawparams-variable" title="Permanent link">&para;</a></h3>
+<h4 id="jinja2-the-rawparams-variable">Jinja2: The "rawparams" variable<a class="headerlink" href="#jinja2-the-rawparams-variable" title="Permanent link">&para;</a></h4>
 <p>The full unparsed parameters for the running macro can be access via the
 <code>rawparams</code> pseudo-variable.</p>
 <p>Note that this will include any comments that were part of the original command.</p>
 <p>See the <a href="https://github.com/DangerKlippers/danger-klipperblob/master/config/sample-macros.cfg">sample-macros.cfg</a> file for an example
 showing how to override the <code>M117</code> command using <code>rawparams</code>.</p>
-<h3 id="the-printer-variable">The "printer" Variable<a class="headerlink" href="#the-printer-variable" title="Permanent link">&para;</a></h3>
+<h4 id="jinja2-the-printer-variable">Jinja2 The "printer" variable<a class="headerlink" href="#jinja2-the-printer-variable" title="Permanent link">&para;</a></h4>
 <p>It is possible to inspect (and alter) the current state of the printer
 via the <code>printer</code> pseudo-variable. For example:</p>
 <div class="highlight"><pre><span></span><code>[gcode_macro slow_fan]
@@ -2255,6 +2388,68 @@ gcode:
     M117 Temp:{sensor.temperature} Humidity:{sensor.humidity}
 </code></pre></div>
 
+<h3 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
+<p>Templates can also be written in Python code. The template will automatically
+be interpreted as Python if lines are prefixed with <code>!</code>.
+Note: You can't mix Python and Jinja2.</p>
+<p>An example of a complex Python macro:</p>
+<div class="highlight"><pre><span></span><code>[gcode_macro clean_nozzle]
+gcode:
+  !wipe_count = 8
+  !emit(&quot;G90&quot;)
+  !emit(&quot;G0 Z15 F300&quot;)
+  !for wipe in range(wipe_count):
+  !  for coordinate in [(275, 4), (235, 4)]:
+  !    emit(f&quot;G0 X{coordinate[0]} Y{coordinate[1] + 0.25 * wipe} Z9.7 F12000&quot;)
+</code></pre></div>
+
+<h4 id="python-rawparams">Python: Rawparams<a class="headerlink" href="#python-rawparams" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>[gcode_macro G4]
+rename_existing: G4.1
+gcode:
+  !if rawparams and &quot;S&quot; in rawparams:
+  !  s = int(rawparams.split(&quot;S&quot;)[1])
+  !  respond_info(f&quot;Sleeping for {s} seconds&quot;)
+  !  emit(f&quot;G4.1 P{s * 1000}&quot;)
+  !else:
+  !  p = int(rawparams.split(&quot;P&quot;)[1])
+  !  respond_info(f&quot;Sleeping for {p/1000} seconds&quot;)
+  !  emit(f&quot;G4.1 {rawparams}&quot;)
+</code></pre></div>
+
+<h4 id="python-variables">Python: Variables<a class="headerlink" href="#python-variables" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>[gcode_macro POKELOOP]
+variable_count: 10
+variable_speed: 3
+gcode:
+  !for i in range(own_vars.count):
+  !  emit(f&quot;BEACON_POKE SPEED={own_vars.speed} TOP=5 BOTTOM=-0.3&quot;)
+</code></pre></div>
+
+<h4 id="python-printer-objects">Python: Printer objects<a class="headerlink" href="#python-printer-objects" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>[gcode_macro EXTRUDER_TEMP]
+gcode:
+    !ACTUAL_TEMP = printer[&quot;extruder&quot;][&quot;temperature&quot;]
+    !TARGET_TEMP = printer[&quot;extruder&quot;][&quot;target&quot;]
+    !
+    !respond_info(&quot;Extruder Target: %.1fC, Actual: %.1fC&quot; % (TARGET_TEMP, ACTUAL_TEMP))
+</code></pre></div>
+
+<h4 id="python-helpers">Python: Helpers<a class="headerlink" href="#python-helpers" title="Permanent link">&para;</a></h4>
+<ul>
+<li>emit</li>
+<li>wait_while</li>
+<li>wait_until</li>
+<li>wait_moves</li>
+<li>blocking</li>
+<li>sleep</li>
+<li>set_gcode_variable</li>
+<li>emergency_stop / action_emergency_stop</li>
+<li>respond_info / action_respond_info</li>
+<li>raise_error / action_raise_error</li>
+<li>call_remote_method / action_call_remote_method</li>
+<li>math</li>
+</ul>
 <h2 id="actions">Actions<a class="headerlink" href="#actions" title="Permanent link">&para;</a></h2>
 <p>There are some commands available that can alter the state of the
 printer. For example, <code>{ action_emergency_stop() }</code> would cause the
