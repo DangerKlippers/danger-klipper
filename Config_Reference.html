@@ -8153,6 +8153,9 @@ pin:
 #off_below:
 #   These option is deprecated and should no longer be specified.
 #   Use `min_power` instead.
+#initial_speed:
+#   Fan speed will be set to this value on startup if specified. Value
+#   is from 0.0 to 1.0.
 </code></pre></div>
 
 <h3 id="heated_fan">[heated_fan]<a class="headerlink" href="#heated_fan" title="Permanent link">&para;</a></h3>
@@ -8193,6 +8196,7 @@ a shutdown_speed equal to max_power.</p>
 #tachometer_ppr:
 #tachometer_poll_interval:
 #enable_pin:
+#initial_speed:
 #   See the &quot;fan&quot; section for a description of the above parameters.
 #heater: extruder
 #   Name of the config section defining the heater that this fan is
