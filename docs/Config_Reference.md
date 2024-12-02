@@ -3930,9 +3930,9 @@ run_current:
 #current_change_dwell_time:
 #   The amount of time (in seconds) to wait after changing homing current.
 #   The default is 0.5 seconds.
-#sense_resistor: 0.110
-#   The resistance (in ohms) of the motor sense resistor. The default
-#   is 0.110 ohms.
+sense_resistor:
+#   The resistance (in ohms) of the motor sense resistor. This
+#   parameter must be provided.
 #stealthchop_threshold: 0
 #   The velocity (in mm/s) to set the "stealthChop" threshold to. When
 #   set, "stealthChop" mode will be enabled if the stepper motor
@@ -4041,9 +4041,9 @@ run_current:
 #current_change_dwell_time:
 #   The amount of time (in seconds) to wait after changing homing current.
 #   The default is 0.5 seconds.
-#sense_resistor: 0.110
-#   The resistance (in ohms) of the motor sense resistor. The default
-#   is 0.110 ohms.
+sense_resistor:
+#   The resistance (in ohms) of the motor sense resistor. This
+#   parameter must be provided.
 #stealthchop_threshold: 0
 #   The velocity (in mm/s) to set the "stealthChop" threshold to. When
 #   set, "stealthChop" mode will be enabled if the stepper motor
@@ -4086,7 +4086,7 @@ run_current:
 #hold_current:
 #home_current:
 #current_change_dwell_time:
-#sense_resistor: 0.110
+sense_resistor:
 #stealthchop_threshold: 0
 #   See the "tmc2208" section for the definition of these parameters.
 #coolstep_threshold:
@@ -4167,7 +4167,7 @@ run_current:
 #current_change_dwell_time:
 #   The amount of time (in seconds) to wait after changing homing current.
 #   The default is 0.5 seconds.
-#sense_resistor:
+sense_resistor:
 #   The resistance (in ohms) of the motor sense resistor. This
 #   parameter must be provided.
 #idle_current_percent: 100
@@ -4392,9 +4392,9 @@ run_current:
 #current_change_dwell_time:
 #   The amount of time (in seconds) to wait after changing homing current.
 #   The default is 0.5 seconds.
-#sense_resistor: 0.075
-#   The resistance (in ohms) of the motor sense resistor. The default
-#   is 0.075 ohms.
+sense_resistor:
+#   The resistance (in ohms) of the motor sense resistor. This
+#   parameter must be provided.
 #stealthchop_threshold: 0
 #   The velocity (in mm/s) to set the "stealthChop" threshold to. When
 #   set, "stealthChop" mode will be enabled if the stepper motor

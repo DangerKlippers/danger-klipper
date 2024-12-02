@@ -8,6 +8,8 @@ All dates in this document are approximate.
 
 ## Changes
 
+20241202: The `sense_resistor` parameter is now mandatory with no default value.
+
 20241125: The `off_below` parameter in fans config section is
 deprecated. It will be removed in the near future. Use
 [`min_power`](./Config_Reference.md#fans)
