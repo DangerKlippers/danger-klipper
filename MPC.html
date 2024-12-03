@@ -2302,6 +2302,9 @@ heater_power: 400
 </code></pre></div>
 
 <p>These calibrated model parameters need to be saved to the <em>SAVE_CONFIG</em> block manually or by using the <code>SAVE_CONFIG</code> command.</p>
+<h2 id="updating-calibration-parameters-at-runtime">Updating calibration parameters at runtime<a class="headerlink" href="#updating-calibration-parameters-at-runtime" title="Permanent link">&para;</a></h2>
+<p>Similar to <a href="G-Codes.html#set_heater_pid"><code>SET_HEATER_PID</code></a>, you can update your MPC calibration profile at runtime.</p>
+<p><code>MPC_SET HEATER=&lt;heater_name&gt; [BLOCK_HEAT_CAPACITY=0.0] [SENSOR_RESPONSIVENESS=0.0] [AMBIENT_TRANSFER=0.0] [FAN_AMBIENT_TRANSFER=0.01,0.02,0.03]</code></p>
 <h1 id="background">BACKGROUND<a class="headerlink" href="#background" title="Permanent link">&para;</a></h1>
 <h2 id="mpc-algorithm">MPC Algorithm<a class="headerlink" href="#mpc-algorithm" title="Permanent link">&para;</a></h2>
 <p>MPC models the hotend system as four thermal masses: ambient air, the filament, the heater block and the sensor. Heater power heats the modelled heater block directly. Ambient air heats or cools the heater block. Filament cools the heater block. The heater block heats or cools the sensor.  </p>
