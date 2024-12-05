@@ -5,7 +5,6 @@ Submit anonymized information about your printer to the Kalico project
 Configuration options
 """
 
-import gzip
 import json
 import logging
 import pathlib
@@ -111,9 +110,12 @@ class KalicoTelementry:
     def _handle_ready(self):
         try:
             data = self._collect_telemetry()
-            self._send(data)
+
         except:
             logging.exception("exception collecting telemetry")
+
+        thread = threading.Thread(target=self._send, args=(data,))
+        thread.start()
 
     def cmd_TELEMETRY_EXAMPLE(self, gcmd):
         "Save an example of the current machine telemetry to 'telemetry.json'"
@@ -239,8 +241,11 @@ class KalicoTelementry:
             "id": machine_id,
             # the Kalico git version e.g. "v0.12.0-527-g79013da3-dirty"
             "version": start_args.get("software_version", "unknown"),
+            # name of the git branch, e.g. "master" or "bleeding-edge-v2"
+            "branch": start_args.get("git_branch", "unknown"),
             # e.g. "4 core Intel(R) N100",
             "cpu_info": start_args.get("cpu_info", "unknown"),
+            # git_remote, e.g. 'https://github.com/danger-klippers/dangerklipper
             "platform": self._collect_platform(),
             "config": self._collect_anonymized_config(),
             "objects": self._collect_printer_objects(),
@@ -250,16 +255,8 @@ class KalicoTelementry:
         data = json.dumps(collected_data).encode()
         headers = {
             "Content-Type": "application/json",
-            "User-Agent": "Kalico {}".format(
-                self.printer.get_start_args().get("software_version", "")
-            ),
+            "User-Agent": "Kalico {}".format(collected_data["version"]),
         }
-
-        try:
-            data = gzip.compress(data)
-            headers["Content-Encoding"] = "gzip"
-        except:
-            pass
 
         req = urllib.request.Request(
             self.TELEMETRY_ENDPOINT,
@@ -267,8 +264,8 @@ class KalicoTelementry:
             data=data,
         )
 
-        thread = threading.Thread(target=urllib.request.urlopen, args=(req,))
-        thread.start()
+        urllib.request.urlopen(req)
+        logging.info(f"Telemetry sent to {self.TELEMETRY_ENDPOINT}")
 
 
 def load_config(config):
