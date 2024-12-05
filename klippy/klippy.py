@@ -215,6 +215,8 @@ class Printer:
         # dangerklipper on-by-default extras
         for section_config in ["force_move", "respond", "exclude_object"]:
             self.load_object(config, section_config, None)
+        if self.start_args.get("migration_required", False):
+            self.load_object(config, "kalico_migration", None)
         for m in [toolhead]:
             m.add_printer_objects(config)
         # Validate that there are no undefined parameters in the config file
@@ -547,6 +549,8 @@ def main():
     extra_git_desc += "\nTracked URL: %s" % (git_info["url"])
     start_args["software_version"] = git_vers
     start_args["cpu_info"] = util.get_cpu_info()
+    if "dangerklippers/danger-klipper" in git_info["url"].lower():
+        start_args["migration_required"] = True
     if bglogger is not None:
         versions = "\n".join(
             [
