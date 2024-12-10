@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {{ config.extra.warning_message | safe }}
+  {{ super() }}
+{% endblock %}

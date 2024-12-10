@@ -24,3 +24,15 @@ img {
     margin: 0 auto;
     display: block;
 }
+
+.md-banner--warning {
+    background-color: #ffeb3b; /* Material yellow */
+    color: #000; /* Black text for readability */
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+
+  .md-banner__link {
+    color: #1976d2; /* Material blue */
+    text-decoration: underline;
+  }

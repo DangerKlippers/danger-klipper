@@ -33,6 +33,7 @@ plugins:
 # Website layout configuration (using mkdocs-material theme)
 theme:
   name: material
+  custom_dir: overrides
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -78,6 +79,14 @@ extra:
       link: /
       lang: en
     # Alternate language links automatically added here
+  warning_message: |
+    <div class="md-banner md-banner--warning">
+      <div class="md-banner__content">
+        🚨 The <strong>Danger-Klipper</strong> project has been renamed to <strong>Kalico</strong>.
+        Visit the new repository:
+        <a href="https://github.com/KalicoCrew/kalico" class="md-banner__link">Kalico on GitHub</a>.
+      </div>
+    </div>
 
 # Navigation hierarchy (this should mimic the layout of Overview.md)
 nav:
